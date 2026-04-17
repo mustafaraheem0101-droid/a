@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00875A">
+<meta name="description" content="عروض حصرية عبر QR Code — تجميل، عناية بالشعر، فيتامينات، منتجات الأطفال">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0, private">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>عروض QR الحصرية — صيدلية شهد محمد</title>
+<link rel="icon" href="brand-logo-20260330.png?v=2" type="image/png">
+<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.62" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.78" rel="stylesheet">
+<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+<style>
+  :root {
+    --qr-bg: #eef8f3;
+    --qr-card: #ffffff;
+    --qr-ink: #0c1222;
+    --qr-muted: #5c6b7a;
+    --qr-green: #059669;
+    --qr-green-d: #047857;
+    --qr-green-glow: rgba(5, 150, 105, 0.45);
+    --qr-red: #e11d48;
+    --qr-gold: #f59e0b;
+    --qr-r: 22px;
+    --qr-r-lg: 28px;
+    --qr-sh: 0 12px 40px rgba(12, 18, 34, 0.09), 0 2px 8px rgba(12, 18, 34, 0.04);
+    --qr-sh-hover: 0 24px 56px rgba(5, 150, 105, 0.18), 0 8px 24px rgba(12, 18, 34, 0.08);
+    --qr-glass: rgba(255, 255, 255, 0.72);
+    --qr-mesh-1: rgba(5, 150, 105, 0.22);
+    --qr-mesh-2: rgba(99, 102, 241, 0.12);
+    --qr-mesh-3: rgba(245, 158, 11, 0.14);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body.qr-discount-page {
+    margin: 0;
+    font-family: 'Tajawal', system-ui, sans-serif;
+    background-color: #e8f4ec;
+    background-image:
+      radial-gradient(ellipse 120% 80% at 100% 0%, var(--qr-mesh-1) 0%, transparent 55%),
+      radial-gradient(ellipse 90% 70% at 0% 20%, var(--qr-mesh-2) 0%, transparent 50%),
+      radial-gradient(ellipse 70% 50% at 80% 90%, var(--qr-mesh-3) 0%, transparent 45%),
+      linear-gradient(175deg, #f0fdf7 0%, #f8fafc 42%, #eef7f3 100%);
+    color: var(--qr-ink);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body.qr-discount-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 1;
+  }
+  .toast { position: relative; z-index: 10050; }
+  /* لا تُغيّر position لـ .co / .cs / #mo — يجب أن تبقى position:fixed من shop-bundle */
+  .qr-lp-header,
+  .qr-lp-hero,
+  .qr-lp-main,
+  .qr-lp-footer { position: relative; z-index: 1; }
+  .qr-lp-header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.78) 100%);
+    backdrop-filter: blur(20px) saturate(1.35);
+    -webkit-backdrop-filter: blur(20px) saturate(1.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow:
+      0 4px 30px rgba(5, 80, 60, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .qr-lp-header__in {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .qr-lp-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .qr-lp-logo:hover { transform: translateY(-1px); }
+  .qr-lp-logo--no-nav {
+    cursor: default;
+  }
+  .qr-lp-logo--no-nav:hover {
+    transform: none;
+  }
+  .qr-lp-logo img {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    object-fit: contain;
+    box-shadow:
+      0 8px 28px rgba(5, 150, 105, 0.28),
+      0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  }
+  .qr-lp-logo span {
+    font-weight: 900;
+    font-size: 0.98rem;
+    line-height: 1.28;
+    color: var(--qr-ink);
+    letter-spacing: -0.02em;
+  }
+  .qr-lp-logo__sub {
+    font-weight: 700;
+    color: var(--qr-muted);
+    font-size: 0.78rem;
+  }
+  .qr-lp-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .qr-lp-wa-header {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 900;
+    text-decoration: none;
+    color: #fff !important;
+    background: linear-gradient(145deg, #10b981 0%, #059669 38%, #0d9488 100%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow:
+      0 4px 0 rgba(4, 120, 87, 0.35),
+      0 12px 32px rgba(5, 150, 105, 0.42);
+    white-space: nowrap;
+    transition: transform 0.18s cubic-bezier(0.34, 1.2, 0.64, 1), box-shadow 0.18s ease;
+  }
+  .qr-lp-wa-header:hover {
+    box-shadow:
+      0 4px 0 rgba(4, 120, 87, 0.4),
+      0 16px 40px rgba(5, 150, 105, 0.5);
+    transform: translateY(-2px);
+  }
+  .qr-lp-wa-header:active { transform: scale(0.97) translateY(0); }
+  .qr-lp-wa-header svg { flex-shrink: 0; }
+  .qr-lp-cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(155deg, #34d399 0%, var(--qr-green) 45%, var(--qr-green-d) 100%);
+    color: #fff;
+    cursor: pointer;
+    box-shadow:
+      0 4px 0 rgba(4, 100, 70, 0.3),
+      0 10px 28px rgba(5, 150, 105, 0.38);
+    transition: transform 0.18s cubic-bezier(0.34, 1.2, 0.64, 1), box-shadow 0.18s ease;
+  }
+  .qr-lp-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 0 rgba(4, 100, 70, 0.35),
+      0 14px 36px rgba(5, 150, 105, 0.45);
+  }
+  .qr-lp-cart-btn:active { transform: scale(0.96); }
+  .qr-lp-cart-btn .cart-badge {
+    position: absolute;
+    top: -4px;
+    inset-inline-start: -4px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--qr-gold);
+    color: #1a1004;
+    font-size: 11px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qr-lp-hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 18px 12px;
+    text-align: center;
+    position: relative;
+  }
+  .qr-lp-hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(120vw, 520px);
+    height: 280px;
+    background: radial-gradient(ellipse closest-side, rgba(5, 150, 105, 0.2) 0%, transparent 72%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .qr-lp-hero > * { position: relative; z-index: 1; }
+  .qr-lp-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .qr-lp-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    background: linear-gradient(180deg, rgba(255, 250, 245, 0.95) 0%, rgba(255, 237, 213, 0.9) 100%);
+    color: #9a3412;
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    box-shadow:
+      0 4px 16px rgba(245, 158, 11, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+  }
+  .qr-lp-badge--time {
+    background: linear-gradient(180deg, rgba(240, 253, 250, 0.95) 0%, rgba(204, 251, 241, 0.88) 100%);
+    color: #047857;
+    border-color: rgba(45, 212, 191, 0.45);
+    box-shadow:
+      0 4px 16px rgba(5, 150, 105, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .qr-lp-title {
+    margin: 0 0 12px;
+    font-size: clamp(1.55rem, 5.2vw, 2.05rem);
+    font-weight: 900;
+    line-height: 1.28;
+    letter-spacing: -0.03em;
+    background: linear-gradient(120deg, #0c1222 0%, #1e3a5f 35%, #047857 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 20px rgba(5, 100, 80, 0.12));
+  }
+  .qr-lp-sub {
+    margin: 0 auto 22px;
+    max-width: 28em;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--qr-muted);
+    line-height: 1.55;
+  }
+  #qrCountdown {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 244, 0.92) 100%);
+    border: 1px solid rgba(5, 150, 105, 0.22);
+    box-shadow:
+      0 8px 32px rgba(5, 120, 90, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--qr-green-d);
+    animation: qr-countdown-breathe 4s ease-in-out infinite;
+  }
+  @keyframes qr-countdown-breathe {
+    0%, 100% { box-shadow: 0 8px 32px rgba(5, 120, 90, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8) inset; }
+    50% { box-shadow: 0 12px 40px rgba(5, 150, 105, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9) inset; }
+  }
+  #qrCountdown .qr-lp-countdown__digits {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    font-size: 1.15em;
+    background: linear-gradient(180deg, #047857 0%, #059669 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: qr-digit-pulse 2s ease-in-out infinite;
+  }
+  @keyframes qr-digit-pulse {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.92; filter: brightness(1.08); }
+  }
+
+  /* آخر 5 دقائق: تنبيه أحمر + حركة إلحاح */
+  #qrCountdown.qr-lp-countdown--urgent {
+    color: #991b1b;
+    border-color: rgba(220, 38, 38, 0.55);
+    background: linear-gradient(180deg, rgba(254, 242, 242, 0.98) 0%, rgba(254, 226, 226, 0.92) 100%);
+    box-shadow:
+      0 0 0 1px rgba(248, 113, 113, 0.45) inset,
+      0 6px 28px rgba(220, 38, 38, 0.28),
+      0 2px 12px rgba(185, 28, 28, 0.18);
+    animation: qr-countdown-urgent-shell 1.1s ease-in-out infinite;
+  }
+  #qrCountdown.qr-lp-countdown--urgent .qr-lp-countdown__label {
+    color: #b91c1c;
+  }
+  #qrCountdown.qr-lp-countdown--urgent .qr-lp-countdown__digits {
+    background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: qr-digit-urgent 0.85s ease-in-out infinite;
+    filter: drop-shadow(0 1px 8px rgba(220, 38, 38, 0.45));
+  }
+  @keyframes qr-countdown-urgent-shell {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow:
+        0 0 0 1px rgba(248, 113, 113, 0.45) inset,
+        0 6px 28px rgba(220, 38, 38, 0.28),
+        0 2px 12px rgba(185, 28, 28, 0.18);
+    }
+    50% {
+      transform: scale(1.03);
+      box-shadow:
+        0 0 0 1px rgba(252, 165, 165, 0.65) inset,
+        0 10px 40px rgba(220, 38, 38, 0.42),
+        0 4px 18px rgba(185, 28, 28, 0.35);
+    }
+  }
+  @keyframes qr-digit-urgent {
+    0%, 100% { opacity: 1; filter: brightness(1) drop-shadow(0 1px 8px rgba(220, 38, 38, 0.45)); }
+    50% { opacity: 1; filter: brightness(1.12) drop-shadow(0 2px 14px rgba(239, 68, 68, 0.55)); }
+  }
+
+  #qrCountdown .qr-lp-countdown__na {
+    font-weight: 600;
+    color: var(--qr-muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    max-width: 320px;
+  }
+  #qrOfferActivateBanner {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: var(--qr-r);
+    background: linear-gradient(135deg, rgba(255, 251, 235, 0.95) 0%, rgba(254, 243, 199, 0.9) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.38);
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #92400e;
+    box-shadow: 0 8px 28px rgba(245, 158, 11, 0.12);
+  }
+  .qr-lp-hint {
+    margin: 22px auto 0;
+    max-width: 560px;
+    padding: 14px 18px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #475569;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(240, 253, 250, 0.55) 100%);
+    border-radius: var(--qr-r);
+    border: 1px solid rgba(5, 150, 105, 0.18);
+    line-height: 1.6;
+    box-shadow: 0 4px 20px rgba(5, 80, 60, 0.06);
+  }
+  .qr-lp-hint strong { color: #047857; font-weight: 900; }
+
+  .qr-lp-main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 18px 56px;
+  }
+  .qr-lp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  @media (min-width: 520px) {
+    .qr-lp-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  }
+  .qr-lp-empty {
+    text-align: center;
+    padding: 48px 24px;
+    border-radius: var(--qr-r-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 244, 0.5) 100%);
+    border: 1px dashed rgba(5, 150, 105, 0.28);
+    color: var(--qr-muted);
+    font-weight: 800;
+    font-size: 1.06rem;
+    box-shadow: var(--qr-sh);
+  }
+
+  .qr-lp-footer {
+    margin-top: auto;
+    padding: 32px 20px 40px;
+    text-align: center;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--qr-muted);
+    border-top: 1px solid rgba(5, 150, 105, 0.1);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.85) 0%, transparent 100%);
+  }
+  .qr-lp-footer a { color: var(--qr-green-d); font-weight: 800; }
+
+  body.qr-discount-page .wa#wa-float {
+    box-shadow:
+      0 6px 0 rgba(15, 120, 80, 0.35),
+      0 16px 40px rgba(5, 150, 105, 0.45);
+    transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.64, 1), box-shadow 0.25s ease;
+  }
+  body.qr-discount-page .wa#wa-float:hover {
+    transform: scale(1.06) translateY(-2px);
+  }
+
+  @media (min-width: 400px) {
+    .qr-lp-header__in { flex-wrap: nowrap; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #qrCountdown,
+    #qrCountdown .qr-lp-countdown__digits,
+    #qrCountdown.qr-lp-countdown--urgent,
+    #qrCountdown.qr-lp-countdown--urgent .qr-lp-countdown__digits {
+      animation: none !important;
+      transition: none !important;
+    }
+    .qr-lp-grid .pc:hover,
+    .qr-lp-grid .pc:hover .pc-img-el {
+      transform: none;
+    }
+  }
+</style>
+<link href="assets/css/site-desktop-unified.css?v=1.0.10" rel="stylesheet">
+</head>
+<body class="qr-discount-page">
+
+<div class="toast" id="toast"><span id="toastMsg">✅ تم!</span></div>
+
+<header class="qr-lp-header">
+  <div class="qr-lp-header__in">
+    <div class="qr-lp-logo qr-lp-logo--no-nav" role="img" aria-label="عروض QR — صيدلية شهد محمد">
+      <img src="brand-logo-20260330.png?v=2" width="52" height="52" alt="" decoding="async" loading="eager" fetchpriority="high">
+      <span>عروض QR<br><small class="qr-lp-logo__sub">صيدلية شهد محمد</small></span>
+    </div>
+    <div class="qr-lp-header__actions">
+      <a href="#" class="qr-lp-wa-header" id="qrHdrWa" data-wa-link data-wa-text="مرحباً، أتواصل من صفحة عروض QR وأريد الاستفسار أو الطلب." target="_blank" rel="noopener noreferrer" aria-label="طلب عبر واتساب">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>واتساب</span>
+      </a>
+      <button type="button" class="qr-lp-cart-btn" data-action="toggle-cart" aria-label="سلة المشتريات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="qr-lp-hero" aria-labelledby="qrLpTitle">
+  <div class="qr-lp-badges">
+    <span class="qr-lp-badge">🔥 عرض خاص</span>
+    <span class="qr-lp-badge qr-lp-badge--time">⏳ لفترة محدودة</span>
+  </div>
+  <h1 id="qrLpTitle" class="qr-lp-title">🎁 عروض خاصة لك فقط</h1>
+  <p class="qr-lp-sub">خصومات حصرية عبر QR Code</p>
+  <div id="qrCountdown" role="timer" aria-live="polite"></div>
+  <div id="qrOfferActivateBanner" hidden>
+    انتهى الوقت — أعد مسح رمز QR مرة أخرى.
+  </div>
+  <p class="qr-lp-hint" id="qrPromoHint">يُطبَّق الخصم على <strong>أول 3 منتجات</strong> تُضاف للسلة من الأقسام المشاركة (تجميل، شعر، فيتامينات، أطفال)، حسب ترتيب الإضافة.</p>
+</section>
+
+<main class="qr-lp-main">
+  <div id="qrProductGrid" class="qr-lp-grid" aria-busy="true" aria-label="منتجات العرض"></div>
+  <div id="qrEmpty" class="qr-lp-empty" hidden role="status">لا توجد منتجات متاحة في هذه الأقسام حالياً.</div>
+</main>
+
+<footer class="qr-lp-footer">
+  صيدلية شهد محمد — صفحة عروض مستقلة لزوار QR · الطلب عبر السلة ثم واتساب للتأكيد
+</footer>
+
+<a href="#" class="wa" id="wa-float" target="_blank" rel="noopener noreferrer" data-tip="واتساب" data-wa-link data-wa-text="مرحباً، أتواصل من صفحة عروض QR.">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="co" id="co" data-action="toggle-cart"></div>
+<div class="cs" id="cs" role="dialog" aria-modal="true" aria-labelledby="csTitle">
+  <div class="cs-hd">
+    <div class="cs-hd-inner">
+      <div class="cs-hd-title">
+        <span class="cs-hd-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+        <div>
+          <h3 id="csTitle">سلة المشتريات</h3>
+          <p class="cs-hd-sub" id="csHeadCount" hidden></p>
+        </div>
+      </div>
+      <button type="button" class="cls" data-action="toggle-cart" aria-label="إغلاق السلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="cs-body" id="csBody">
+    <div class="cs-empty cs-empty--animated">
+      <div class="cs-empty-art" aria-hidden="true">
+        <svg class="cs-empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="148" rx="72" ry="8" fill="rgba(0,135,90,.12)"/>
+          <rect x="48" y="36" width="104" height="112" rx="16" fill="#f1f5f9" stroke="#cfe8dc" stroke-width="2"/>
+          <rect x="58" y="50" width="84" height="56" rx="8" fill="#fff" stroke="#e2e8f0"/>
+          <circle cx="100" cy="78" r="18" fill="rgba(0,135,90,.15)"/>
+          <path d="M94 78h12M100 72v12" stroke="#00875A" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="62" y="118" width="76" height="10" rx="4" fill="#e8f5f0"/>
+          <rect x="62" y="132" width="44" height="6" rx="3" fill="#e2e8f0"/>
+        </svg>
+      </div>
+      <h4 class="cs-empty-title">سلتك فارغة</h4>
+      <p class="cs-empty-desc">أضف منتجات من عروض QR أدناه</p>
+      <button type="button" class="cs-empty-cta" data-action="close-cart">متابعة التسوق</button>
+    </div>
+  </div>
+  <div id="csFt" class="cs-ft" style="display:none">
+    <div class="cs-summary">
+      <div class="cs-line"><span>عدد المنتجات</span><span class="cs-line-val" id="csLineCount">0</span></div>
+      <div class="cs-line"><span>المجموع الفرعي</span><strong class="cs-line-val" id="csSubtotal">0 د.ع</strong></div>
+      <div class="cs-save" id="csSaveRow" style="display:none"><span>وفّرت</span><span class="cs-save-val" id="csSaveAmt">0 د.ع</span></div>
+      <div class="cs-ship" id="csShipHint"></div>
+    </div>
+    <div class="cs-grand"><span>الإجمالي</span><strong id="csTotal">0 د.ع</strong></div>
+    <button type="button" class="ckbtn" data-action="open-modal">إتمام الطلب</button>
+    <button type="button" class="cs-btn-secondary" data-action="toggle-cart">متابعة التسوق</button>
+  </div>
+</div>
+
+<div class="mo" id="mo" role="dialog" aria-modal="true" aria-labelledby="moTitle">
+  <div class="mb">
+    <div class="mo-ico" aria-hidden="true">📦</div>
+    <h3 id="moTitle">تأكيد الطلب</h3>
+    <p class="mo-intro">سيتم إرسال تفاصيل طلبك إلى واتساب الصيدلية للتأكيد والتنسيق.</p>
+    <div class="mo-sum" id="moSumBlock">
+      <div class="mo-sum-h">ملخص الطلب</div>
+      <ul class="mo-sum-lines" id="moOrderLines"></ul>
+      <div class="mo-sum-total"><span>الإجمالي</span><strong id="moOrderTotal">0 د.ع</strong></div>
+    </div>
+    <div class="fr"><label for="cName">الاسم الكامل <span class="req">*</span></label><input type="text" id="cName" name="name" autocomplete="name" placeholder="مثال: أحمد محمد"><span class="field-err" id="cNameErr" role="alert"></span></div>
+    <div class="fr"><label for="cPhone">رقم الهاتف <span class="opt">(اختياري)</span></label><input type="tel" id="cPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="07XXXXXXXXX"><span class="field-err" id="cPhoneErr" role="alert"></span></div>
+    <div class="fr"><label for="cAddr">العنوان <span class="opt">(اختياري)</span></label><input type="text" id="cAddr" name="address" autocomplete="street-address" placeholder="الحي، أقرب نقطة دالة"></div>
+    <div class="fr"><label for="cNotes">ملاحظات <span class="opt">(اختياري)</span></label><textarea id="cNotes" name="notes" placeholder="أي تفاصيل إضافية للطلب"></textarea></div>
+    <div class="mo-btns"><button type="button" class="wabtn" id="moSendBtn" data-action="send-wa">إرسال الطلب عبر واتساب</button><button type="button" class="canbtn" data-action="close-modal">إلغاء</button></div>
+  </div>
+</div>
+
+<script src="assets/js/utils.js?v=3.5.14"></script>
+<script src="assets/js/ui.js?v=3.5.4"></script>
+<script src="assets/js/api.js?v=3.1.8"></script>
+<script src="assets/js/main.js?v=3.7.8"></script>
+<script src="assets/js/shop-search.js?v=1.0.6"></script>
+<script src="assets/js/app.js?v=3.3.3"></script>
+<script src="assets/js/qr-offer-nav-lock.js?v=1.0.1"></script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00875A">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0, private">
+<title>دليل النصائح الصحية — صيدلية شهد محمد</title>
+<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.62" rel="stylesheet">
+<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+<style>
+:root {
+  --tips-bg: #040b14;
+  --tips-card: rgba(15, 23, 42, 0.55);
+  --tips-border: rgba(148, 163, 184, 0.14);
+  --tips-mint: #5eead4;
+  --tips-green: #00c77a;
+  --tips-violet: #a78bfa;
+  --tips-amber: #fbbf24;
+  --tips-blue: #38bdf8;
+  --tips-r: 22px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body.tips-page {
+  margin: 0;
+  font-family: 'Tajawal', sans-serif;
+  background: var(--tips-bg);
+  color: #e2e8f0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body.tips-page a { color: inherit; text-decoration: none; }
+
+/* خلفية متحركة خفيفة */
+.tips-page__aurora {
+  position: fixed;
+  inset: -40% -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 40% at 75% 20%, rgba(0, 199, 122, 0.22), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 15% 60%, rgba(56, 189, 248, 0.12), transparent 50%),
+    radial-gradient(ellipse 35% 30% at 50% 90%, rgba(167, 139, 250, 0.1), transparent 45%);
+  animation: tipsAurora 22s ease-in-out infinite alternate;
+}
+@keyframes tipsAurora {
+  from { transform: translate(0, 0) rotate(0deg); opacity: 0.85; }
+  to { transform: translate(-3%, 2%) rotate(2deg); opacity: 1; }
+}
+
+.tips-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px max(20px, env(safe-area-inset-right)) 14px max(20px, env(safe-area-inset-left));
+  background: rgba(4, 11, 20, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--tips-border);
+}
+.tips-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 15px;
+  color: #fff;
+}
+.tips-nav__brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.tips-nav__brand small {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(148, 163, 184, 0.85);
+  margin-top: 2px;
+}
+.tips-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.tips-nav__links a {
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  border: 1px solid var(--tips-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+}
+.tips-nav__links a:hover {
+  border-color: rgba(0, 199, 122, 0.45);
+  background: rgba(0, 199, 122, 0.12);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.tips-nav__links a.tips-nav__cta {
+  background: linear-gradient(135deg, #00c77a, #00875a);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 22px rgba(0, 199, 122, 0.35);
+}
+
+.tips-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) max(18px, env(safe-area-inset-right)) 80px max(18px, env(safe-area-inset-left));
+}
+
+.tips-hero {
+  text-align: center;
+  margin-bottom: clamp(32px, 6vw, 48px);
+}
+.tips-hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--tips-mint);
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.28);
+  margin-bottom: 18px;
+}
+.tips-hero__title {
+  margin: 0 0 14px;
+  font-size: clamp(28px, 5.5vw, 46px);
+  font-weight: 900;
+  line-height: 1.2;
+  color: #fff;
+  text-wrap: balance;
+}
+.tips-hero__title em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--tips-mint), var(--tips-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.tips-hero__lead {
+  margin: 0 auto;
+  max-width: 36em;
+  font-size: clamp(14px, 2.2vw, 17px);
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.88);
+}
+
+/* Bento grid */
+.tips-bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(14px, 2vw, 20px);
+}
+.tip-card {
+  grid-column: span 4;
+  position: relative;
+  padding: clamp(20px, 3vw, 26px);
+  border-radius: var(--tips-r);
+  background: var(--tips-card);
+  border: 1px solid var(--tips-border);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+.tip-card::before {
+  content: '';
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+  opacity: 0.9;
+}
+.tip-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.tip-card--feature {
+  grid-column: span 8;
+  grid-row: span 2;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(155deg, rgba(15, 23, 42, 0.75) 0%, rgba(8, 47, 73, 0.55) 100%);
+}
+.tip-card--feature::before { background: linear-gradient(180deg, var(--tips-green), var(--tips-mint)); }
+.tip-card--wide { grid-column: span 6; }
+.tip-card--accent-a::before { background: var(--tips-blue); }
+.tip-card--accent-b::before { background: var(--tips-green); }
+.tip-card--accent-c::before { background: var(--tips-violet); }
+.tip-card--accent-d::before { background: var(--tips-amber); }
+.tip-card--accent-e::before { background: #f472b6; }
+.tip-card--accent-f::before { background: #34d399; }
+
+.tip-card__ico {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+}
+.tip-card__tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(148, 163, 184, 0.95);
+  margin-bottom: 8px;
+}
+.tip-card__title {
+  margin: 0 0 10px;
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.35;
+}
+.tip-card--feature .tip-card__title {
+  font-size: clamp(22px, 3.5vw, 30px);
+}
+.tip-card__body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.9);
+}
+.tip-card--feature .tip-card__body {
+  font-size: 15px;
+  max-width: 40em;
+}
+
+.tips-cta {
+  margin-top: clamp(40px, 7vw, 56px);
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: calc(var(--tips-r) + 4px);
+  text-align: center;
+  background: linear-gradient(135deg, rgba(0, 199, 122, 0.14), rgba(56, 189, 248, 0.08));
+  border: 1px solid rgba(0, 199, 122, 0.28);
+}
+.tips-cta h2 {
+  margin: 0 0 10px;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 900;
+  color: #fff;
+}
+.tips-cta p {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: rgba(203, 213, 225, 0.88);
+  line-height: 1.65;
+}
+.tips-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 32px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 32px rgba(37, 211, 102, 0.35);
+  transition: transform 0.2s, filter 0.2s;
+}
+.tips-cta__btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.tips-footnote {
+  margin-top: 32px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: rgba(148, 163, 184, 0.95);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(148, 163, 184, 0.25);
+  text-align: center;
+}
+
+.tips-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--tips-mint);
+  opacity: 0.95;
+}
+.tips-back:hover { text-decoration: underline; }
+
+@media (max-width: 960px) {
+  .tip-card, .tip-card--feature, .tip-card--wide { grid-column: span 12; }
+  .tip-card--feature { min-height: 0; grid-row: auto; }
+}
+@media (max-width: 520px) {
+  .tips-nav { flex-wrap: wrap; justify-content: center; }
+  .tips-nav__links { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tips-page__aurora { animation: none; }
+  .tip-card { transition: none; }
+  .tip-card:hover { transform: none; }
+}
+</style>
+<link href="assets/css/site-desktop-unified.css?v=1.0.10" rel="stylesheet">
+</head>
+<body class="tips-page">
+<div class="tips-page__aurora" aria-hidden="true"></div>
+
+<header class="tips-nav">
+  <a href="index.html" class="tips-nav__brand">
+    <img src="brand-logo-20260330.png?v=2" width="44" height="44" alt="" decoding="async" loading="eager" fetchpriority="high">
+    <span>صيدلية شهد محمد<small>دليل النصائح</small></span>
+  </a>
+  <nav class="tips-nav__links" aria-label="تنقل الصفحة">
+    <a href="index.html">الرئيسية</a>
+    <a href="categories.html">تصفح الأقسام</a>
+    <a class="tips-nav__cta" href="https://wa.me/9647711954040?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%B5%D9%8A%D8%AF%D9%84%D8%A7%D9%86%D9%8A%D8%A9" target="_blank" rel="noopener noreferrer">استشارة واتساب</a>
+  </nav>
+</header>
+
+<main class="tips-wrap" id="main">
+  <div class="tips-hero">
+    <span class="tips-hero__kicker" aria-hidden="true">💡 عناية يومية معتمدة</span>
+    <h1 class="tips-hero__title">دليلك لـ<em>نصائح صحية</em> واضحة ومحدّثة</h1>
+    <p class="tips-hero__lead">مجموعة مختارة من إرشادات عامة للوقاية والعناية بالدواء والجسم — من فريق الصيدلية. للحالات الطبية يُفضّل دائماً مراجعة الطبيب أو الصيدلي.</p>
+  </div>
+
+  <div class="tips-bento">
+    <article class="tip-card tip-card--feature">
+      <span class="tip-card__tag">نصيحة اليوم</span>
+      <div class="tip-card__ico" aria-hidden="true">❤️</div>
+      <h2 class="tip-card__title">اشرب الماء على مهلٍ ومنتظم</h2>
+      <p class="tip-card__body">كوب ماء قبل الوجبة قد يساعد على الهضم ويقلل الإحساس بالجوع المفاجئ. حافظ على انتظام شرب الماء طوال اليوم — خاصة في الطقس الحار أو عند تناول أدوية تزيد العطش. تغيير بسيط اليوم قد يمنح جسمك راحة أكبر غداً.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-a">
+      <div class="tip-card__ico" aria-hidden="true">💧</div>
+      <span class="tip-card__tag">ترطيب</span>
+      <h3 class="tip-card__title">الماء والدورة الدموية</h3>
+      <p class="tip-card__body">الترطيب الجيد يدعم الدورة الدموية ويخفف الإرهاق. جرّب توزيع شرب الماء على أوقات ثابتة بدل جرعات كبيرة دفعة واحدة.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-b">
+      <div class="tip-card__ico" aria-hidden="true">⏰</div>
+      <span class="tip-card__tag">الالتزام</span>
+      <h3 class="tip-card__title">مواعيد الدواء</h3>
+      <p class="tip-card__body">لا تغيّر الجرعة أو التوقيت دون استشارة صيدلانية أو طبية. المنبهات والعلب المنظّمة تساعد على الالتزام خاصة مع أكثر من دواء.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-d">
+      <div class="tip-card__ico" aria-hidden="true">🌡️</div>
+      <span class="tip-card__tag">تخزين</span>
+      <h3 class="tip-card__title">تخزين آمن للأدوية</h3>
+      <p class="tip-card__body">مكان جاف وبارد بعيداً عن أشعة الشمس والرطوبة والأطفال. راقب تاريخ الصلاحية ولا تستخدم العبوة بعد انتهائه.</p>
+    </article>
+
+    <article class="tip-card tip-card--wide tip-card--accent-c">
+      <div class="tip-card__ico" aria-hidden="true">🌙</div>
+      <span class="tip-card__tag">نوم واستشفاء</span>
+      <h3 class="tip-card__title">النوم الجيد يدعم فعالية جسمك</h3>
+      <p class="tip-card__body">قلّل الشاشات قبل النوم، ثبّت أوقات النوم قدر الإمكان، وتجنّب الكافيين المتأخر. بعض الأدوية تؤثر على النوم — اسأل الصيدلي عن أفضل وقت للجرعة.</p>
+    </article>
+
+    <article class="tip-card tip-card--wide tip-card--accent-e">
+      <div class="tip-card__ico" aria-hidden="true">🥗</div>
+      <span class="tip-card__tag">تغذية</span>
+      <h3 class="tip-card__title">الطعام والدواء معاً</h3>
+      <p class="tip-card__body">بعض الأدوية تُؤخذ مع الطعام وبعضها على معدة فارغة. العصائر والألبان قد تغيّر امتصاص بعض المكوّنات — اقرأ النشرة أو اسأل الصيدلي.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-f">
+      <div class="tip-card__ico" aria-hidden="true">☀️</div>
+      <span class="tip-card__tag">فيتامينات</span>
+      <h3 class="tip-card__title">فيتامين D والشمس</h3>
+      <p class="tip-card__body">التعرّض الآمن لأشعة الشمس يساعد الجسم، لكن الاحتياج يختلف بين الأشخاص. المكملات قد تكون مناسبة بعد تقييم — ناقش الجرعة مع الصيدلي أو الطبيب.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-a">
+      <div class="tip-card__ico" aria-hidden="true">🧒</div>
+      <span class="tip-card__tag">أطفال</span>
+      <h3 class="tip-card__title">أدوية الأطفال</h3>
+      <p class="tip-card__body">استخدم قياس الجرعة المرفق (ملعقة/حقنة جرعات) ولا تعتمد على ملاعق المنزل العشوائية. الجرعة تُحسب غالباً بالوزن والعمر.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-b">
+      <div class="tip-card__ico" aria-hidden="true">💊</div>
+      <span class="tip-card__tag">مضادات حيوية</span>
+      <h3 class="tip-card__title">أكمل المدة الموصوفة</h3>
+      <p class="tip-card__body">حتى لو تحسّنت الأعراض، التوقف المبكر قد يساهم في مقاومة ميكروبية. لا تشارك المضاد الحيوي مع الآخرين.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-d">
+      <div class="tip-card__ico" aria-hidden="true">🩺</div>
+      <span class="tip-card__tag">متى تزور الطبيب؟</span>
+      <h3 class="tip-card__title">أعراض تستدعي تقييمًا سريعًا</h3>
+      <p class="tip-card__body">حمى شديدة، ضيق نفس، ألم صدر، دوار مفاجئ، أو أعراض جانبية غير مألوفة بعد دواء جديد — راجع الطبيب أو الطوارئ حسب الخطورة.</p>
+    </article>
+
+    <article class="tip-card tip-card--accent-c">
+      <div class="tip-card__ico" aria-hidden="true">📋</div>
+      <span class="tip-card__tag">تنظيم</span>
+      <h3 class="tip-card__title">قائمة أدويتك</h3>
+      <p class="tip-card__body">احتفظ بقائمة محدثة بالأسماء والجرعات والحساسيات عند زيارة أي مختص — يقلل الأخطاء ويوفّر الوقت.</p>
+    </article>
+  </div>
+
+  <section class="tips-cta" aria-labelledby="tips-cta-title">
+    <h2 id="tips-cta-title">تحتاج توضيحاً لحالتك؟</h2>
+    <p>صيدليتنا جاهزة للإجابة عن أسئلة عامة حول الأدوية والاستخدام الآمن — عبر واتساب مباشرة.</p>
+    <a class="tips-cta__btn" href="https://wa.me/9647711954040?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D8%B3%D8%AA%D8%B4%D8%A7%D8%B1%D8%A9%20%D8%B5%D9%8A%D8%AF%D9%84%D8%A7%D9%86%D9%8A%D8%A9%20%D8%A8%D8%B9%D8%AF%20%D9%82%D8%B1%D8%A7%D8%A1%D8%A9%20%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D9%86%D8%B5%D8%A7%D8%A6%D8%AD" target="_blank" rel="noopener noreferrer">تواصل عبر واتساب 👩‍⚕️</a>
+  </section>
+
+  <p class="tips-footnote" role="note">هذه الصفحة للتوعية العامة فقط ولا تُعدّ تشخيصاً أو وصفة علاج. للقرارات الطبية اتبع توصية مختصّك المعتمد.</p>
+
+  <a href="index.html" class="tips-back">← العودة إلى المتجر</a>
+</main>
+
+<a href="https://wa.me/9647711954040" class="wa" id="wa-float" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+</body>
+</html>

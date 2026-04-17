@@ -1,0 +1,97 @@
+/**
+ * تحذير: هذا الملف موجود للتوافق فقط.
+ * استخدم pharma-bundle.css في المشاريع الجديدة.
+ * سيُحذف في v3.0
+ */ 
+/**
+ * site-desktop-unified.css — مساعدات متجاوبة عامة (بدون فرض تخطيط ديسكتوب)
+ * لا min-width على html/body — لا zoom / transform على الجذر
+ */
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/** حاوية اختيارية للمحتوى العريض */
+.container {
+  max-width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 max(10px, env(safe-area-inset-left, 0px)) 0 max(10px, env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+
+/* صور متجاوبة */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* شبكة المنتجات */
+.pgrid6 {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+body.index-page .pgrid6.pgrid6--home {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.pc-img-el,
+.pc-img img {
+  object-fit: contain;
+  object-position: center center;
+}
+
+.product-page .prod-main-img.img-cover {
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* موبايل: أزرار متناسقة، مسافات أخف */
+@media (max-width: 767px) {
+  html {
+    --touch-min: 44px;
+  }
+
+  body.index-page .p-hero {
+    padding-block: 40px 48px;
+  }
+
+  body.index-page .p-sec {
+    padding-block: 36px 32px;
+  }
+
+  body.index-page .p-footer {
+    padding-block: 40px 0;
+  }
+
+  body.index-page .p-hbtn-wa {
+    min-height: 0;
+    padding: 10px 16px;
+  }
+
+  body.index-page .p-hbtn:not(.p-hbtn-wa) {
+    min-height: 0;
+    padding: 9px 14px;
+  }
+
+  body.index-page .p-nl {
+    min-height: 0;
+    padding-block: 10px;
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,33 @@
+/**
+ * أنماط للـ loader العام — تُحمَّل كملف خارجي لتفادي حقن <style> من JS (CSP / أمان).
+ */
+#_globalLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+#_globalLoader.is-active {
+  display: flex;
+}
+
+.gl-spin,
+#_globalLoader .loader-ring {
+  width: 44px;
+  height: 44px;
+  border: 4px solid rgba(0, 135, 90, 0.18);
+  border-top-color: var(--g, #00875a);
+  border-radius: 50%;
+  animation: pharma-global-spin 0.7s linear infinite;
+}
+
+@keyframes pharma-global-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

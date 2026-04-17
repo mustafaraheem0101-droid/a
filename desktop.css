@@ -1,0 +1,121 @@
+/* Desktop / laptop enhancements (non-breaking overrides) */
+
+@media (min-width: 1024px) {
+  :root {
+    --desktop-gutter: 24px;
+    --desktop-card-radius: 16px;
+  }
+
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Shared wrappers used across pages */
+  .container,
+  .wrap,
+  .tb-in,
+  .hdr-in,
+  .content,
+  .footer-in {
+    padding-inline: var(--desktop-gutter);
+  }
+
+  /* Main site polish */
+  .topbar .tb-in,
+  .header .hdr-in {
+    min-height: 64px;
+  }
+
+  .srch-wrap {
+    max-width: 620px;
+  }
+
+  .srch-bar {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .srch-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .card,
+  .sec-card,
+  .prod-item,
+  .subcat-item,
+  .maincat-item,
+  .bk-card {
+    border-radius: var(--desktop-card-radius);
+  }
+
+  .prod-item {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .pi-name,
+  .maincat-name,
+  .subcat-name {
+    font-size: 14px;
+  }
+
+  .item-action-select,
+  .status-sel,
+  .quick-search,
+  .fg input,
+  .fg select,
+  .fg textarea {
+    min-height: 40px;
+  }
+
+  .modal-box {
+    max-height: min(88vh, 860px);
+  }
+
+  /* Admin layout tuning */
+  body.ready .content {
+    max-width: 1500px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .stat-cards {
+    gap: 14px;
+  }
+
+  .sec-hd {
+    padding: 15px 18px;
+  }
+
+  .sec-body {
+    padding: 18px;
+  }
+
+  .prod-list {
+    gap: 10px;
+  }
+
+  .pi-actions {
+    align-items: center;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --desktop-gutter: 30px;
+  }
+
+  .srch-wrap {
+    max-width: 680px;
+  }
+
+  body.ready .content {
+    max-width: 1640px;
+  }
+}

@@ -1,0 +1,41 @@
+# assets/.htaccess — Allow all static files, enforce MIME types
+# This file ensures Hostinger shared hosting serves JS/CSS correctly
+
+# Explicitly allow access to all files in this directory
+<IfModule mod_authz_core.c>
+  Require all granted
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Allow from all
+</IfModule>
+
+# Force correct MIME types
+<IfModule mod_mime.c>
+  AddType application/javascript  .js
+  AddType text/css                .css
+  AddType image/svg+xml           .svg
+  AddType image/webp              .webp
+  AddType font/woff2              .woff2
+  AddType font/woff               .woff
+</IfModule>
+
+# Disable PHP processing in assets (important on shared hosting!)
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+
+# No directory listing
+Options -Indexes -ExecCGI
+
+# Remove X-Frame-Options override from parent (assets don't need it)
+<IfModule mod_headers.c>
+  Header always set Cache-Control "public, max-age=31536000, immutable"
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>

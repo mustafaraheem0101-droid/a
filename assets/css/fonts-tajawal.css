@@ -1,0 +1,46 @@
+/**
+ * Tajawal — خط محلي (بدون Google Fonts / gstatic)
+ * يمنع أخطاء net::ERR_CONNECTION_CLOSED عند حظر CDN أو انقطاع الاتصال.
+ */
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-300.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-500.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-700.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-800.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Tajawal';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/tajawal/tajawal-900.ttf') format('truetype');
+}

@@ -1,0 +1,67 @@
+/**
+ * تحذير: هذا الملف موجود للتوافق فقط.
+ * استخدم pharma-bundle.css في المشاريع الجديدة.
+ * سيُحذف في v3.0
+ */ 
+/* responsive.css — تحسينات إضافية للتجاوب */
+
+/* Global Loader */
+#_globalLoader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,.75);
+  z-index: 9990;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+@media (max-width: 768px) {
+  #_globalLoader {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.94);
+  }
+}
+.loader-ring {
+  width: 44px;
+  height: 44px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #00875a;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Search highlight */
+mark { background: #fef9c3; color: inherit; border-radius: 2px; padding: 0 2px; }
+
+/* Focus visible for accessibility */
+:focus-visible { outline: 2.5px solid #00875a; outline-offset: 2px; }
+button:focus-visible, a:focus-visible { outline: 2.5px solid #00875a; }
+
+/* Print */
+@media print {
+  #wa-float, #toTopBtn, .cs, .cs-ov, nav { display: none !important; }
+}
+
+/* تحسين الطباعة العربية */
+@media (max-width: 360px) {
+  .pc-name { font-size: 12.5px; }
+  .pc-price { font-size: 13px; }
+  .pc-btn  { font-size: 12px; padding: 9px; }
+}
+
+/* منع تحديد النص في الأزرار */
+button, .btn, .btn-sm { user-select: none; -webkit-user-select: none; }
+
+/* تحسين الـ scroll على iOS */
+.cs-body, .modal-box { -webkit-overflow-scrolling: touch; }
+
+/* لوحة الإدارة — أزرار ولمس أوضح على الهاتف */
+@media (max-width: 900px) {
+  main.main button:not(.modal-cls):not(.pass-eye),
+  main.main [type="submit"] {
+    touch-action: manipulation;
+    min-height: 44px;
+  }
+}

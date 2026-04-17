@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+<meta name="theme-color" content="#00875A">
+<title>منتجات الأقسام — صيدلية شهد محمد</title>
+<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --g:#00875A;--g2:#006644;--gl:#00a86e;--mint:#7fffc4;
+  --g-bg:#f0faf5;--g-pale:#e4f5ec;
+  --navy:#0a1628;--muted:#64748b;--border:#e2e8f0;--bg:#f7f9fc;--white:#fff;
+  --pink:#e879f9;--orange:#fb923c;--teal:#34d399;
+  --r:14px;--sh:0 2px 12px rgba(0,0,0,.07);--sh-lg:0 8px 32px rgba(0,0,0,.12);
+  --tr:all .22s cubic-bezier(.4,0,.2,1);
+}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+
+/* NAV */
+.nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:var(--sh);}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:900;}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--g);
+  padding:8px 16px;border-radius:10px;background:var(--g-pale);transition:var(--tr);}
+.nav-back:hover{background:var(--g-bg);}
+
+/* HERO */
+.hero{padding:48px 24px 40px;text-align:center;}
+.hero-icon{font-size:52px;margin-bottom:12px;}
+.hero-title{font-size:30px;font-weight:900;margin-bottom:6px;}
+.hero-sub{font-size:15px;color:var(--muted);}
+
+/* TABS */
+.tabs{display:flex;justify-content:center;gap:10px;padding:0 24px 28px;flex-wrap:wrap;}
+.tab-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;border-radius:50px;border:2px solid var(--border);
+  background:var(--white);font-family:inherit;font-size:14px;font-weight:800;
+  cursor:pointer;transition:var(--tr);color:var(--muted);
+}
+.tab-btn:hover{border-color:var(--g);color:var(--g);}
+.tab-btn.active{border-color:transparent;color:#fff;}
+.tab-btn.active.cosmetics{background:linear-gradient(135deg,#9333ea,#e879f9);}
+.tab-btn.active.kids{background:linear-gradient(135deg,#ea580c,#fb923c);}
+.tab-btn.active.medical{background:linear-gradient(135deg,#059669,#34d399);}
+.tab-btn.active.all{background:linear-gradient(135deg,var(--g2),var(--gl));}
+.tab-count{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 8px;font-size:11px;}
+
+/* SEARCH */
+.search-bar{max-width:520px;margin:0 auto 28px;padding:0 24px;}
+.search-wrap{position:relative;}
+.search-input{
+  width:100%;height:50px;border-radius:50px;border:2px solid var(--border);
+  padding:0 50px 0 20px;font-family:inherit;font-size:14px;
+  background:var(--white);outline:none;transition:var(--tr);
+}
+.search-input:focus{border-color:var(--g);box-shadow:0 0 0 4px rgba(0,135,90,.1);}
+.search-ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none;}
+
+/* GRID */
+.products-section{max-width:1280px;margin:0 auto;padding:0 24px 60px;}
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+}
+
+/* CARD */
+.prod-card{
+  background:var(--white);border-radius:var(--r);
+  box-shadow:var(--sh);overflow:hidden;
+  transition:var(--tr);cursor:pointer;
+}
+.prod-card:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);}
+.prod-img-wrap{
+  width:100%;aspect-ratio:1;overflow:hidden;
+  background:var(--g-bg);position:relative;
+}
+.prod-img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;}
+.prod-card:hover .prod-img{transform:scale(1.06);}
+.prod-cat-badge{
+  position:absolute;top:10px;right:10px;
+  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;
+  backdrop-filter:blur(8px);
+}
+.badge-cosmetics{background:rgba(232,121,249,.85);color:#fff;}
+.badge-kids{background:rgba(251,146,60,.85);color:#fff;}
+.badge-medical{background:rgba(52,211,153,.85);color:#fff;}
+.prod-body{padding:14px 16px 18px;}
+.prod-name{font-size:14.5px;font-weight:800;color:var(--navy);margin-bottom:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-desc{font-size:12px;color:var(--muted);margin-bottom:10px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-footer{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-size:16px;font-weight:900;color:var(--g);}
+.prod-price.free{color:var(--muted);font-size:13px;font-weight:600;}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:10px;border:none;
+  background:#25d366;color:#fff;font-family:inherit;
+  font-size:12.5px;font-weight:800;cursor:pointer;transition:var(--tr);
+}
+.wa-btn:hover{background:#1ebe5d;transform:scale(1.04);}
+
+/* LOADING / EMPTY */
+.state-box{text-align:center;padding:80px 20px;}
+.state-icon{font-size:52px;margin-bottom:14px;}
+.state-title{font-size:18px;font-weight:800;margin-bottom:6px;}
+.state-sub{font-size:13px;color:var(--muted);}
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size:200% 100%;animation:shimmer 1.4s infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{border-radius:var(--r);overflow:hidden;background:var(--white);box-shadow:var(--sh);}
+.skel-img{aspect-ratio:1;width:100%;}
+.skel-body{padding:14px 16px 18px;}
+.skel-line{height:14px;border-radius:6px;margin-bottom:8px;}
+.skel-line.w80{width:80%;}
+.skel-line.w50{width:50%;}
+
+@media(max-width:600px){
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .hero-title{font-size:22px;}
+  .tabs{gap:6px;}
+  .tab-btn{padding:8px 14px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">💊 صيدلية شهد محمد</a>
+  <a href="index.html" class="nav-back">← الرئيسية</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon" id="heroIcon">🛍️</div>
+  <div class="hero-title" id="heroTitle">تصفّح المنتجات</div>
+  <div class="hero-sub">اختر القسم لعرض المنتجات المتاحة</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs" id="tabsContainer"></div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 ابحث عن منتج...">
+    <span class="search-ico">🔍</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products-section">
+  <div class="products-grid" id="productsGrid"></div>
+  <div id="stateBox" class="state-box" style="display:none;"></div>
+</div>
+
+<script src="assets/js/drugs-page.js?v=1.0.1"></script>
+</body>
+</html>

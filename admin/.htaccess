@@ -1,0 +1,15 @@
+# حماية مجلد الإدارة
+Options -Indexes
+Options -ExecCGI
+
+# منع الوصول المباشر للملفات الداخلية (تبدأ بـ _)
+<FilesMatch "^_">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# منع الوصول المباشر لملفات PHP النصية
+<FilesMatch "\.(php)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

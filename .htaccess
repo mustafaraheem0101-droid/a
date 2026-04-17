@@ -1,0 +1,162 @@
+# ══════════════════════════════════════════════════════════════════
+# .htaccess — صيدلية شهد محمد | أمان + أداء
+# CSP: سكربتات من نفس الأصل + jsDelivr؛ style-src يتضمن unsafe-inline لأن صفحات HTML تحتوي كتل style كبيرة (نقلها لملفات CSS تدريجياً). أنماط الـ loader العام في assets/css/csp-js-shim.css بدل حقن style من JS.
+# ══════════════════════════════════════════════════════════════════
+
+# ── إعادة التوجيه لـ HTTPS ──────────────────────────────────────────
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# طلبات favicon.ico الافتراضية → شعار الموقع (يمنع 404 في الكونسول)
+RewriteRule ^favicon\.ico$ brand-logo-20260330.png [L]
+
+# ── ضغط Gzip — يُخفض حجم JS/CSS بنسبة 60-70% ────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml
+  AddOutputFilterByType DEFLATE font/woff font/woff2 image/svg+xml
+</IfModule>
+
+# ── Cache للأصول الثابتة ────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg            "access plus 1 year"
+  ExpiresByType image/jpeg           "access plus 1 year"
+  ExpiresByType image/gif            "access plus 1 year"
+  ExpiresByType image/png            "access plus 1 year"
+  ExpiresByType image/webp           "access plus 1 year"
+  ExpiresByType image/svg+xml        "access plus 1 month"
+  ExpiresByType text/css             "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType font/woff            "access plus 1 year"
+  ExpiresByType font/woff2           "access plus 1 year"
+  ExpiresByType font/ttf             "access plus 1 year"
+</IfModule>
+
+# ── رؤوس أمان ────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+
+  # ── رؤوس أساسية ──────────────────────────────────────────────────
+  Header always set X-Content-Type-Options    "nosniff"
+  Header always set X-Frame-Options           "SAMEORIGIN"
+  Header always set X-XSS-Protection          "1; mode=block"
+  Header always set Referrer-Policy           "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy        "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # ══════════════════════════════════════════════════════════════════
+  # CSP — script صارم؛ style: unsafe-inline ما زال مطلوباً لكتل style داخل HTML؛ تجنّب حقن style من JS (ملفات CSS + classes)
+  #   font-src data: — خطوط مضمّنة base64 (مثل أيقونات واجهة)
+  #   script-src: cdn.jsdelivr.net (SortableJS في لوحة الإدارة فقط)
+  #   img-src: https: (صور المنتجات من السيرفر + data: للـ placeholder)
+  # ══════════════════════════════════════════════════════════════════
+
+  # صفحات المتجر العام (HTML ثابتة)
+  <FilesMatch "\.(html)$">
+    Header always set Content-Security-Policy "\
+default-src 'self'; \
+script-src 'self' cdn.jsdelivr.net; \
+style-src 'self' 'unsafe-inline'; \
+font-src 'self' data:; \
+img-src 'self' data: blob: https:; \
+connect-src 'self'; \
+media-src 'none'; \
+object-src 'none'; \
+frame-src 'none'; \
+frame-ancestors 'self'; \
+base-uri 'self'; \
+form-action 'self'; \
+upgrade-insecure-requests; \
+report-uri /csp-report.php"
+  </FilesMatch>
+
+  # صفحة تسجيل الدخول (PHP) — نفس القاعدة (لا inline scripts بعد الآن)
+  <FilesMatch "login\.php$">
+    Header always set Content-Security-Policy "\
+default-src 'self'; \
+script-src 'self'; \
+style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; \
+font-src 'self' data:; \
+img-src 'self' data:; \
+connect-src 'self' cdn.jsdelivr.net; \
+object-src 'none'; \
+frame-src 'none'; \
+frame-ancestors 'none'; \
+base-uri 'self'; \
+form-action 'self'; \
+upgrade-insecure-requests; \
+report-uri /csp-report.php"
+  </FilesMatch>
+
+  # استعادة كلمة المرور (نفس سياسة login + اتصال api.php)
+  <FilesMatch "(forgot-password|reset-password)\.php$">
+    Header always set Content-Security-Policy "\
+default-src 'self'; \
+script-src 'self'; \
+style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; \
+font-src 'self' data:; \
+img-src 'self' data:; \
+connect-src 'self' cdn.jsdelivr.net; \
+object-src 'none'; \
+frame-src 'none'; \
+frame-ancestors 'none'; \
+base-uri 'self'; \
+form-action 'self'; \
+upgrade-insecure-requests; \
+report-uri /csp-report.php"
+  </FilesMatch>
+
+  # واجهة API (PHP) — أكثر تقييداً
+  <FilesMatch "api\.php$">
+    Header always set Content-Security-Policy "\
+default-src 'none'; \
+frame-ancestors 'none'; report-uri /csp-report.php"
+  </FilesMatch>
+
+  # لوحة التحكم (control-panel) — تحتاج cdn.jsdelivr.net للـ SortableJS
+  <FilesMatch "control-panel\.(html|php)$">
+    Header always set Content-Security-Policy "\
+default-src 'self'; \
+script-src 'self' cdn.jsdelivr.net; \
+style-src 'self' 'unsafe-inline'; \
+font-src 'self' data:; \
+img-src 'self' data: blob: https:; \
+connect-src 'self' cdn.jsdelivr.net; \
+object-src 'none'; \
+frame-src 'none'; \
+frame-ancestors 'self'; \
+base-uri 'self'; \
+form-action 'self'; \
+upgrade-insecure-requests"
+  </FilesMatch>
+
+  # ── No-Cache للملفات الديناميكية ──────────────────────────────────
+  <FilesMatch "(api\.php|login\.php|logout\.php|forgot-password\.php|reset-password\.php)$">
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header always set Pragma "no-cache"
+  </FilesMatch>
+
+</IfModule>
+
+# ── حماية الملفات الحساسة ────────────────────────────────────────────
+<FilesMatch "^\.env">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+<FilesMatch "\.(sql|log|bak|backup|sh|htpasswd|example)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# ── منع سرد المجلدات ─────────────────────────────────────────────────
+Options -Indexes
+
+# ── حماية المجلدات الحساسة ───────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteRule ^includes/  - [F,L]
+  RewriteRule ^install/   - [F,L]
+  RewriteRule ^private_data/ - [F,L]
+</IfModule>

@@ -1,0 +1,215 @@
+/**
+ * تحذير: هذا الملف موجود للتوافق فقط.
+ * استخدم pharma-bundle.css في المشاريع الجديدة.
+ * سيُحذف في v3.0
+ */ 
+/**
+ * mobile-ux.css — موبايل احترافي: لمس 48px، خط 16px، صور متجاوبة، مسافات أوضح
+ * يُحمّل بعد ملفات الثيم (shop-bundle / admin / إلخ).
+ */
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: max(8px, env(safe-area-inset-top, 0px));
+  scroll-padding-bottom: max(80px, env(safe-area-inset-bottom, 0px));
+}
+
+img,
+video,
+picture img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* أهداف لمس (Material / WCAG) — استثناء مربعات صغيرة وشرائح سلايدر */
+button,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+select,
+textarea,
+[role="button"] {
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: auto;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  accent-color: var(--em, #00875a);
+}
+
+.swiper-pagination-bullet,
+.swiper-pagination-bullet-active,
+.hero-slider__dot {
+  min-height: 0 !important;
+  min-width: 0 !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* زر القائمة ☰ — مخفي على الشاشات العريضة، يظهر كقائمة همبرغر ≤800px */
+@media (min-width: 801px) {
+  .p-nav-mob {
+    display: none !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .p-nav-mob {
+    display: flex !important;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 10px 12px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  /* مسافات أقل اضغاطاً */
+  .p-sec-inner,
+  .p-footer-inner,
+  .p-trust-inner {
+    padding-inline: max(14px, env(safe-area-inset-left, 0px))
+      max(14px, env(safe-area-inset-right, 0px)) !important;
+  }
+
+  .pgrid6,
+  .cat-page-grid,
+  .subcat-grid {
+    gap: max(16px, 3vw) !important;
+    padding-inline: max(10px, env(safe-area-inset-left, 0px))
+      max(10px, env(safe-area-inset-right, 0px)) !important;
+  }
+
+  .p-srch-box {
+    min-height: 48px !important;
+    font-size: 16px !important;
+  }
+
+  .p-srch-btn {
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+
+  .p-hbtn:not(.p-hbtn-ghost),
+  .p-hbtn-wa {
+    min-height: 48px !important;
+  }
+
+  .p-cart-btn {
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+
+  .p-nl {
+    min-height: 48px !important;
+    padding-block: 12px !important;
+  }
+
+  /* أزرار بطاقات المنتجات */
+  .pc-fab-cart,
+  .pc-wa-fab,
+  .pc-like {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /*
+   * بطاقات المنتجات: ارتفاع أقل على الموبايل (صورة + مسافات دون إخلال بزر السلة العائم)
+   */
+  .pc-img,
+  .pc.pc--product .pc-img,
+  .pc.pc--product.pc--skel .pc-img.skel-shimmer {
+    flex: 0 0 148px !important;
+    height: 148px !important;
+    min-height: 148px !important;
+    max-height: 148px !important;
+  }
+
+  .pc--skel .pc-img.skel-shimmer {
+    aspect-ratio: unset !important;
+    min-height: 148px !important;
+    max-height: 148px !important;
+    height: 148px !important;
+  }
+
+  body.index-page .home-hot-slider__segment .pc-img,
+  body.index-page .home-hot-slider__segment .pc--skel .pc-img.skel-shimmer,
+  body.index-page .pgrid6--home .pc-img,
+  body.index-page #homeTopOrderedGrid .pc-img,
+  body.index-page .pgrid6--home .pc--skel .pc-img.skel-shimmer,
+  body.index-page #homeTopOrderedGrid .pc--skel .pc-img.skel-shimmer {
+    flex: 0 0 148px !important;
+    height: 148px !important;
+    min-height: 148px !important;
+    max-height: 148px !important;
+  }
+
+  .pc-info {
+    padding-block-start: 40px;
+    padding-block-end: 8px;
+    gap: 6px;
+  }
+
+  .pc-name {
+    min-height: 0;
+    font-size: 13.5px;
+    line-height: 1.38;
+  }
+
+  .pc-desc {
+    -webkit-line-clamp: 1;
+    min-height: 0;
+    line-height: 1.4;
+    font-size: 12px;
+  }
+
+  .pc-price-row {
+    padding-top: 4px;
+    row-gap: 4px;
+  }
+
+  .pc-footer {
+    padding: 8px 10px 10px;
+  }
+
+  /* عوامات لا تغطي المحتوى بالكامل */
+  .p-wa-float {
+    bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 10px)) !important;
+    z-index: 4980;
+  }
+
+  .to-top,
+  #toTopBtn {
+    bottom: max(96px, calc(env(safe-area-inset-bottom, 0px) + 88px));
+  }
+
+  body.index-page {
+    padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 56px));
+  }
+
+  /* سلّة جانبية: مساحة تنفس */
+  .cs-hd-inner {
+    padding: 16px 18px !important;
+  }
+
+  .mb {
+    padding: 22px 18px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

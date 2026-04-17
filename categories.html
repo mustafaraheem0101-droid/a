@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00875A">
+<meta name="asset-version" content="1.0.30">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0, private">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>أقسام الأدوية - صيدلية شهد محمد</title>
+<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.62" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.78" rel="stylesheet">
+<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   CATEGORIES PAGE — Modern Redesign
+   ═══════════════════════════════════════════════ */
+:root{--g:#00875A;--g-d:#006644;--g-l:#00a86e;--g-xl:#00d68a;--mint:#7fffc4;--g-bg:#f0faf5;--g-pale:#e4f5ec;--navy:#0a1628;--slate:#1e293b;--muted:#64748b;--soft:#94a3b8;--border:#e2e8f0;--bg:#f7f9fc;--white:#ffffff;--r:14px;--r-lg:22px;--tr:all .22s cubic-bezier(.4,0,.2,1);--cat-vi-wash-a:rgba(240,253,248,.72);--cat-vi-wash-b:rgba(214,240,228,.48);--cat-vi-wash-c:rgba(186,225,208,.32);--cat-vi-vignette:rgba(255,255,255,.22);--cat-vi-img-filter:saturate(0.9) brightness(1.045) contrast(1.04);}
+*,*::before,*::after{box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--navy);direction:rtl;margin:0;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+
+/* هوية بصرية موحّدة لصور الأقسام (مع الرئيسية) */
+.cats-card-media--brand{
+  position:relative;isolation:isolate;
+  background:linear-gradient(145deg,#ecfdf5 0%,#e8f5ef 55%,#dff5ea 100%)!important;
+}
+.cats-card-media--brand .cats-card-media__img{
+  position:relative;z-index:0;
+  filter:var(--cat-vi-img-filter);
+}
+.cats-card-media--brand::after{
+  content:'';position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(158deg,var(--cat-vi-wash-a) 0%,var(--cat-vi-wash-b) 48%,var(--cat-vi-wash-c) 100%);
+  mix-blend-mode:soft-light;opacity:.92;
+}
+.cats-card-media--brand::before{
+  content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(ellipse 95% 65% at 50% 8%,var(--cat-vi-vignette),transparent 62%);
+  mix-blend-mode:soft-light;opacity:.85;
+}
+
+/* HERO */
+.cats-hero{position:relative;overflow:hidden;padding:56px 24px 52px;text-align:center;}
+.cats-hero__bg{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 0%,rgba(0,168,110,.18),transparent 55%),radial-gradient(ellipse at 20% 100%,rgba(0,100,68,.2),transparent 50%),linear-gradient(150deg,#0a1628,#0f2744 50%,#0c2e20);z-index:0;}
+.cats-hero__bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,135,90,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,135,90,.05) 1px,transparent 1px);background-size:48px 48px;}
+.cats-hero__inner{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.cats-hero__badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,168,110,.18);border:1px solid rgba(0,168,110,.35);color:var(--mint);padding:7px 18px;border-radius:40px;font-size:12.5px;font-weight:800;margin-bottom:18px;}
+.cats-hero__title{font-size:clamp(28px,5vw,46px);font-weight:900;color:white;margin-bottom:12px;line-height:1.15;}
+.cats-hero__sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:28px;line-height:1.7;}
+.cats-hero__search{position:relative;max-width:440px;margin:0 auto;}
+.cats-hero__search-input{width:100%;height:52px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;padding-block:0;padding-inline-start:18px;padding-inline-end:52px;font-family:'Tajawal',sans-serif;font-size:14.5px;color:white;outline:none;transition:var(--tr);}
+.cats-hero__search-input::placeholder{color:rgba(255,255,255,.45);}
+.cats-hero__search-input:focus{background:rgba(255,255,255,.16);border-color:var(--mint);box-shadow:0 0 0 4px rgba(0,168,110,.15);}
+.cats-hero__search-btn{position:absolute;inset-inline-end:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;background:var(--g);border:none;border-radius:11px;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr);}
+.cats-hero__search-btn:hover{background:var(--g-d);transform:translateY(-50%) scale(1.06);}
+
+/* MAIN */
+.cats-main{max-width:1360px;margin:0 auto;padding:40px 24px 60px;}
+
+/* SKELETON */
+.cats-skel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;margin-bottom:20px;}
+.cats-skel-card{height:180px;background:linear-gradient(90deg,#e8eef3 25%,#f0f4f7 50%,#e8eef3 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r-lg);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* MAIN GRID */
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;list-style:none;padding:0;margin:0;}
+.cats-grid li{list-style:none;}
+
+/* CATEGORY CARD — override existing */
+.cat-page-grid li, .cats-grid .cat-card-item{list-style:none;}
+
+@media(max-width:600px){
+  .cats-hero{padding:40px 14px 36px;}
+  .cats-main{padding:24px 12px 40px;}
+  .cats-skel-grid,.cats-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+}
+
+/* ══ ENHANCED CATEGORY CARDS ══ */
+/* Override the default shop-bundle cat-page-grid styles */
+.cat-page-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+  gap: 18px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.cat-page-grid li { list-style: none !important; }
+
+/* Modern card style override */
+.cat-pg-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 20px 22px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .28s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  color: var(--navy);
+}
+.cat-pg-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--g), var(--g-l));
+  transform: scaleX(0);
+  transition: transform .3s;
+  transform-origin: center;
+}
+.cat-pg-card:hover {
+  border-color: var(--g);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,135,90,.18);
+}
+.cat-pg-card:hover::before { transform: scaleX(1); }
+.cat-pg-card__ico {
+  font-size: 46px;
+  margin-bottom: 14px;
+  display: block;
+  transition: transform .3s;
+  line-height: 1;
+}
+.cat-pg-card:hover .cat-pg-card__ico { transform: scale(1.18) rotate(-5deg); }
+.cat-pg-card__name {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.cat-pg-card__count {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.cat-pg-card__arrow {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  opacity: 0;
+  color: var(--g);
+  font-size: 12px;
+  font-weight: 800;
+  transition: all .25s;
+}
+.cat-pg-card:hover .cat-pg-card__arrow {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Category page filter bar */
+.cats-filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+.cats-filter-chip {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--g-bg);
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Tajawal', sans-serif;
+}
+.cats-filter-chip:hover, .cats-filter-chip.active {
+  background: var(--g);
+  color: white;
+  border-color: var(--g);
+}
+
+/* Search results highlight */
+.cats-no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.cats-no-results__ico { font-size: 48px; display: block; margin-bottom: 12px; }
+.cats-no-results__txt { font-size: 16px; font-weight: 700; }
+
+</style>
+<link href="assets/css/site-desktop-unified.css?v=1.0.10" rel="stylesheet">
+</head>
+<body>
+
+<div class="toast" id="toast"><span id="toastMsg">✅ تم!</span></div>
+
+<div class="site-header site-header--inner" id="siteHeader">
+<header class="header"><div class="hdr-in hdr-in--modern">
+  <a href="index.html" class="logo">
+    <img class="logo-svg" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="68" height="68" decoding="async" loading="eager" fetchpriority="high"/>
+    <div class="logo-txt"><strong>صيدلية شهد محمد</strong><span>pharma-store.me</span></div>
+  </a>
+  <div class="hdr-search" role="search">
+  <div class="srch-wrap srch-wrap--prominent">
+    <input class="srch-bar" id="srchInput" type="search" enterkeyhint="search" placeholder="ابحث عن اسم دواء أو فيتامين…" data-i18n-ph="search_placeholder" autocomplete="off" aria-label="بحث">
+    <button type="button" class="srch-btn" id="search-btn-inline" data-action="search" aria-label="بحث">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <div class="srch-suggest" id="srchSuggest"></div>
+  </div>
+  </div>
+  <div class="hdr-r hdr-r--modern hdr-r--lean">
+    <a href="#" id="hdr-wa" class="hdr-wa-primary" target="_blank" rel="noopener noreferrer" aria-label="طلب عبر واتساب" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، أريد الطلب عبر واتساب">
+      <span class="hdr-wa-primary__ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+      <span class="hdr-wa-primary__txt">طلب عبر واتساب</span>
+    </a>
+    <div class="hdr-toolbar">
+      <button type="button" class="cart-btn-hdr cart-btn-hdr--accent" data-action="toggle-cart" aria-label="سلة المشتريات">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+    </div>
+  </div>
+</div></header>
+</div>
+
+<!-- CATEGORIES PAGE HERO -->
+<div class="cats-hero">
+  <div class="cats-hero__bg"></div>
+  <div class="cats-hero__inner">
+    <div class="cats-hero__badge">📂 أقسام الصيدلية</div>
+    <h1 class="cats-hero__title">اختر القسم المناسب</h1>
+    <p class="cats-hero__sub">تصفّح أقسامنا ومنتجاتنا المحدّثة يومياً</p>
+    <!-- Search mini -->
+    <div class="cats-hero__search">
+      <input type="search" class="cats-hero__search-input" placeholder="ابحث عن قسم أو منتج..." id="catSearchInput" autocomplete="off">
+      <button type="button" class="cats-hero__search-btn" id="catHeroSearchBtn" aria-label="بحث في الأقسام">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="cats-main" id="main">
+  <!-- Filter bar -->
+  <div class="cats-filter-bar" id="catFilterBar">
+    <button class="cats-filter-chip active" data-filter="all" type="button">الكل</button>
+    <button class="cats-filter-chip" data-filter="medicine" type="button">أدوية</button>
+    <button class="cats-filter-chip" data-filter="vitamins" type="button">فيتامينات</button>
+    <button class="cats-filter-chip" data-filter="cosmetics" type="button">تجميل</button>
+    <button class="cats-filter-chip" data-filter="kids" type="button">أطفال</button>
+    <button class="cats-filter-chip" data-filter="medical" type="button">أجهزة طبية</button>
+  </div>
+  <!-- Skeleton -->
+  <div class="cats-skel-grid" id="categoriesPageSkel" aria-busy="true">
+    <div class="cats-skel-card"></div>
+    <div class="cats-skel-card"></div>
+    <div class="cats-skel-card"></div>
+    <div class="cats-skel-card"></div>
+    <div class="cats-skel-card"></div>
+    <div class="cats-skel-card"></div>
+  </div>
+  <!-- Real grid -->
+  <ul class="cats-grid" id="categoriesPageGrid" hidden aria-label="أقسام الصيدلية"></ul>
+</main>
+
+<footer>
+  <div class="ft-in">
+    <div class="ft-brand">
+      <a href="index.html" class="logo" style="text-decoration:none;">
+        <img class="logo-svg" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="80" height="80" decoding="async" loading="lazy"/>
+        <div class="logo-txt"><span class="ft-brand-url">pharma-store.me</span></div>
+      </a>
+      <p>وجهتك الأولى للرعاية الصحية في الديالى - خانقين.</p>
+    </div>
+    <div class="ft-col"><h4>الأقسام</h4><ul><li><a href="index.html">🏠 الرئيسية</a></li><li><a href="categories.html">💊 الأدوية</a></li></ul></div>
+    <div class="ft-col"><h4>الصيدلية</h4><ul><li><a href="privacy.html">📜 الخصوصية والشروط</a></li></ul></div>
+    <div class="ft-col"><h4>تواصل معنا</h4><ul><li><a href="tel:07711954040" id="ft-phone">📞 07711954040</a></li><li><a href="https://wa.me/9647711954040" id="ft-wa2">💬 واتساب</a></li><li><a href="https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7" id="ft-addr" target="_blank" rel="noopener noreferrer">📍 الموقع على الخريطة</a></li></ul></div>
+  </div>
+  <div class="ft-bot"><span>© 2026 صيدلية شهد محمد</span><span>صُنع بـ ♥ لصحة أفضل في العراق</span></div>
+</footer>
+
+<a href="#" class="wa" id="wa-float" target="_blank" data-tip="واتساب">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<button class="to-top" id="toTopBtn" type="button" aria-label="الرجوع للأعلى">↑</button>
+<div class="co" id="co" data-action="toggle-cart"></div>
+<div class="cs" id="cs" role="dialog" aria-modal="true" aria-labelledby="csTitle">
+  <div class="cs-hd">
+    <div class="cs-hd-inner">
+      <div class="cs-hd-title">
+        <span class="cs-hd-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+        <div>
+          <h3 id="csTitle">سلة المشتريات</h3>
+          <p class="cs-hd-sub" id="csHeadCount" hidden></p>
+        </div>
+      </div>
+      <button type="button" class="cls" data-action="toggle-cart" aria-label="إغلاق السلة"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="cs-body" id="csBody">
+    <div class="cs-empty cs-empty--animated">
+      <div class="cs-empty-art" aria-hidden="true">
+        <svg class="cs-empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="148" rx="72" ry="8" fill="rgba(0,135,90,.12)"/>
+          <rect x="48" y="36" width="104" height="112" rx="16" fill="#f1f5f9" stroke="#cfe8dc" stroke-width="2"/>
+          <rect x="58" y="50" width="84" height="56" rx="8" fill="#fff" stroke="#e2e8f0"/>
+          <circle cx="100" cy="78" r="18" fill="rgba(0,135,90,.15)"/>
+          <path d="M94 78h12M100 72v12" stroke="#00875A" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="62" y="118" width="76" height="10" rx="4" fill="#e8f5f0"/>
+          <rect x="62" y="132" width="44" height="6" rx="3" fill="#e2e8f0"/>
+        </svg>
+      </div>
+      <h4 class="cs-empty-title">سلتك فارغة</h4>
+      <p class="cs-empty-desc">ابدأ بإضافة منتجات لتحسين صحتك</p>
+      <a href="categories.html" class="cs-empty-cta" data-action="close-cart">تصفح المنتجات</a>
+    </div>
+  </div>
+  <div id="csFt" class="cs-ft" style="display:none">
+    <div class="cs-summary">
+      <div class="cs-line"><span>عدد المنتجات</span><span class="cs-line-val" id="csLineCount">0</span></div>
+      <div class="cs-line"><span>المجموع الفرعي</span><strong class="cs-line-val" id="csSubtotal">0 د.ع</strong></div>
+      <div class="cs-save" id="csSaveRow" style="display:none"><span>وفّرت</span><span class="cs-save-val" id="csSaveAmt">0 د.ع</span></div>
+      <div class="cs-ship" id="csShipHint"></div>
+    </div>
+    <div class="cs-grand"><span>الإجمالي</span><strong id="csTotal">0 د.ع</strong></div>
+    <button type="button" class="ckbtn" data-action="open-modal">إتمام الطلب</button>
+    <button type="button" class="cs-btn-secondary" data-action="toggle-cart">متابعة التسوق</button>
+  </div>
+</div>
+
+<div class="mo" id="mo" role="dialog" aria-modal="true" aria-labelledby="moTitle">
+  <div class="mb">
+    <div class="mo-ico" aria-hidden="true">📦</div>
+    <h3 id="moTitle">تأكيد الطلب</h3>
+    <p class="mo-intro">سيتم إرسال تفاصيل طلبك إلى واتساب الصيدلية للتأكيد والتنسيق.</p>
+    <div class="mo-sum" id="moSumBlock">
+      <div class="mo-sum-h">ملخص الطلب</div>
+      <ul class="mo-sum-lines" id="moOrderLines"></ul>
+      <div class="mo-sum-total"><span>الإجمالي</span><strong id="moOrderTotal">0 د.ع</strong></div>
+    </div>
+    <div class="fr"><label for="cName">الاسم الكامل <span class="req">*</span></label><input type="text" id="cName" name="name" autocomplete="name" placeholder="مثال: أحمد محمد"><span class="field-err" id="cNameErr" role="alert"></span></div>
+    <div class="fr"><label for="cPhone">رقم الهاتف <span class="opt">(اختياري)</span></label><input type="tel" id="cPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="07XXXXXXXXX"><span class="field-err" id="cPhoneErr" role="alert"></span></div>
+    <div class="fr"><label for="cAddr">العنوان <span class="opt">(اختياري)</span></label><input type="text" id="cAddr" name="address" autocomplete="street-address" placeholder="الحي، أقرب نقطة دالة"></div>
+    <div class="fr"><label for="cNotes">ملاحظات <span class="opt">(اختياري)</span></label><textarea id="cNotes" name="notes" placeholder="أي تفاصيل إضافية للطلب"></textarea></div>
+    <div class="mo-btns"><button type="button" class="wabtn" id="moSendBtn" data-action="send-wa">إرسال الطلب عبر واتساب</button><button type="button" class="canbtn" data-action="close-modal">إلغاء</button></div>
+  </div>
+</div>
+
+<!-- JS — صفحة الأقسام -->
+<script src="assets/js/utils.js?v=3.5.14"></script>
+<script src="assets/js/ui.js?v=3.5.4"></script>
+<script src="assets/js/api.js?v=3.1.8"></script>
+<script src="assets/js/main.js?v=3.7.8"></script>
+<script src="assets/js/shop-search.js?v=1.0.6"></script>
+<script src="assets/js/app.js?v=3.3.3"></script>
+</body>
+</html>

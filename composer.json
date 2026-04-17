@@ -1,0 +1,14 @@
+{
+  "name": "pharma-store/pharmacy-v2",
+  "description": "Pharmacy storefront + API",
+  "license": "proprietary",
+  "require": {
+    "phpmailer/phpmailer": "^6.9"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

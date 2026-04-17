@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#00875A">
+<meta name="description" content="سياسة الخصوصية وشروط وأحكام الاستخدام — صيدلية شهد محمد (pharma-store.me)، الجمهورية العراقية. آخر تحديث 17/4/2026.">
+<meta name="asset-version" content="1.0.18">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0, private">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>سياسة الخصوصية وشروط الاستخدام — صيدلية شهد محمد</title>
+<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.62" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.78" rel="stylesheet">
+<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+<style>
+  :root {
+    --legal-navy: #0f172a;
+    --legal-g: #00875a;
+    --legal-g-soft: #ecfdf5;
+    --legal-border: rgba(226, 232, 240, 0.95);
+    --legal-muted: #64748b;
+  }
+  body.privacy-page {
+    margin: 0;
+    font-family: "Tajawal", system-ui, sans-serif;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 45%, #fff 100%);
+    color: var(--legal-navy);
+    line-height: 1.75;
+  }
+  .legal-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--legal-border);
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+  }
+  .legal-header__inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .legal-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 900;
+    font-size: 1rem;
+  }
+  .legal-brand img {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    object-fit: cover;
+  }
+  .legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--legal-g);
+    border: 1.5px solid rgba(0, 135, 90, 0.28);
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+  .legal-back:hover {
+    background: var(--legal-g);
+    color: #fff;
+    border-color: var(--legal-g);
+    transform: translateY(-1px);
+  }
+  .legal-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 20px 100px;
+  }
+  .legal-lead {
+    font-size: 1.05rem;
+    color: var(--legal-muted);
+    font-weight: 600;
+    margin: 0 0 24px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--legal-border);
+    border-inline-end: 4px solid var(--legal-g);
+  }
+  .legal-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .legal-toc a {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    background: #fff;
+    color: var(--legal-navy);
+    border: 1px solid var(--legal-border);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .legal-toc a:hover {
+    border-color: rgba(0, 135, 90, 0.35);
+    box-shadow: 0 4px 14px rgba(0, 135, 90, 0.1);
+  }
+  .legal-block {
+    background: #fff;
+    border: 1px solid var(--legal-border);
+    border-radius: 20px;
+    padding: 28px 24px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+  }
+  .legal-block h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.5rem, 4vw, 1.85rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--legal-navy);
+  }
+  .legal-block h2 {
+    margin: 28px 0 12px;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--legal-g);
+    scroll-margin-top: 88px;
+  }
+  .legal-block h2:first-of-type {
+    margin-top: 0;
+  }
+  .legal-doc-meta {
+    font-size: 0.95rem;
+    color: var(--legal-muted);
+    font-weight: 700;
+    margin: 0 0 22px;
+    line-height: 1.7;
+  }
+  .legal-block h3 {
+    margin: 18px 0 10px;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: #334155;
+    scroll-margin-top: 88px;
+  }
+  .legal-block p {
+    margin: 0 0 14px;
+    color: #334155;
+    font-weight: 500;
+  }
+  .legal-block ul {
+    margin: 0 0 16px;
+    padding: 0 1.15rem 0 0;
+    color: #334155;
+    font-weight: 600;
+  }
+  .legal-block li {
+    margin-bottom: 8px;
+  }
+  .legal-block li ul {
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-weight: 500;
+  }
+  .legal-note {
+    font-size: 0.9rem;
+    color: var(--legal-muted);
+    font-weight: 600;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(0, 135, 90, 0.2);
+  }
+  .legal-contact {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    background: var(--legal-g-soft);
+    border: 1px solid rgba(0, 135, 90, 0.15);
+  }
+  .legal-contact p {
+    margin: 0 0 10px;
+    font-weight: 700;
+  }
+  .legal-contact a {
+    color: var(--legal-g);
+    font-weight: 800;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(0, 135, 90, 0.25);
+  }
+  .legal-contact a:hover {
+    border-bottom-color: var(--legal-g);
+  }
+  .legal-accept {
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--legal-navy);
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(0, 135, 90, 0.08), rgba(0, 168, 110, 0.06));
+    border-radius: 14px;
+    margin-top: 8px;
+  }
+</style>
+<link href="assets/css/site-desktop-unified.css?v=1.0.10" rel="stylesheet">
+</head>
+<body class="privacy-page">
+<header class="legal-header">
+  <div class="legal-header__inner">
+    <a href="index.html" class="legal-brand">
+      <img src="brand-logo-20260330.png?v=2" alt="" width="48" height="48" decoding="async" loading="eager" fetchpriority="high"/>
+      <span>صيدلية شهد محمد</span>
+    </a>
+    <a href="index.html" class="legal-back">← العودة للرئيسية</a>
+  </div>
+</header>
+
+<main class="legal-wrap" id="main">
+  <p class="legal-lead">المحتوى أدناه مطابق لمسودة <strong>سياسة الخصوصية</strong> و<strong>شروط وأحكام الاستخدام</strong> المعتمدة لـ <strong>صيدلية شهد محمد</strong> على <strong>pharma-store.me</strong> (الجمهورية العراقية). <strong>آخر تحديث:</strong> 17/4/2026.</p>
+
+  <nav class="legal-toc" aria-label="انتقال سريع">
+    <a href="#privacy-policy">📋 سياسة الخصوصية</a>
+    <a href="#terms">⚖️ شروط وأحكام الاستخدام</a>
+  </nav>
+
+  <article class="legal-block" id="privacy-policy" aria-labelledby="privacy-title">
+    <h1 id="privacy-title">سياسة الخصوصية</h1>
+    <p class="legal-doc-meta"><strong>صيدلية شهد محمد</strong> — <a href="https://pharma-store.me/" rel="noopener noreferrer">pharma-store.me</a><br/>الجمهورية العراقية · <strong>آخر تحديث:</strong> 17/4/2026</p>
+
+    <h2 id="pp-1">١. من نحن</h2>
+    <p>صيدلية شهد محمد هي صيدلية مرخصة تعمل في العراق عبر الموقع الإلكتروني pharma-store.me. للتواصل: <a href="mailto:admin@pharma-store.me">admin@pharma-store.me</a></p>
+
+    <h2 id="pp-2">٢. ما البيانات التي نجمعها؟</h2>
+    <p><strong>بيانات تقدمها أنت:</strong></p>
+    <ul>
+      <li>الاسم ورقم الهاتف لتأكيد الطلب والتوصيل.</li>
+      <li>عنوان التوصيل داخل العراق.</li>
+      <li>تفاصيل الطلبية (المنتجات والكميات).</li>
+      <li>لا نجمع أرقام بطاقات الدفع أو الحسابات البنكية — الدفع نقداً عند الاستلام فقط.</li>
+    </ul>
+
+    <h2 id="pp-3">٣. لماذا نجمع هذه البيانات؟</h2>
+    <ul>
+      <li>لمعالجة طلبك وتأكيده وتوصيله إليك.</li>
+      <li>للتواصل معك بشأن طلبك.</li>
+      <li>لتحسين الموقع والخدمة.</li>
+    </ul>
+
+    <h2 id="pp-4">٤. من يطلع على بياناتك؟</h2>
+    <p>لا نشارك بياناتك مع أحد إلا في الحالات التالية:</p>
+    <ul>
+      <li>الجهات الحكومية الرسمية (وزارة الصحة) عند ممارسة صلاحياتها الرقابية.</li>
+      <li>الجهات القضائية بأمر قضائي.</li>
+    </ul>
+    <p>خدماتنا مخصصة للبالغين (18 سنة فأكثر). إذا كنت قاصراً يجب الحصول على موافقة ولي الأمر قبل الطلب.</p>
+
+    <h2 id="pp-9">٩. تعديل السياسة</h2>
+    <p>نحتفظ بحق تعديل هذه السياسة في أي وقت. يُنشر تاريخ آخر تحديث في أعلى الصفحة. الاستمرار في استخدام الموقع يعني قبول التعديلات.</p>
+
+    <h2 id="pp-10">١٠. تواصل معنا</h2>
+    <p>لأي سؤال أو استفسار بشأن خصوصيتك:</p>
+    <div class="legal-contact">
+      <p>البريد الإلكتروني: <a href="mailto:admin@pharma-store.me">admin@pharma-store.me</a></p>
+      <p>الموقع: <a href="https://pharma-store.me/" rel="noopener noreferrer">pharma-store.me</a></p>
+      <p>📞 هاتف: <a href="tel:07711954040">07711954040</a> · 💬 <a href="https://wa.me/9647711954040" target="_blank" rel="noopener noreferrer">واتساب</a></p>
+    </div>
+    <p class="legal-note">تاريخ آخر تحديث لسياسة الخصوصية: 17/4/2026</p>
+  </article>
+
+  <article class="legal-block" id="terms" aria-labelledby="terms-title">
+    <h1 id="terms-title">شروط وأحكام الاستخدام</h1>
+    <p class="legal-doc-meta"><strong>صيدلية شهد محمد</strong> — <a href="https://pharma-store.me/" rel="noopener noreferrer">pharma-store.me</a><br/>الجمهورية العراقية · <strong>آخر تحديث:</strong> 17/4/2026</p>
+    <p>باستخدامك الموقع أو طلب أي منتج منه فأنت توافق على هذه الشروط.</p>
+
+    <h2 id="terms-1">١. من نحن</h2>
+    <p>صيدلية شهد محمد صيدلية مرخصة تعمل في العراق بموجب قانون مزاولة مهنة الصيدلة رقم (40) لسنة 1970 المعدل.</p>
+
+    <h2 id="terms-2">٢. ما نقدمه</h2>
+    <ul>
+      <li>بيع أدوية ومنتجات صحية وتجميلية مرخصة ومسجلة في العراق.</li>
+      <li>توصيل المنتجات إلى عنوانك ضمن مناطق الخدمة.</li>
+      <li>معلومات عامة عن المنتجات للإرشاد فقط.</li>
+    </ul>
+
+    <h2 id="terms-3">٣. ما لا نقدمه</h2>
+    <ul>
+      <li>الموقع ليس بديلاً عن الطبيب — المعلومات للتوعية العامة فقط.</li>
+      <li>لا نصرف أدوية تستلزم وصفة طبية إلكترونياً — الوصفة تُراجع شخصياً.</li>
+      <li>لا نقدم تشخيصاً طبياً لأي حالة.</li>
+      <li>لا نوفر خدمة طوارئ — في الطوارئ اتصل بالجهات الطبية المختصة فوراً.</li>
+    </ul>
+
+    <h2 id="terms-4">٤. الأدوية التي تستلزم وصفة طبية</h2>
+    <p>وفقاً للقانون العراقي:</p>
+    <ul>
+      <li>لا يُصرف أي دواء يستلزم وصفة بدون وصفة طبية سارية المفعول.</li>
+      <li>يُحظر تماماً طلب مخدرات أو مؤثرات عقلية عبر الموقع.</li>
+      <li>تزوير الوصفات الطبية جريمة يعاقب عليها القانون العراقي.</li>
+      <li>نحتفظ بحق رفض أي طلب لا تتوفر له الوثائق القانونية اللازمة.</li>
+    </ul>
+
+    <h2 id="terms-5">٥. الطلبية والتوصيل</h2>
+    <h3>الطلبية</h3>
+    <ul>
+      <li>تُقدَّم الطلبية عبر الموقع مع ذكر المنتجات والكمية وعنوان التوصيل ورقم الهاتف.</li>
+      <li>تُرسل رسالة تأكيد عند استلام طلبك.</li>
+      <li>الطلبية ملزمة بعد تأكيدنا لها.</li>
+      <li>نحتفظ بحق رفض أي طلب لأسباب قانونية أو مهنية أو لعدم توفر المنتج.</li>
+    </ul>
+    <h3>التوصيل</h3>
+    <ul>
+      <li>يقتصر التوصيل على المناطق المحددة بالموقع.</li>
+      <li>أنت مسؤول عن صحة العنوان — لا نتحمل التأخير الناجم عن خطأ في العنوان.</li>
+      <li>قد يتأثر موعد التوصيل بالظروف الأمنية أو المناخية أو العطل الرسمية.</li>
+      <li>يجب أن يكون مستلم الطلب بالغاً (18 سنة فأكثر).</li>
+    </ul>
+    <h3>الدفع</h3>
+    <p>نقداً عند الاستلام فقط — لا ندخل أي بيانات دفع إلكتروني.</p>
+
+    <h2 id="terms-6">٦. الإرجاع والاسترداد</h2>
+    <p><strong>يُقبل الإرجاع في حالة:</strong></p>
+    <ul>
+      <li>المنتجات التالفة أو المعيبة — يُبلَّغ عنها فور الاستلام أو خلال 24 ساعة.</li>
+      <li>منتج مختلف عما طلبته.</li>
+      <li>منتج منتهي الصلاحية أو قارب على الانتهاء وقت التسليم.</li>
+    </ul>
+    <p><strong>لا يُقبل الإرجاع في حالة:</strong></p>
+    <ul>
+      <li>الأدوية المفتوحة أو المستخدمة.</li>
+      <li>منتجات النظافة الشخصية التي فُضَّ ختمها.</li>
+      <li>الأدوية المصروفة بوصفة طبية.</li>
+    </ul>
+
+    <h2 id="terms-7">٧. مسؤوليتنا</h2>
+    <p><strong>نلتزم بـ:</strong></p>
+    <ul>
+      <li>ضمان أصالة الأدوية وسلامتها وصلاحيتها.</li>
+      <li>مطابقة المنتجات للطلبية المؤكدة.</li>
+      <li>الالتزام بالقوانين العراقية النافذة.</li>
+    </ul>
+    <p><strong>لا نتحمل مسؤولية:</strong></p>
+    <ul>
+      <li>سوء استخدام الدواء أو مخالفة تعليمات الطبيب.</li>
+      <li>الأضرار الناجمة عن معلومات لم تُبلَّغ عنها عند الطلب (كالحساسية أو التفاعلات الدوائية).</li>
+      <li>التأخيرات الناجمة عن ظروف خارجة عن إرادتنا.</li>
+    </ul>
+
+    <h2 id="terms-8">٨. التزاماتك</h2>
+    <p>بالاستخدام أنت توافق على:</p>
+    <ul>
+      <li>تقديم بيانات صحيحة ودقيقة.</li>
+      <li>عدم تقديم وصفات مزورة أو بيانات مضللة.</li>
+      <li>عدم طلب أدوية لأغراض غير مشروعة.</li>
+      <li>استخدام الموقع وفق القوانين العراقية.</li>
+      <li>عدم محاولة اختراق أو التشويش على أنظمة الموقع.</li>
+    </ul>
+
+    <h2 id="terms-9">٩. الشكاوى</h2>
+    <p>تواصل معنا أولاً على: <a href="mailto:admin@pharma-store.me">admin@pharma-store.me</a></p>
+    <ul>
+      <li>نرد على الشكاوى خلال 14 يوم عمل.</li>
+      <li>في حال عدم الرضا يحق لك التقدم للجهات الرقابية المختصة.</li>
+    </ul>
+
+    <h2 id="terms-10">١٠. القانون المطبق</h2>
+    <p>تخضع هذه الشروط للقوانين العراقية النافذة، وتختص المحاكم العراقية بالنظر في أي نزاع.</p>
+
+    <h2 id="terms-11">١١. تعديل الشروط</h2>
+    <p>نحتفظ بحق تعديل هذه الشروط في أي وقت. يُنشر تاريخ آخر تحديث في أعلى الصفحة. الاستمرار في استخدام الموقع بعد التعديل يعني قبولك لهذه الشروط.</p>
+
+    <div class="legal-contact">
+      <p>📞 <a href="tel:07711954040">07711954040</a> · 💬 <a href="https://wa.me/9647711954040" target="_blank" rel="noopener noreferrer">واتساب</a></p>
+    </div>
+    <p class="legal-note">تاريخ آخر تحديث لشروط وأحكام الاستخدام: 17/4/2026</p>
+  </article>
+
+  <p class="legal-accept" role="note">باستخدامك للموقع أو تقديم طلب عبره، فإنك توافق على سياسة الخصوصية وشروط وأحكام الاستخدام أعلاه.</p>
+
+  <p style="text-align:center;margin-top:28px">
+    <a href="index.html" class="legal-back" style="display:inline-flex">← العودة إلى الرئيسية</a>
+  </p>
+</main>
+
+<a href="https://wa.me/9647711954040" class="wa" id="wa-float" target="_blank" rel="noopener noreferrer" aria-label="تواصل عبر واتساب" title="واتساب">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<script src="assets/js/version-check.js?v=1.0.16"></script>
+</body>
+</html>
