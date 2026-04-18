@@ -7,10 +7,10 @@
 المسار في المشروع:
   assets/videos/hero-home.mp4
 
-صفحة منتج Panadol Extra (فيديو بدل الصورة الرئيسية في المعرض فقط):
-  panadol-extra.mp4
-  assets/videos/panadol-extra.mp4
-  (يُعرض تلقائياً عندما يكون المنتج Panadol Extra — باقي المنتجات صور كالمعتاد)
+فيديوهات صفحة المنتج (بدل الصورة الرئيسية في المعرض — منتجات محددة فقط):
+  panadol-extra.mp4          → Panadol Extra
+  nunu-baby-shampoo.mp4      → Nunu Baby Shampoo (نونو + شامبو في الاسم أو الرابط)
+  المسار: assets/videos/<اسم الملف>
 
 المواصفات المقترحة (لأداء جيد):
   - صيغة: MP4 (H.264 + AAC إن وُجد صوت لاحقاً؛ البانر الحالي بلا صوت)

@@ -1534,14 +1534,14 @@ body.product-page--wa-sticky {
   display: block;
   width: 100%;
 }
-/* فيديو Panadol Extra فقط — بدل الصورة الرئيسية */
+/* فيديو بدل الصورة الرئيسية — منتجات محددة (Panadol، Nunu Shampoo، …) */
 .product-page .img-zoom-wrap--product-video {
   background: #0f172a;
   border-radius: inherit;
   min-height: 0 !important;
   cursor: default;
 }
-.product-page video#prodPanadolVideo.prod-main-img--video {
+.product-page video#prodGalleryVideo.prod-main-img--video {
   width: 100%;
   min-height: 0 !important;
   max-height: min(58vh, 520px);
@@ -1550,7 +1550,7 @@ body.product-page--wa-sticky {
   vertical-align: middle;
 }
 @media (max-width: 899px) {
-  .product-page video#prodPanadolVideo.prod-main-img--video {
+  .product-page video#prodGalleryVideo.prod-main-img--video {
     max-height: min(50vh, 440px);
   }
 }

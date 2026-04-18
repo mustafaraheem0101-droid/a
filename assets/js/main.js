@@ -1549,16 +1549,29 @@ function shelfSimPriceHtml(p) {
   return `<div class="sim-price">${formatPrice(list)}</div>`;
 }
 
-/** فيديو بدل الصورة الرئيسية في المعرض — حالياً Panadol Extra فقط */
-function isPanadolExtraProductVideo(p) {
-  if (!p || typeof p !== 'object') return false;
-  if (String(p.id) === 'seed_panadol_extra_24') return true;
+/**
+ * فيديو بدل الصورة الرئيسية في المعرض — منتجات محددة فقط (مسار mp4 لكل منتج).
+ * null = عرض الصور كالمعتاد.
+ */
+function getProductPageGalleryVideo(p) {
+  if (!p || typeof p !== 'object') return null;
+  var id = String(p.id || '');
   var slug = String(p.slug || '').toLowerCase();
-  if (slug.indexOf('panadol-extra') !== -1) return true;
   var name = String(p.name || '').toLowerCase();
-  return name.indexOf('panadol') !== -1 && name.indexOf('extra') !== -1;
+  var nameAr = String(p.name || '');
+
+  if (id === 'seed_panadol_extra_24') return { src: 'assets/videos/panadol-extra.mp4' };
+  if (slug.indexOf('panadol-extra') !== -1) return { src: 'assets/videos/panadol-extra.mp4' };
+  if (name.indexOf('panadol') !== -1 && name.indexOf('extra') !== -1) return { src: 'assets/videos/panadol-extra.mp4' };
+
+  if (slug.indexOf('nunu') !== -1 && slug.indexOf('shampoo') !== -1) return { src: 'assets/videos/nunu-baby-shampoo.mp4' };
+  if ((name.indexOf('nunu') !== -1 || nameAr.indexOf('نونو') !== -1) &&
+      (name.indexOf('shampoo') !== -1 || nameAr.indexOf('شامبو') !== -1)) {
+    return { src: 'assets/videos/nunu-baby-shampoo.mp4' };
+  }
+
+  return null;
 }
-var PRODUCT_PANADOL_EXTRA_VIDEO_SRC = 'assets/videos/panadol-extra.mp4';
 
 /** يبني HTML المحتوى الرئيسي فقط (بدون تعديل DOM) */
 function buildProductMainHtml(p, similar, bundles) {
@@ -1597,14 +1610,14 @@ function buildProductMainHtml(p, similar, bundles) {
   pushImg(p.img);
   if (Array.isArray(p.images)) p.images.forEach(pushImg);
   const _safeImg = gallery[0] || '';
-  const usePanadolVideo = isPanadolExtraProductVideo(p);
-  const thumbsHtml = (!usePanadolVideo && gallery.length > 1) ? `<div class="prod-gallery-thumbs" role="tablist">${gallery.map((src, i) =>
+  const galleryVideo = getProductPageGalleryVideo(p);
+  const thumbsHtml = (!galleryVideo && gallery.length > 1) ? `<div class="prod-gallery-thumbs" role="tablist">${gallery.map((src, i) =>
     `<button type="button" class="prod-gallery-thumb${i === 0 ? ' is-active' : ''}" data-action="switch-gallery-thumb" data-gallery-idx="${i}" aria-label="صورة ${i + 1}"><img src="${escHtml(src)}" alt="" loading="lazy" decoding="async" class="img-cover"></button>`).join('')}</div>` : '';
 
   var imgHTML;
-  if (usePanadolVideo) {
+  if (galleryVideo && galleryVideo.src) {
     var posterAttr = _safeImg ? (' poster="' + escHtml(_safeImg) + '"') : '';
-    imgHTML = '<div class="prod-gallery-zoom">\n  <div class="prod-gallery-col">\n    <div class="prod-gallery-main">\n      <div class="img-zoom-wrap img-zoom-wrap--product-video" id="prodImgZoomWrap">\n        <video id="prodPanadolVideo" class="img-cover prod-main-img prod-main-img--video" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback' + posterAttr + '>\n          <source src="' + escHtml(PRODUCT_PANADOL_EXTRA_VIDEO_SRC) + '" type="video/mp4" />\n        </video>\n        <div class="img-zoom-lens" id="prodZoomLens" hidden aria-hidden="true"></div>\n      </div>\n      ' + thumbsHtml + '\n    </div>\n  </div>\n  <div class="prod-zoom-pane" id="prodZoomPane" aria-hidden="true"></div>\n</div>';
+    imgHTML = '<div class="prod-gallery-zoom">\n  <div class="prod-gallery-col">\n    <div class="prod-gallery-main">\n      <div class="img-zoom-wrap img-zoom-wrap--product-video" id="prodImgZoomWrap">\n        <video id="prodGalleryVideo" class="img-cover prod-main-img prod-main-img--video" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback' + posterAttr + '>\n          <source src="' + escHtml(galleryVideo.src) + '" type="video/mp4" />\n        </video>\n        <div class="img-zoom-lens" id="prodZoomLens" hidden aria-hidden="true"></div>\n      </div>\n      ' + thumbsHtml + '\n    </div>\n  </div>\n  <div class="prod-zoom-pane" id="prodZoomPane" aria-hidden="true"></div>\n</div>';
   } else if (_safeImg) {
     imgHTML = `<div class="prod-gallery-zoom">
   <div class="prod-gallery-col">
@@ -1899,12 +1912,12 @@ function renderProduct(p, similar, bundles) {
   if (typeof initProductReviews === 'function')   initProductReviews(p.id);
   mountProductWaStickyBar(productCloneForWaOrder(p));
   initProductImageZoom();
-  tryProductPanadolVideoPlay();
+  tryProductGalleryVideoPlay();
 }
 
-/** تشغيل فيديو صفحة Panadol (بعد بناء DOM) */
-function tryProductPanadolVideoPlay() {
-  var v = document.getElementById('prodPanadolVideo');
+/** تشغيل فيديو المعرض (بعد بناء DOM) — منتجات بفيديو مخصص فقط */
+function tryProductGalleryVideoPlay() {
+  var v = document.getElementById('prodGalleryVideo');
   if (!v) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     v.removeAttribute('autoplay');
