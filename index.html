@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.36">
+<meta name="asset-version" content="1.0.37">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -233,8 +233,10 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   width:100%;
   overflow:hidden;
   background:var(--navy);
-  min-height:420px;
-  max-height:560px;
+  /* ارتفاع ثابت نسبياً — لا يعتمد على أبعاد ملف الفيديو (الفيديو يُقصّ بـ object-fit:cover) */
+  height:clamp(200px, 30vmin, 360px);
+  max-height:min(360px, 42vh);
+  min-height:200px;
   isolation:isolate;
   border-top:1px solid rgba(45,212,191,.32);
 }
@@ -251,6 +253,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   width:100%;
   height:100%;
   max-width:none;
+  min-height:0;
   object-fit:cover;
   object-position:center;
   display:block;
@@ -264,12 +267,17 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 }
 @media (max-width:800px){
   .home-hero-video{
-    min-height:380px;
-    max-height:none;
+    height:clamp(180px, 34vmin, 300px);
+    max-height:min(300px, 38vh);
+    min-height:180px;
   }
 }
 @media (max-width:480px){
-  .home-hero-video{min-height:300px;}
+  .home-hero-video{
+    height:clamp(160px, 36vmin, 260px);
+    max-height:min(260px, 36vh);
+    min-height:160px;
+  }
 }
 @media (prefers-reduced-motion:reduce){
   .home-hero-video__media video{display:none;}
