@@ -1,0 +1,113 @@
+/**
+ * Inline SVG safety + trust strip layout.
+ * Prevents oversized stroke icons when parent flex/grid rules are missing (e.g. mobile).
+ */
+
+/* ——— Trust strip (index) ——— */
+.p-trust {
+  background: linear-gradient(180deg, #fff 0%, #fafbfc 100%);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
+}
+.p-trust-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+.p-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(18px, 2.5vw, 26px) clamp(16px, 2vw, 24px);
+  min-height: 88px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+@media (min-width: 801px) {
+  .p-trust-item:not(:last-child) {
+    border-inline-end: 1px solid rgba(226, 232, 240, 0.95);
+  }
+}
+.p-trust-item:hover {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+.p-trust-ico {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d9e75;
+}
+.p-trust-ico--accent {
+  color: #1d9e75;
+}
+.p-trust-svg,
+.p-trust-ico .p-trust-svg,
+.p-trust-ico svg {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px;
+  max-height: 48px;
+  display: block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.p-trust-body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.p-trust-title {
+  margin: 0 0 4px;
+  font-size: clamp(15px, 3.8vw, 17px);
+  font-weight: 800;
+  color: var(--navy, #0a1628);
+  line-height: 1.25;
+}
+.p-trust-sub {
+  margin: 0;
+  font-size: clamp(12.5px, 3.1vw, 13.5px);
+  font-weight: 600;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+@media (max-width: 800px) {
+  .p-trust-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* pharma-bundle uses flex on .p-trust-inner ≤600px — keep grid for stability */
+@media (max-width: 600px) {
+  .p-trust-inner {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ——— Footer social (index) ——— */
+.p-ft-soc .p-soc svg,
+#ft-wa svg,
+#ft-ig svg {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px;
+  max-height: 24px;
+  display: block;
+  flex-shrink: 0;
+}
+.p-ft-soc .p-soc--wa {
+  color: #25d366;
+}
+.p-ft-soc .p-soc--ig {
+  color: #fff;
+}
+.p-ft-soc .p-soc--wa svg path,
+.p-ft-soc .p-soc--ig svg path {
+  fill: currentColor;
+}
