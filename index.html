@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.41">
+<meta name="asset-version" content="1.0.42">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.63" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.78" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.79" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.1" rel="stylesheet">
@@ -705,38 +705,29 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   </div>
 </section>
 
-<!-- سلايدر بنرات إضافية — بانادول، ميموريا، بنفو-نيوروفيت، موكوسولف -->
+<!-- فيديو بنر — نفس موضع وأبعاد سلايدر «عروض ومنتجات مختارة» سابقاً؛ ضع الملف spotlight-offers.mp4 في assets/videos/ -->
 <section class="spotlight-slider-sec p-sec-fade" id="spotlightSliderSec" aria-labelledby="spotlight-slider-title">
   <div class="spotlight-slider-sec__head">
     <h2 class="spotlight-slider-sec__title" id="spotlight-slider-title">عروض ومنتجات مختارة</h2>
   </div>
   <div class="spotlight-slider-wrap">
-    <div class="swiper spotlight-slider-swiper" dir="rtl">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <a href="categories.html" class="spotlight-slider-link" aria-label="بانادول إكسترا — تصفح المنتجات">
-            <img src="assets/img/spotlight-banners/slide-01.png" alt="" class="spotlight-slider-img" width="1920" height="600" decoding="async" loading="lazy" />
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="categories.html" class="spotlight-slider-link" aria-label="ميموريا — تصفح المنتجات">
-            <img src="assets/img/spotlight-banners/slide-02.png" alt="" class="spotlight-slider-img" width="1920" height="600" decoding="async" loading="lazy" />
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="categories.html" class="spotlight-slider-link" aria-label="بنفو نيوروفيت — تصفح المنتجات">
-            <img src="assets/img/spotlight-banners/slide-03.png" alt="" class="spotlight-slider-img" width="1920" height="600" decoding="async" loading="lazy" />
-          </a>
-        </div>
-        <div class="swiper-slide">
-          <a href="categories.html" class="spotlight-slider-link" aria-label="موكوسولف — تصفح المنتجات">
-            <img src="assets/img/spotlight-banners/slide-04.png" alt="" class="spotlight-slider-img" width="1920" height="600" decoding="async" loading="lazy" />
-          </a>
-        </div>
+    <div class="spotlight-video-block">
+      <div class="spotlight-video-block__media" aria-hidden="true">
+        <video
+          id="spotlightOffersVideo"
+          class="spotlight-video-block__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          disablepictureinpicture
+          disableremoteplayback
+          poster="assets/img/spotlight-banners/slide-03.png"
+        >
+          <source src="assets/videos/spotlight-offers.mp4" type="video/mp4" />
+        </video>
       </div>
-      <div class="spotlight-slider-pagination"></div>
-      <button type="button" class="spotlight-slider-nav spotlight-slider-prev" aria-label="الشريحة السابقة"></button>
-      <button type="button" class="spotlight-slider-nav spotlight-slider-next" aria-label="الشريحة التالية"></button>
     </div>
   </div>
 </section>
@@ -1005,6 +996,5 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
-<script src="assets/js/spotlight-slider-swiper.js?v=1.0.2"></script>
 </body>
 </html>
