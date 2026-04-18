@@ -53,7 +53,7 @@ function admin_bcrypt_hash_reset_cache(): void
 }
 
 /**
- * حفظ تجزئة bcrypt جديدة في admin_hash.txt (تغيير كلمة المرور / الاستعادة عبر البريد).
+ * حفظ تجزئة bcrypt جديدة في admin_hash.txt (تغيير من لوحة التحكم أو رابط استعادة صالح).
  *
  * @return bool نجاح الكتابة على القرص
  */
@@ -139,6 +139,7 @@ function admin_restore_session_from_cookie(): void
     $h = admin_bcrypt_hash();
     $raw = isset($_COOKIE['cp_auth']) ? (string)$_COOKIE['cp_auth'] : '';
     if (admin_cp_valid($raw !== '' ? $raw : null, $h)) {
+        session_regenerate_id(true);
         $_SESSION['admin_logged_in'] = true;
     }
 }

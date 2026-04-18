@@ -209,21 +209,6 @@ function pharma_ensure_schema(PDO $pdo): void
         KEY idx_wa_clk_created (created_at)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
 
-    $pdo->exec('CREATE TABLE IF NOT EXISTS pharma_password_reset_tokens (
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        token_hash CHAR(64) NOT NULL,
-        expires_at INT UNSIGNED NOT NULL,
-        created_at INT UNSIGNED NOT NULL,
-        UNIQUE KEY uk_pwd_reset_hash (token_hash),
-        KEY idx_pwd_reset_expires (expires_at)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
-
-    $pdo->exec('CREATE TABLE IF NOT EXISTS pharma_forgot_rate (
-        ip VARCHAR(45) NOT NULL PRIMARY KEY,
-        req_count INT NOT NULL DEFAULT 0,
-        window_start INT UNSIGNED NOT NULL DEFAULT 0
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
-
     pharma_products_ensure_slug_norm_column($pdo);
 }
 
@@ -1231,11 +1216,22 @@ function pharma_rate_limit_compute(?array $row, int $now, int $rateWindow, int $
     return ['count' => $count, 'window_start' => $first, 'exceeded' => $exceeded, 'is_new' => false];
 }
 
-function pharma_rate_limit_check(string $ip): bool
+/**
+ * عدّاد معدّل الطلبات بمفتاح تركيبي (نفس جدول pharma_rate_limit دون تغيير المخطط).
+ *
+ * @param non-empty-string     $key                    قيمة VARCHAR(45) — غالباً مشتق من IP + نوع الطلب
+ * @param non-empty-string|null $clientIpForBlocking  عنوان IP الحقيقي عند تجاوز المعدل (للحظر في pharma_blocked_ips)
+ */
+function pharma_rate_limit_check_keyed(string $key, int $rateWindow, int $maxRequests, ?string $clientIpForBlocking = null): bool
 {
-    if (!defined('RATE_WINDOW') || !defined('MAX_REQUESTS') || !defined('BLOCK_DURATION')) {
+    if (!defined('BLOCK_DURATION')) {
         return true;
     }
+    if ($rateWindow < 1 || $maxRequests < 1) {
+        return true;
+    }
+
+    $blockIp = ($clientIpForBlocking !== null && $clientIpForBlocking !== '') ? $clientIpForBlocking : $key;
 
     $pdo = null;
     try {
@@ -1245,32 +1241,32 @@ function pharma_rate_limit_check(string $ip): bool
 
         $pdo->beginTransaction();
         $st = $pdo->prepare('SELECT req_count, window_start FROM pharma_rate_limit WHERE ip = ? FOR UPDATE');
-        $st->execute([$ip]);
+        $st->execute([$key]);
         $row = $st->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
-            $next = pharma_rate_limit_compute(null, $now, (int) RATE_WINDOW, (int) MAX_REQUESTS);
-            $pdo->prepare('INSERT INTO pharma_rate_limit (ip, req_count, window_start) VALUES (?,?,?)')->execute([$ip, $next['count'], $next['window_start']]);
+            $next = pharma_rate_limit_compute(null, $now, $rateWindow, $maxRequests);
+            $pdo->prepare('INSERT INTO pharma_rate_limit (ip, req_count, window_start) VALUES (?,?,?)')->execute([$key, $next['count'], $next['window_start']]);
             $pdo->commit();
 
             return true;
         }
 
-        $next = pharma_rate_limit_compute($row, $now, (int) RATE_WINDOW, (int) MAX_REQUESTS);
-        $pdo->prepare('UPDATE pharma_rate_limit SET req_count = ?, window_start = ? WHERE ip = ?')->execute([$next['count'], $next['window_start'], $ip]);
+        $next = pharma_rate_limit_compute($row, $now, $rateWindow, $maxRequests);
+        $pdo->prepare('UPDATE pharma_rate_limit SET req_count = ?, window_start = ? WHERE ip = ?')->execute([$next['count'], $next['window_start'], $key]);
         $pdo->commit();
 
         if ($next['exceeded']) {
             $rlBlock = defined('RATE_LIMIT_BLOCK_DURATION') ? (int) RATE_LIMIT_BLOCK_DURATION : 0;
             if ($rlBlock > 0) {
                 try {
-                    pharma_ip_block($ip, $rlBlock);
+                    pharma_ip_block($blockIp, $rlBlock);
                 } catch (Throwable $e) {
                     error_log('[pharma_ip_block] ' . $e->getMessage());
                 }
             }
             if (function_exists('logFailed')) {
-                logFailed('Rate limit exceeded: ' . $next['count'] . ' requests', $ip);
+                logFailed('Rate limit exceeded: ' . $next['count'] . ' requests', $blockIp);
             }
 
             return false;
@@ -1285,6 +1281,15 @@ function pharma_rate_limit_check(string $ip): bool
 
         return true;
     }
+}
+
+function pharma_rate_limit_check(string $ip): bool
+{
+    if (!defined('RATE_WINDOW') || !defined('MAX_REQUESTS')) {
+        return true;
+    }
+
+    return pharma_rate_limit_check_keyed($ip, (int) RATE_WINDOW, (int) MAX_REQUESTS, $ip);
 }
 
 function pharma_login_record_failure(string $ip): int

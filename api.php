@@ -117,11 +117,12 @@ define('MAX_LOGIN_ATTEMPTS',        5);
 define('BLOCK_DURATION',            max(60,  (int)env('LOGIN_BLOCK_DURATION',    '3600')));
 define('RATE_WINDOW',               max(30,  (int)env('RATE_LIMIT_WINDOW',       '300')));
 define('MAX_REQUESTS',              max(30,  (int)env('RATE_LIMIT_MAX_REQUESTS', '250')));
+define('RATE_WINDOW_GET',           max(30,  (int)env('RATE_LIMIT_GET_WINDOW',   '60')));
+define('MAX_REQUESTS_GET',          max(60,  (int)env('RATE_LIMIT_GET_MAX',      '120')));
 define('RATE_LIMIT_BLOCK_DURATION', max(0,   (int)env('RATE_LIMIT_BLOCK_DURATION','1800')));
 if (!API_DEBUG && env('RATE_LIMIT_BLOCK_DURATION', '') === '0') {
     error_log('[pharma] RATE_LIMIT_BLOCK_DURATION=0 في .env — لا يُحظر IP بعد تجاوز معدل الطلبات. القيمة الموصى بها للإنتاج: 1800.');
 }
-define('ADMIN_EMAIL',               env('ADMIN_EMAIL', 'info@pharma-store.me'));
 define('CSRF_LIFETIME',             3600);
 
 if (!is_dir(IMAGES_DIR)) { mkdir(IMAGES_DIR, 0755, true); }
@@ -135,6 +136,22 @@ require_once __DIR__ . '/includes/product_slug.php';
 require_once __DIR__ . '/includes/analytics.php';
 require_once __DIR__ . '/includes/api_public_mysql.php';
 require_once __DIR__ . '/includes/api/response.php';
+
+set_exception_handler(static function (Throwable $e): void {
+    if (headers_sent()) {
+        return;
+    }
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    $show = defined('API_DEBUG') && API_DEBUG;
+    if (!$show && function_exists('logActivity') && function_exists('getClientIP')) {
+        logActivity('API_UNCAUGHT', $e->getMessage(), getClientIP());
+    }
+    $msg = $show ? $e->getMessage() : 'حدث خطأ في الخادم';
+    echo json_encode(['status' => 'error', 'data' => [], 'message' => $msg], JSON_UNESCAPED_UNICODE);
+    exit;
+});
+
 require_once __DIR__ . '/includes/api/handlers/products.php';
 require_once __DIR__ . '/includes/api/handlers/categories.php';
 require_once __DIR__ . '/includes/api/handlers/orders.php';
@@ -144,6 +161,7 @@ require_once __DIR__ . '/includes/api/handlers/misc.php';
 try {
     $clientIP = getClientIP();
     $method   = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+    $isPost   = $method === 'POST';
     $ct        = strtolower((string) ($_SERVER['CONTENT_TYPE'] ?? $_SERVER['HTTP_CONTENT_TYPE'] ?? ''));
     $rawInput  = pharma_read_raw_request_body();
     $rawBody   = [];
@@ -181,7 +199,7 @@ try {
 
     /* مفاتيح API الطويلة مطلوبة لمعظم الإجراءات — لا نمنع تسجيل الدخول واستعادة كلمة المرور بسببها */
     $minKeyLen = 52;
-    $apiKeyLenExempt = ['login', 'forgot_password', 'reset_password'];
+    $apiKeyLenExempt = ['login'];
     if (
         !in_array(strtolower($action), $apiKeyLenExempt, true)
         && (strlen((string) PUBLIC_API_KEY) < $minKeyLen || strlen((string) ADMIN_API_KEY) < $minKeyLen)
@@ -196,17 +214,23 @@ try {
     }
 
     if (isIPBlocked($clientIP)) {
-        $authBypassActions = ['login', 'forgot_password', 'reset_password'];
+        $authBypassActions = ['login'];
         if (empty($_SESSION['admin_logged_in']) && !in_array(strtolower($action), $authBypassActions, true)) {
             http_response_code(429);
+            header('Retry-After: ' . (string) max(60, (int) BLOCK_DURATION));
             logActivity('BLOCKED', 'محاولة وصول من IP محظور', $clientIP);
             jsonError('تم حظر هذا العنوان مؤقتاً', [], 429);
         }
     }
-    if (!checkRateLimit($clientIP)) { http_response_code(429); jsonError('طلبات كثيرة جداً', [], 429); }
+    if (!checkRateLimit($clientIP, $isPost)) {
+        $win = $isPost ? (int) RATE_WINDOW : (int) RATE_WINDOW_GET;
+        http_response_code(429);
+        header('Retry-After: ' . (string) max(1, $win));
+        jsonError('طلبات كثيرة جداً', [], 429);
+    }
 
     $requirePublicKey = filter_var(env('REQUIRE_PUBLIC_API_KEY', '0'), FILTER_VALIDATE_BOOLEAN);
-    $publicKeyBypass = ['login', 'forgot_password', 'reset_password'];
+    $publicKeyBypass = ['login'];
     if (
         $requirePublicKey
         && empty($_SESSION['admin_logged_in'])
@@ -222,7 +246,7 @@ try {
 
     if ($method === 'POST' && !empty($_SESSION['admin_logged_in'])) {
         $csrfExempt = [
-            'login', 'forgot_password', 'reset_password',
+            'login',
             'submit_review', 'addreview', 'review_vote',
             'upload_review_image', 'track_wa_event', 'log_whatsapp_intent',
         ];
@@ -268,7 +292,9 @@ try {
     }
 
 } catch (Throwable $e) {
-    if (function_exists('logActivity')) { logActivity('API_EXCEPTION', $e->getMessage(), $clientIP ?? ''); }
+    if (function_exists('logActivity')) {
+        logActivity('API_EXCEPTION', $e->getMessage(), $clientIP ?? '');
+    }
     $msg = API_DEBUG ? $e->getMessage() : 'حدث خطأ في الخادم';
     if (!API_DEBUG && (
         str_contains($e->getMessage(), 'قاعدة البيانات غير')

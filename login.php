@@ -1,9 +1,6 @@
 <?php
 declare(strict_types=1);
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 require_once __DIR__ . '/admin_panel_auth.php';
 require_once __DIR__ . '/includes/bootstrap_session.php';
 require_once __DIR__ . '/env_loader.php';
@@ -145,6 +142,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $hash = admin_bcrypt_hash();
             $authOk = ($pass !== '' && $hash !== '' && password_verify($pass, $hash));
             if ($authOk) {
+                session_regenerate_id(true);
                 $_SESSION['admin_logged_in'] = true;
                 unset($_SESSION['login_attempts'], $_SESSION['login_lock_until']);
                 admin_csrf_token();
@@ -154,7 +152,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 $expUnix = $now + ($remember ? (30 * 86400) : (12 * 3600));
                 $hash = admin_bcrypt_hash();
                 admin_cp_set_cookie(admin_cp_sign($expUnix, $hash), $cookieDomain, $isSecure, $remember, $expUnix);
-                session_regenerate_id(true);
                 header('Location: control-panel.php');
                 exit;
             }
@@ -186,13 +183,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 $csrfToken = csrf_get();
-$errHtml   = htmlspecialchars($errorMsg, ENT_QUOTES, 'UTF-8');
-$lockHtml  = htmlspecialchars($lockMsg,  ENT_QUOTES, 'UTF-8');
-$csrfHtml  = htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8');
+$errHtml   = escHtml($errorMsg);
+$lockHtml  = escHtml($lockMsg);
+$csrfHtml  = escHtml($csrfToken);
 $disabled  = $lockMsg !== '' ? ' disabled' : '';
-$infoHtml  = (isset($_GET['reset']) && (string) $_GET['reset'] === 'ok')
-    ? htmlspecialchars('تم تحديث كلمة المرور. يمكنك تسجيل الدخول الآن.', ENT_QUOTES, 'UTF-8')
-    : '';
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -307,9 +301,6 @@ body::after{content:'';position:absolute;width:500px;height:500px;border-radius:
     <p>صيدلية شهد محمد — pharma-store.me</p>
   </div>
 
-  <?php if ($infoHtml !== ''): ?>
-    <div class="lock-msg" role="status" style="border-color:rgba(16,185,129,.35);color:#a7f3d0;background:rgba(16,185,129,.12);">✓ <?= $infoHtml ?></div>
-  <?php endif; ?>
   <?php if ($lockHtml !== ''): ?>
     <div class="lock-msg" role="alert">🔒 <?= $lockHtml ?></div>
   <?php elseif ($errHtml !== ''): ?>
@@ -338,10 +329,6 @@ body::after{content:'';position:absolute;width:500px;height:500px;border-radius:
       دخول إلى لوحة الإدارة
     </button>
   </form>
-
-  <p style="text-align:center;margin-top:14px;margin-bottom:0;">
-    <a href="forgot-password.php" class="back-link" style="margin-top:0;">نسيت كلمة المرور؟</a>
-  </p>
 
   <a href="index.html" class="back-link">← العودة إلى الموقع</a>
 </div>
