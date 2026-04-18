@@ -64,7 +64,7 @@ body {
 }
 
 img,
-video:not(#homeHeroVideo):not(#prodGalleryVideo) {
+video:not(#homeHeroVideo):not(#prodGalleryVideo):not(#spotlightOffersVideo) {
   max-width: 100%;
   height: auto;
   display: block;
