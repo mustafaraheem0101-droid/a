@@ -95,3 +95,86 @@ body.index-page .pgrid6.pgrid6--home {
     scroll-behavior: auto !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Overrides — شعار الفوتر، هيدر مرئي، أيقونة نصائح صحية (يُحمّل هذا الملف أخيراً)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* BUG 1 — شعار SVG/صورة: قاعدة img { height:auto } أعلاه تكبّر الشعار */
+.logo-svg {
+  width: 68px !important;
+  height: 68px !important;
+  max-width: 68px !important;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+footer .logo-svg,
+footer .p-ft-logo {
+  width: 80px !important;
+  height: 80px !important;
+  max-width: 80px !important;
+}
+
+/* BUG 2 — هيدر فوق المحتوى (index: .p-masthead — صفحات المتجر: .site-header) */
+.p-masthead {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+.p-topbar,
+.p-hdr-shell {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.p-hdr {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.site-header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+header.header,
+.header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.hdr-in,
+.hdr-in--modern {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* BUG 3 — حاوية دائرية لأيقونة/إيموجي النصائح (🧠) */
+.tip-icon-wrap,
+.daily-tip-icon,
+.p-tips-premium__art {
+  width: 72px;
+  height: 72px;
+  min-height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+.p-tips-premium__art-emoji {
+  font-size: 1.85rem;
+  line-height: 1;
+}
