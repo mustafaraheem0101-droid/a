@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.43">
+<meta name="asset-version" content="1.0.44">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.63" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.80" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.81" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.1" rel="stylesheet">
@@ -246,18 +246,15 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   z-index:0;
   pointer-events:none;
   overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
 }
 .home-hero-video__media video,
 #homeHeroVideo{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
-  max-width:100%;
-  max-height:100%;
   min-height:0;
-  object-fit:contain;
+  object-fit:cover;
   object-position:center center;
   display:block;
   background:#0b1220;
@@ -281,7 +278,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   .home-hero-video__media video,
   #homeHeroVideo{
     height:100%;
-    object-fit:contain;
+    object-fit:cover;
   }
 }
 @media (prefers-reduced-motion:reduce){

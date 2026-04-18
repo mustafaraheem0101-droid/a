@@ -3208,7 +3208,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   content: "‹";
 }
 
-/* فيديو بنر «عروض ومنتجات مختارة» — contain بدل cover لتفادي «زوم» القص */
+/* فيديو بنر «عروض ومنتجات مختارة» — cover يملأ العرض بدون شريطين جانبيين */
 .spotlight-slider-wrap:has(.spotlight-video-block) {
   --spotlight-h: clamp(260px, min(42vw, 40vh), 540px);
 }
@@ -3226,17 +3226,15 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .spotlight-video-block__media {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 .spotlight-video-block__video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   background: #0b1220;
 }
@@ -3320,7 +3318,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   }
   .spotlight-video-block__video {
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 }
 
