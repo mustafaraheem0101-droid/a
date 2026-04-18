@@ -1534,6 +1534,26 @@ body.product-page--wa-sticky {
   display: block;
   width: 100%;
 }
+/* فيديو Panadol Extra فقط — بدل الصورة الرئيسية */
+.product-page .img-zoom-wrap--product-video {
+  background: #0f172a;
+  border-radius: inherit;
+  min-height: 0 !important;
+  cursor: default;
+}
+.product-page video#prodPanadolVideo.prod-main-img--video {
+  width: 100%;
+  min-height: 0 !important;
+  max-height: min(58vh, 520px);
+  object-fit: contain;
+  object-position: center;
+  vertical-align: middle;
+}
+@media (max-width: 899px) {
+  .product-page video#prodPanadolVideo.prod-main-img--video {
+    max-height: min(50vh, 440px);
+  }
+}
 .product-page .tabs {
   display: flex;
   flex-wrap: wrap;

@@ -1549,6 +1549,17 @@ function shelfSimPriceHtml(p) {
   return `<div class="sim-price">${formatPrice(list)}</div>`;
 }
 
+/** فيديو بدل الصورة الرئيسية في المعرض — حالياً Panadol Extra فقط */
+function isPanadolExtraProductVideo(p) {
+  if (!p || typeof p !== 'object') return false;
+  if (String(p.id) === 'seed_panadol_extra_24') return true;
+  var slug = String(p.slug || '').toLowerCase();
+  if (slug.indexOf('panadol-extra') !== -1) return true;
+  var name = String(p.name || '').toLowerCase();
+  return name.indexOf('panadol') !== -1 && name.indexOf('extra') !== -1;
+}
+var PRODUCT_PANADOL_EXTRA_VIDEO_SRC = 'assets/videos/panadol-extra.mp4';
+
 /** يبني HTML المحتوى الرئيسي فقط (بدون تعديل DOM) */
 function buildProductMainHtml(p, similar, bundles) {
   bundles = Array.isArray(bundles) ? bundles : [];
@@ -1586,11 +1597,16 @@ function buildProductMainHtml(p, similar, bundles) {
   pushImg(p.img);
   if (Array.isArray(p.images)) p.images.forEach(pushImg);
   const _safeImg = gallery[0] || '';
-  const thumbsHtml = gallery.length > 1 ? `<div class="prod-gallery-thumbs" role="tablist">${gallery.map((src, i) =>
+  const usePanadolVideo = isPanadolExtraProductVideo(p);
+  const thumbsHtml = (!usePanadolVideo && gallery.length > 1) ? `<div class="prod-gallery-thumbs" role="tablist">${gallery.map((src, i) =>
     `<button type="button" class="prod-gallery-thumb${i === 0 ? ' is-active' : ''}" data-action="switch-gallery-thumb" data-gallery-idx="${i}" aria-label="صورة ${i + 1}"><img src="${escHtml(src)}" alt="" loading="lazy" decoding="async" class="img-cover"></button>`).join('')}</div>` : '';
 
-  const imgHTML = _safeImg
-    ? `<div class="prod-gallery-zoom">
+  var imgHTML;
+  if (usePanadolVideo) {
+    var posterAttr = _safeImg ? (' poster="' + escHtml(_safeImg) + '"') : '';
+    imgHTML = '<div class="prod-gallery-zoom">\n  <div class="prod-gallery-col">\n    <div class="prod-gallery-main">\n      <div class="img-zoom-wrap img-zoom-wrap--product-video" id="prodImgZoomWrap">\n        <video id="prodPanadolVideo" class="img-cover prod-main-img prod-main-img--video" autoplay muted loop playsinline preload="metadata" disablepictureinpicture disableremoteplayback' + posterAttr + '>\n          <source src="' + escHtml(PRODUCT_PANADOL_EXTRA_VIDEO_SRC) + '" type="video/mp4" />\n        </video>\n        <div class="img-zoom-lens" id="prodZoomLens" hidden aria-hidden="true"></div>\n      </div>\n      ' + thumbsHtml + '\n    </div>\n  </div>\n  <div class="prod-zoom-pane" id="prodZoomPane" aria-hidden="true"></div>\n</div>';
+  } else if (_safeImg) {
+    imgHTML = `<div class="prod-gallery-zoom">
   <div class="prod-gallery-col">
     <div class="prod-gallery-main">
       <div class="img-zoom-wrap" id="prodImgZoomWrap">
@@ -1605,8 +1621,10 @@ function buildProductMainHtml(p, similar, bundles) {
     </div>
   </div>
   <div class="prod-zoom-pane" id="prodZoomPane" aria-hidden="true"></div>
-</div>`
-    : `<div class="no-img prod-gallery-main">${p.ico || '💊'}</div>`;
+</div>`;
+  } else {
+    imgHTML = `<div class="no-img prod-gallery-main">${p.ico || '💊'}</div>`;
+  }
 
   window.__productGalleryUrls = gallery;
 
@@ -1878,9 +1896,23 @@ function renderProduct(p, similar, bundles) {
   window.__waFloatText = `أريد الاستفسار عن: ${p.name}`;
   if (typeof applySettings === 'function') applySettings();
   if (typeof applyShopPageFooterFromSettings === 'function') applyShopPageFooterFromSettings();
-  if (typeof initProductReviews === 'function') initProductReviews(p.id);
+  if (typeof initProductReviews === 'function')   initProductReviews(p.id);
   mountProductWaStickyBar(productCloneForWaOrder(p));
   initProductImageZoom();
+  tryProductPanadolVideoPlay();
+}
+
+/** تشغيل فيديو صفحة Panadol (بعد بناء DOM) */
+function tryProductPanadolVideoPlay() {
+  var v = document.getElementById('prodPanadolVideo');
+  if (!v) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    v.removeAttribute('autoplay');
+    try { v.pause(); } catch (e) {}
+    return;
+  }
+  var pr = v.play();
+  if (pr && typeof pr.catch === 'function') pr.catch(function () {});
 }
 
 /**

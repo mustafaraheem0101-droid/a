@@ -18,7 +18,7 @@ html {
 
 img,
 picture img,
-video:not(#homeHeroVideo) {
+video:not(#homeHeroVideo):not(#prodPanadolVideo) {
   max-width: 100%;
   height: auto;
   display: block;

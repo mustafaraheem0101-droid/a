@@ -30,7 +30,7 @@ body {
 
 /* صور متجاوبة — بانر الفيديو (#homeHeroVideo) يُدار من index.html */
 img,
-video:not(#homeHeroVideo) {
+video:not(#homeHeroVideo):not(#prodPanadolVideo) {
   max-width: 100%;
   height: auto;
 }
