@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.39">
+<meta name="asset-version" content="1.0.40">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -15,10 +15,10 @@
 <title>صيدلية شهد محمد</title>
 <link rel="icon" href="brand-logo-20260330.png?v=2" type="image/png">
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="assets/css/shop-bundle.css?v=1.0.62" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.63" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
 <link href="assets/css/store-enhancements.css?v=1.0.78" rel="stylesheet">
-<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <style>
 :root{
@@ -233,10 +233,10 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   width:100%;
   overflow:hidden;
   background:var(--navy);
-  /* شريط عريض بنسبة 16:9 (مثل فيديو Full HD) — يملأ عرض الصفحة؛ مع cover يقل القص إذا كان ملفك ~16:9 */
-  aspect-ratio:16/9;
+  /* ارتفاع من عرض الشاشة = يحافظ على 16:9 دون سحب «زووم» من max-height */
+  height:min(calc(100vw * 9 / 16),min(440px,52vh));
   max-height:min(440px,52vh);
-  min-height:200px;
+  min-height:0;
   isolation:isolate;
   border-top:1px solid rgba(45,212,191,.32);
 }
@@ -247,7 +247,8 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   pointer-events:none;
   overflow:hidden;
 }
-.home-hero-video__media video{
+.home-hero-video__media video,
+#homeHeroVideo{
   position:absolute;
   inset:0;
   width:100%;
@@ -267,14 +268,20 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 }
 @media (max-width:800px){
   .home-hero-video{
-    max-height:min(360px,45vh);
-    min-height:180px;
+    height:min(calc(100vw * 9 / 16),min(360px,42vh));
+    max-height:min(360px,42vh);
+  }
+  /* موبايل/تابلت: إظهار الإطار كاملاً بدون قص قوي (يُزيل إحساس الزووم) */
+  .home-hero-video__media video,
+  #homeHeroVideo{
+    object-fit:contain;
+    object-position:center;
   }
 }
 @media (max-width:480px){
   .home-hero-video{
-    max-height:min(280px,40vh);
-    min-height:160px;
+    height:min(calc(100vw * 9 / 16),min(260px,38vh));
+    max-height:min(260px,38vh);
   }
 }
 @media (prefers-reduced-motion:reduce){
@@ -495,7 +502,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 /* LOGIN page */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,135,90,.15),transparent 60%),linear-gradient(150deg,#0a1628,#0f2744);}
 </style>
-<link href="assets/css/site-desktop-unified.css?v=1.0.10" rel="stylesheet">
+<link href="assets/css/site-desktop-unified.css?v=1.0.11" rel="stylesheet">
 </head>
 <body class="index-page">
 <div id="_globalLoader" role="status" aria-label="جارٍ التحميل"><div class="loader-ring"></div></div>

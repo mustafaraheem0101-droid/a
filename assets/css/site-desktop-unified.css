@@ -28,9 +28,9 @@ body {
   box-sizing: border-box;
 }
 
-/* صور متجاوبة */
+/* صور متجاوبة — بانر الفيديو (#homeHeroVideo) يُدار من index.html */
 img,
-video {
+video:not(#homeHeroVideo) {
   max-width: 100%;
   height: auto;
 }

@@ -64,7 +64,7 @@ body {
 }
 
 img,
-video {
+video:not(#homeHeroVideo) {
   max-width: 100%;
   height: auto;
   display: block;
