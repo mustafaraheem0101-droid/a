@@ -94,7 +94,7 @@ ob_start();
     <form method="GET" style="display:flex;gap:10px;max-width:480px;">
       <input type="text" name="q" class="form-input" style="flex:1;"
              placeholder="🔍 بحث باسم المنتج..."
-             value="<?= htmlspecialchars($search) ?>">
+             value="<?= escHtml($search) ?>">
       <button type="submit" class="btn btn-primary">بحث</button>
       <?php if ($search !== ''): ?>
       <a href="list.php" class="btn btn-secondary">✕ إلغاء</a>
@@ -129,7 +129,7 @@ ob_start();
       <tbody>
         <?php foreach ($drugs as $i => $drug):
           $imgSrc = !empty($drug['image'])
-            ? '../../uploads/' . htmlspecialchars($drug['image'])
+            ? '../../uploads/' . escHtml($drug['image'])
             : '../../assets/img/placeholder.svg';
           $rowNum = $offset + $i + 1;
         ?>
@@ -137,14 +137,14 @@ ob_start();
           <td style="color:var(--muted);font-size:12px;width:40px;"><?= $rowNum ?></td>
           <td style="width:72px;">
             <img src="<?= $imgSrc ?>" class="td-img"
-                 alt="<?= htmlspecialchars($drug['name']) ?>"
+                 alt="<?= escHtml($drug['name']) ?>"
                  onerror="this.src='../../assets/img/placeholder.svg'">
           </td>
           <td>
-            <div class="td-name"><?= htmlspecialchars($drug['name']) ?></div>
+            <div class="td-name"><?= escHtml($drug['name']) ?></div>
             <?php if (!empty($drug['description'])): ?>
             <div style="font-size:12px;color:var(--muted);margin-top:3px;">
-              <?= htmlspecialchars(mb_substr($drug['description'], 0, 60)) ?>...
+              <?= escHtml(mb_substr($drug['description'], 0, 60)) ?>...
             </div>
             <?php endif; ?>
           </td>
@@ -162,8 +162,8 @@ ob_start();
             <!-- تعديل -->
             <a href="edit.php?id=<?= (int)$drug['id'] ?>" class="btn btn-secondary btn-sm" style="margin-left:6px;">✏️ تعديل</a>
             <!-- حذف -->
-            <form method="POST" style="display:inline;" onsubmit="return confirm('هل تريد حذف «<?= htmlspecialchars(addslashes($drug['name'])) ?>» نهائياً؟')">
-              <input type="hidden" name="_csrf" value="<?= htmlspecialchars($csrfToken) ?>">
+            <form method="POST" style="display:inline;" onsubmit="return confirm(<?= json_encode('هل تريد حذف «' . (string) $drug['name'] . '» نهائياً؟', JSON_HEX_TAG | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE) ?>)">
+              <input type="hidden" name="_csrf" value="<?= escHtml($csrfToken) ?>">
               <input type="hidden" name="_delete" value="<?= (int)$drug['id'] ?>">
               <button type="submit" class="btn btn-danger btn-sm">🗑️ حذف</button>
             </form>

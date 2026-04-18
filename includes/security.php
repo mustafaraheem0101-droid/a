@@ -11,6 +11,14 @@
 declare(strict_types=1);
 
 /**
+ * تهريب آمن لعرض أي نص قد يأتي من المستخدم داخل HTML.
+ */
+function escHtml(string $v): string
+{
+    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
+
+/**
  * تنظيف نصي للمدخلات في الـ API: يزيل وسوم HTML والمسارات الخطرة والبايت الفارغ.
  * الحماية من SQLi تكون عبر PDO ومعاملات مربوطة فقط — لا تُحذف كلمات مثل SELECT من نصوص مشروعة.
  * عند العرض في HTML استخدم التهريب في الواجهة (مثل escHtml في الويب).
@@ -33,15 +41,25 @@ function sanitizeInput($input) {
 }
 
 function getClientIP(): string {
-    $headers = ['HTTP_CF_CONNECTING_IP','HTTP_X_REAL_IP','HTTP_X_FORWARDED_FOR','REMOTE_ADDR'];
-    foreach ($headers as $h) {
-        if (!empty($_SERVER[$h])) {
-            $ip = trim(explode(',', $_SERVER[$h])[0]);
-            if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE))
+    $behindCf = function_exists('env')
+        && filter_var(env('BEHIND_CLOUDFLARE', '0'), FILTER_VALIDATE_BOOLEAN);
+
+    if ($behindCf) {
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $ip = trim(explode(',', (string) $_SERVER['HTTP_CF_CONNECTING_IP'])[0]);
+            if (filter_var($ip, FILTER_VALIDATE_IP)) {
                 return $ip;
+            }
         }
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
-    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+    $ra = $_SERVER['REMOTE_ADDR'] ?? '';
+    if (is_string($ra) && $ra !== '' && filter_var($ra, FILTER_VALIDATE_IP)) {
+        return $ra;
+    }
+
+    return '0.0.0.0';
 }
 
 function logActivity(string $type, string $msg, string $ip = ''): void {
@@ -84,8 +102,19 @@ function pharma_login_lockout_disabled(): bool
     return in_array($v, ['1', 'true', 'yes', 'on'], true);
 }
 
-function checkRateLimit(string $ip): bool {
-    return pharma_rate_limit_check($ip);
+function checkRateLimit(string $ip, bool $isPostRequest = true): bool {
+    if (!function_exists('pharma_rate_limit_check_keyed')) {
+        return true;
+    }
+    $key = substr(hash('sha256', $ip . '|' . ($isPostRequest ? 'POST' : 'GET')), 0, 45);
+    $window = $isPostRequest
+        ? (defined('RATE_WINDOW') ? (int) RATE_WINDOW : 300)
+        : (defined('RATE_WINDOW_GET') ? (int) RATE_WINDOW_GET : 60);
+    $max = $isPostRequest
+        ? (defined('MAX_REQUESTS') ? (int) MAX_REQUESTS : 250)
+        : (defined('MAX_REQUESTS_GET') ? (int) MAX_REQUESTS_GET : 120);
+
+    return pharma_rate_limit_check_keyed($key, $window, $max, $ip);
 }
 
 function generateCSRF(): string {
@@ -172,11 +201,15 @@ function pharma_api_require_admin_csrf(array $body): void
     }
 }
 
-function checkAuth(string $ip): void {
+function checkAuth(string $ip, bool $jsonApiResponse = true): void {
     if (!empty($_SESSION['admin_logged_in'])) {
         return;
     }
     logFailed('وصول API غير مصرح بدون جلسة إدارة', $ip);
+    if (!$jsonApiResponse) {
+        header('Location: login.php');
+        exit;
+    }
     http_response_code(401);
     header('Content-Type: application/json; charset=utf-8');
     if (function_exists('jsonResponse')) {

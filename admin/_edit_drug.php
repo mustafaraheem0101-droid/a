@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ob_start();
 $csrfToken = admin_csrf_token();
 $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'][$CATEGORY] ?? 'btn-primary';
-$currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialchars($drug['image']) : '';
+$currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . escHtml($drug['image']) : '';
 ?>
 
 <?php if ($msg !== ''): ?>
@@ -150,7 +150,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
 <div class="card">
   <div class="card-header">
     <div class="card-title">
-      <?= $catInfo['icon'] ?> تعديل منتج — <span style="color:var(--muted);font-weight:600;"><?= htmlspecialchars($drug['name']) ?></span>
+      <?= $catInfo['icon'] ?> تعديل منتج — <span style="color:var(--muted);font-weight:600;"><?= escHtml($drug['name']) ?></span>
     </div>
     <div style="display:flex;gap:8px;">
       <a href="list.php" class="btn btn-secondary btn-sm">📋 القائمة</a>
@@ -159,7 +159,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
   </div>
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data" id="editForm" novalidate>
-      <input type="hidden" name="_csrf"     value="<?= htmlspecialchars($csrfToken) ?>">
+      <input type="hidden" name="_csrf"     value="<?= escHtml($csrfToken) ?>">
       <input type="hidden" name="remove_image" value="0" id="removeImageFlag">
 
       <div class="form-grid">
@@ -170,7 +170,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
           <input type="text" name="name" class="form-input"
                  placeholder="مثال: كريم مرطّب للوجه"
                  maxlength="255" required
-                 value="<?= htmlspecialchars($drug['name']) ?>">
+                 value="<?= escHtml($drug['name']) ?>">
         </div>
 
         <!-- السعر -->
@@ -179,7 +179,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
           <input type="number" name="price" class="form-input"
                  placeholder="مثال: 15000"
                  min="0" step="0.01"
-                 value="<?= htmlspecialchars((string)$drug['price']) ?>">
+                 value="<?= escHtml((string)$drug['price']) ?>">
         </div>
 
         <!-- الوصف -->
@@ -187,7 +187,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
           <label class="form-label">وصف المنتج (اختياري)</label>
           <textarea name="description" class="form-textarea"
                     placeholder="اكتب وصفاً مختصراً..."
-                    rows="3"><?= htmlspecialchars($drug['description'] ?? '') ?></textarea>
+                    rows="3"><?= escHtml($drug['description'] ?? '') ?></textarea>
         </div>
 
         <!-- الصورة الحالية + رفع جديدة -->
@@ -203,7 +203,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . htmlspecialc
                  onerror="this.src='<?= ROOT_DIR_URL ?>/assets/img/placeholder.svg'">
             <div>
               <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:4px;">الصورة الحالية</div>
-              <div style="font-size:11px;color:var(--muted);margin-bottom:8px;"><?= htmlspecialchars($drug['image']) ?></div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:8px;"><?= escHtml($drug['image']) ?></div>
               <button type="button" onclick="removeCurrentImage()"
                       class="btn btn-danger btn-sm">🗑️ حذف الصورة الحالية</button>
             </div>
@@ -303,7 +303,7 @@ document.getElementById('editForm').addEventListener('submit', function() {
 </script>
 <?php
 $bodyContent = ob_get_clean();
-$pageTitle   = 'تعديل: ' . htmlspecialchars($drug['name'], ENT_QUOTES);
+$pageTitle   = 'تعديل: ' . escHtml((string) $drug['name']);
 $pageIcon    = $catInfo['icon'];
 $activeCat   = $CATEGORY;
 $activePage  = 'list';

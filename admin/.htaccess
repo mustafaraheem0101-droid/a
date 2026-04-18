@@ -2,6 +2,12 @@
 Options -Indexes
 Options -ExecCGI
 
+# لو وُضعت نسخة من لوحة التحكم هنا بالخطأ — منع الوصول المباشر (النسخة الرسمية في جذر الموقع)
+<FilesMatch "^(control-panel\.php|control-panel\.html)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
 # منع الوصول المباشر للملفات الداخلية (تبدأ بـ _)
 <FilesMatch "^_">
     Order allow,deny

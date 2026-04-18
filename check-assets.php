@@ -9,13 +9,14 @@ echo "PHP SAPI: " . php_sapi_name() . "\n\n";
 
 echo "=== ASSET FILE CHECK ===\n";
 $files = [
-    'assets/js/utils.js',
-    'assets/js/ui.js',
-    'assets/js/api.js',
-    'assets/js/main.js',
-    'assets/js/admin.js',
+    'assets/js/dist/utils.min.js',
+    'assets/js/dist/ui.min.js',
+    'assets/js/dist/api.min.js',
+    'assets/js/dist/main.min.js',
+    'assets/js/dist/admin.min.js',
     'assets/js/app.js',
-    'assets/css/shop-bundle.css',
+    'assets/css/dist/shop-bundle.min.css',
+    'assets/css/dist/store-enhancements.min.css',
     'assets/css/admin.css',
     '.htaccess',
 ];

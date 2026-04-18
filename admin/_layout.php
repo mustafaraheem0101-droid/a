@@ -22,7 +22,7 @@ $_page = $activePage ?? '';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<title><?= htmlspecialchars($pageTitle ?? 'لوحة الإدارة', ENT_QUOTES) ?> — صيدلية شهد محمد</title>
+<title><?= escHtml($pageTitle ?? 'لوحة الإدارة') ?> — صيدلية شهد محمد</title>
 <link href="/assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="/assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
 <style>
@@ -382,16 +382,16 @@ tr:hover td{background:#fafbfc;}
     <div>
       <div class="topbar-title">
         <span class="page-icon"><?= $pageIcon ?? '🏥' ?></span>
-        <?= htmlspecialchars($pageTitle ?? 'لوحة الإدارة', ENT_QUOTES) ?>
+        <?= escHtml($pageTitle ?? 'لوحة الإدارة') ?>
       </div>
       <?php if (!empty($breadcrumbs)): ?>
       <div class="breadcrumb">
         <?php foreach ($breadcrumbs as $i => $bc): ?>
           <?php if ($i > 0): ?><span class="sep">›</span><?php endif; ?>
           <?php if (isset($bc['url'])): ?>
-            <a href="<?= htmlspecialchars($bc['url']) ?>"><?= htmlspecialchars($bc['label']) ?></a>
+            <a href="<?= escHtml($bc['url']) ?>"><?= escHtml($bc['label']) ?></a>
           <?php else: ?>
-            <span><?= htmlspecialchars($bc['label']) ?></span>
+            <span><?= escHtml($bc['label']) ?></span>
           <?php endif; ?>
         <?php endforeach; ?>
       </div>

@@ -176,13 +176,13 @@ ob_start(); ?>
           $cat    = $drug['category'];
           $info   = CATEGORY_LABELS[$cat] ?? ['ar'=>$cat,'icon'=>'💊'];
           $imgSrc = !empty($drug['image'])
-            ? ROOT_DIR_URL . '/uploads/' . htmlspecialchars($drug['image'])
+            ? ROOT_DIR_URL . '/uploads/' . escHtml($drug['image'])
             : ROOT_DIR_URL . '/assets/img/placeholder.svg';
         ?>
         <tr>
           <td><img src="<?= $imgSrc ?>" class="td-img" alt=""
                onerror="this.src='<?= ROOT_DIR_URL ?>/assets/img/placeholder.svg'"></td>
-          <td><span class="td-name"><?= htmlspecialchars($drug['name']) ?></span></td>
+          <td><span class="td-name"><?= escHtml($drug['name']) ?></span></td>
           <td><span class="td-cat-badge badge-<?= $cat ?>"><?= $info['icon'] ?> <?= $info['ar'] ?></span></td>
           <td><?php if ((float)$drug['price'] > 0): ?><span class="td-price"><?= number_format((float)$drug['price'], 0) ?> د.ع</span><?php else: ?><span style="color:var(--muted);font-size:12px;">—</span><?php endif; ?></td>
           <td style="color:var(--muted);font-size:12px;"><?= date('Y/m/d', strtotime($drug['created_at'])) ?></td>

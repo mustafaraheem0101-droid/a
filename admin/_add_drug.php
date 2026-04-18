@@ -147,7 +147,7 @@ $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'
   </div>
   <div class="card-body">
     <form method="POST" enctype="multipart/form-data" id="addForm" novalidate>
-      <input type="hidden" name="_csrf" value="<?= htmlspecialchars($csrfToken) ?>">
+      <input type="hidden" name="_csrf" value="<?= escHtml($csrfToken) ?>">
       <input type="hidden" name="category" value="<?= $CATEGORY ?>">
 
       <div class="form-grid">
@@ -158,7 +158,7 @@ $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'
           <input type="text" name="name" class="form-input"
                  placeholder="مثال: كريم مرطّب للوجه"
                  maxlength="255" required
-                 value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+                 value="<?= escHtml($_POST['name'] ?? '') ?>">
           <div class="form-hint">أدخل الاسم التجاري الكامل للمنتج</div>
         </div>
 
@@ -168,7 +168,7 @@ $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'
           <input type="number" name="price" class="form-input"
                  placeholder="مثال: 15000"
                  min="0" step="0.01"
-                 value="<?= htmlspecialchars($_POST['price'] ?? '') ?>">
+                 value="<?= escHtml($_POST['price'] ?? '') ?>">
           <div class="form-hint">اتركه صفراً إن لم يكن له سعر محدد</div>
         </div>
 
@@ -177,7 +177,7 @@ $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'
           <label class="form-label">وصف المنتج (اختياري)</label>
           <textarea name="description" class="form-textarea"
                     placeholder="اكتب وصفاً مختصراً للمنتج، الاستخدامات، المكونات..."
-                    rows="3"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
+                    rows="3"><?= escHtml($_POST['description'] ?? '') ?></textarea>
         </div>
 
         <!-- الصورة -->

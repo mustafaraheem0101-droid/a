@@ -9,6 +9,7 @@ declare(strict_types=1);
 define('ROOT_DIR', dirname(__DIR__));
 
 require_once ROOT_DIR . '/admin_panel_auth.php';
+require_once ROOT_DIR . '/includes/security.php';
 require_once ROOT_DIR . '/env_loader.php';
 pharma_load_env_sources(ROOT_DIR);
 

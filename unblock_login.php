@@ -55,7 +55,7 @@ try {
 
 header('Content-Type: text/html; charset=utf-8');
 echo '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>تم</title></head><body style="font-family:sans-serif;padding:2rem;max-width:40rem;">';
-echo '<h1>تم فك الحظر</h1><p>عنوان IP: <code>' . htmlspecialchars($ip, ENT_QUOTES, 'UTF-8') . '</code></p>';
+echo '<h1>تم فك الحظر</h1><p>عنوان IP: <code>' . escHtml($ip) . '</code></p>';
 echo '<p>يمكنك الآن <a href="login.php">العودة إلى تسجيل الدخول</a>.</p>';
 echo '<p style="color:#666;font-size:14px;">احذف ملف <code>unblock_login.php</code> من السيرفر أو أزل <code>LOGIN_UNBLOCK_TOKEN</code> من <code>.env</code> بعد الانتهاء.</p>';
 echo '</body></html>';
