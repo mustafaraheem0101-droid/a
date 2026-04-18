@@ -985,25 +985,12 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/utils.js?v=3.5.14"></script>
   <script src="assets/js/ui.js?v=3.5.4"></script>
   <script src="assets/js/api.js?v=3.1.9"></script>
-  <script src="assets/js/main.js?v=3.7.13"></script>
+  <script src="assets/js/main.js?v=3.7.14"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
 <script src="assets/js/spotlight-slider-swiper.js?v=1.0.2"></script>
-<script>
-(function () {
-  var v = document.getElementById('homeHeroVideo');
-  if (!v) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    v.removeAttribute('autoplay');
-    try { v.pause(); } catch (e) {}
-    return;
-  }
-  var p = v.play();
-  if (p && typeof p.catch === 'function') p.catch(function () {});
-})();
-</script>
 </body>
 </html>
