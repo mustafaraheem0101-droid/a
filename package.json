@@ -1,0 +1,12 @@
+{
+  "name": "new-pharma-assets",
+  "private": true,
+  "scripts": {
+    "build:assets": "node tools/build-assets.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "purgecss": "^6.0.0",
+    "fast-glob": "^3.3.2"
+  }
+}
