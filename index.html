@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.37">
+<meta name="asset-version" content="1.0.38">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -233,7 +233,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   width:100%;
   overflow:hidden;
   background:var(--navy);
-  /* ارتفاع ثابت نسبياً — لا يعتمد على أبعاد ملف الفيديو (الفيديو يُقصّ بـ object-fit:cover) */
+  /* ارتفاع ثابت — الفيديو يُعرض كاملاً بدون قص (object-fit:contain؛ قد يظهر شريط جانبي/علوي بلون الخلفية) */
   height:clamp(200px, 30vmin, 360px);
   max-height:min(360px, 42vh);
   min-height:200px;
@@ -254,7 +254,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   height:100%;
   max-width:none;
   min-height:0;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center;
   display:block;
 }
