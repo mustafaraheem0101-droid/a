@@ -8,6 +8,21 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# ── حماية مجلد .git ──────────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteRule ^\.git(/.*)?$ - [F,L]
+</IfModule>
+<FilesMatch "^\.git">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# ── حماية ملفات المطوّر ─────────────────────────────────────────────
+<FilesMatch "^(composer\.(json|lock)|phpunit\.xml\.dist|README\.md|SETUP\.md|UPGRADE_NOTES\.md|\.gitignore|db\.local.*\.php)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
 # طلبات favicon.ico الافتراضية → شعار الموقع (يمنع 404 في الكونسول)
 RewriteRule ^favicon\.ico$ brand-logo-20260330.png [L]
 
@@ -90,24 +105,6 @@ upgrade-insecure-requests; \
 report-uri /csp-report.php"
   </FilesMatch>
 
-  # استعادة كلمة المرور (نفس سياسة login + اتصال api.php)
-  <FilesMatch "(forgot-password|reset-password)\.php$">
-    Header always set Content-Security-Policy "\
-default-src 'self'; \
-script-src 'self'; \
-style-src 'self' 'unsafe-inline' cdn.jsdelivr.net; \
-font-src 'self' data:; \
-img-src 'self' data:; \
-connect-src 'self' cdn.jsdelivr.net; \
-object-src 'none'; \
-frame-src 'none'; \
-frame-ancestors 'none'; \
-base-uri 'self'; \
-form-action 'self'; \
-upgrade-insecure-requests; \
-report-uri /csp-report.php"
-  </FilesMatch>
-
   # واجهة API (PHP) — أكثر تقييداً
   <FilesMatch "api\.php$">
     Header always set Content-Security-Policy "\
@@ -133,7 +130,7 @@ upgrade-insecure-requests"
   </FilesMatch>
 
   # ── No-Cache للملفات الديناميكية ──────────────────────────────────
-  <FilesMatch "(api\.php|login\.php|logout\.php|forgot-password\.php|reset-password\.php)$">
+  <FilesMatch "(api\.php|login\.php|logout\.php)$">
     Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
     Header always set Pragma "no-cache"
   </FilesMatch>

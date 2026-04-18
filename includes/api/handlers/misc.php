@@ -5,9 +5,6 @@
  */
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../password_reset_repo.php';
-require_once __DIR__ . '/../../pharma_mail.php';
-
 function handle_misc(string $action, array $body, array $rawBody, string $clientIP, string $method, mixed $db): void
 {
     switch ($action) {
@@ -119,104 +116,6 @@ function handle_misc(string $action, array $body, array $rawBody, string $client
                 logActivity('PASSWORD', 'تغيير كلمة مرور الإدارة من لوحة التحكم', $clientIP);
             }
             jsonSuccess([], 'تم تغيير كلمة المرور');
-            break;
-
-        case 'forgot_password':
-            if ($method !== 'POST') {
-                jsonError('POST فقط', [], 405);
-            }
-            $pdo = getPdo();
-            if ($pdo === null) {
-                jsonError('قاعدة البيانات غير متاحة');
-            }
-            $adminEmail = pharma_admin_recovery_email();
-            if ($adminEmail === '') {
-                jsonError('لم يُضبط بريد المسؤول. أضف ADMIN_EMAIL أو MAIL_USERNAME في .env، أو أنشئ الملف private_data/admin_recovery_email.txt (سطر واحد = البريد).');
-            }
-            if (!pharma_mail_configured()) {
-                jsonError('لم يُضبط إرسال البريد: أضف MAIL_HOST و MAIL_USERNAME و MAIL_PASSWORD في .env أو في الملف private_data/mail_smtp.env ثم نفّذ composer install على السيرفر.');
-            }
-            $email = strtolower(trim((string) ($rawBody['email'] ?? $body['email'] ?? '')));
-            $generic = 'إن وافق البريد المسجّل لدينا، ستصلك رسالة تحتوي رابط إعادة التعيين.';
-            if ($email !== $adminEmail) {
-                jsonSuccess(['sent' => false], $generic);
-                break;
-            }
-            if (!pharma_forgot_rate_allow($pdo, $clientIP)) {
-                jsonError('عدد طلبات الاستعادة كبير من هذا العنوان. حاول لاحقاً.', [], 429);
-            }
-            $token = pharma_password_reset_create_token($pdo);
-            if ($token === null) {
-                jsonError('تعذر إنشاء رابط الاستعادة. حاول لاحقاً.', [], 500);
-            }
-            $base = pharma_public_base_url();
-            $link = $base . '/reset-password.php?t=' . rawurlencode($token);
-            $html = '<p style="font-family:Tahoma,sans-serif;font-size:15px;">مرحباً،</p>';
-            $html .= '<p style="font-family:Tahoma,sans-serif;font-size:15px;">طُلب إعادة تعيين كلمة مرور لوحة التحكم.</p>';
-            $html .= '<p><a href="' . htmlspecialchars($link, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
-                . '" style="color:#00875a;font-weight:bold;">اضغط هنا لاختيار كلمة مرور جديدة</a></p>';
-            $html .= '<p style="font-size:13px;color:#666;">إن لم تطلب هذا، تجاهل الرسالة. الرابط صالح لمدة محدودة.</p>';
-            if (!pharma_send_html_mail($adminEmail, 'إعادة تعيين كلمة مرور لوحة الإدارة', $html)) {
-                jsonError('تعذر إرسال البريد. تحقق من إعدادات SMTP وكلمة مرور التطبيق في Gmail.', [], 500);
-            }
-            if (function_exists('logActivity')) {
-                logActivity('MAIL', 'طلب إعادة تعيين كلمة مرور (إرسال بريد)', $clientIP);
-            }
-            jsonSuccess(['sent' => true], $generic);
-            break;
-
-        case 'reset_password':
-            if ($method !== 'POST') {
-                jsonError('POST فقط', [], 405);
-            }
-            $pdo = getPdo();
-            if ($pdo === null) {
-                jsonError('قاعدة البيانات غير متاحة');
-            }
-            $token = trim((string) ($rawBody['token'] ?? $body['token'] ?? ''));
-            $new = (string) ($rawBody['new_pass'] ?? $body['new_pass'] ?? '');
-            if (strlen($token) < 64) {
-                jsonError('الرابط غير صالح أو منتهٍ');
-            }
-            if (strlen($new) < 8 || strlen($new) > 512) {
-                jsonError('كلمة المرور يجب أن تكون بين 8 و512 حرفاً');
-            }
-            if (!pharma_password_reset_validate_and_delete($pdo, $token)) {
-                jsonError('الرابط غير صالح أو منتهٍ', [], 400);
-            }
-            $newHash = password_hash($new, PASSWORD_DEFAULT);
-            if (!admin_save_bcrypt_hash($newHash)) {
-                jsonError('تعذر حفظ كلمة المرور', [], 500);
-            }
-            if (function_exists('logActivity')) {
-                logActivity('PASSWORD', 'إعادة تعيين كلمة مرور عبر البريد', $clientIP);
-            }
-            jsonSuccess([], 'تم تعيين كلمة المرور الجديدة. يمكنك تسجيل الدخول الآن.');
-            break;
-
-        case 'mail_test':
-            if (empty($_SESSION['admin_logged_in'])) {
-                jsonError('غير مصرح', [], 401);
-            }
-            if ($method !== 'POST') {
-                jsonError('POST فقط', [], 405);
-            }
-            $to = pharma_admin_recovery_email();
-            if ($to === '') {
-                jsonError('اضبط ADMIN_EMAIL أو MAIL_USERNAME (بريد Gmail) في .env');
-            }
-            if (!pharma_mail_configured()) {
-                jsonError('لم يُضبط SMTP — أضف MAIL_* في .env أو private_data/mail_smtp.env');
-            }
-            $ok = pharma_send_html_mail(
-                $to,
-                'اختبار بريد — لوحة الإدارة',
-                '<p>هذه رسالة تجريبية. إن وصلتك، إعداد Gmail/SMTP يعمل بشكل صحيح.</p>'
-            );
-            if (!$ok) {
-                jsonError('فشل الإرسال — راجع السجلات أو كلمة مرور التطبيق في Gmail', [], 500);
-            }
-            jsonSuccess([], 'تم إرسال بريد تجريبي إلى ' . $to);
             break;
 
         /* ══════ بيانات شاملة ══════ */

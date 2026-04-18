@@ -21,12 +21,12 @@ This document lists security and performance-related changes applied to the phar
 ## 4. JavaScript bundle size
 
 - Build: `npm run build:assets` (see `tools/build-assets.mjs`, `esbuild`) minifies `assets/js/main.js`, `admin.js`, `api.js`, `ui.js`, `utils.js` to `assets/js/dist/*.min.js`.
-- Store and control-panel HTML now reference the `.min.js` files (version query `v=4.0.0`). Minified on-disk total for the five files is reduced versus sources; combined **gzip** size is on the order of **~78KB** (with Apache `mod_deflate`, transfer size stays well under the 150KB target).
+- **Deployment:** Live HTML uses the **non-minified** source paths under `assets/js/` so the site works even if `assets/js/dist/` was not uploaded (e.g. FTP without the `dist` folder). To serve minified files in production, run `npm run build:assets`, upload `assets/js/dist/` and `assets/css/dist/`, then point `<script>` / `<link>` in the HTML to those `.min.js` / `.min.css` paths (or keep sources for simplicity).
 
 ## 5. CSS bundle size
 
 - Same build purges CSS with PurgeCSS against `**/*.{html,php,js}` (with conservative safelists for dynamic classes), then minifies with esbuild to `assets/css/dist/*.min.css` for `pharma-bundle.css`, `shop-bundle.css`, `store-enhancements.css`.
-- Public HTML updated to load `shop-bundle.min.css` and `store-enhancements.min.css` where applicable.
+- **Deployment:** Same as JS — storefront templates load `assets/css/shop-bundle.css` and `store-enhancements.css` by default; use `assets/css/dist/*.min.css` after upload if you switch links.
 
 ## 6. Admin section stubs
 

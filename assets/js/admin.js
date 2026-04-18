@@ -2509,23 +2509,6 @@ function initCpStaticBindings() {
     if (typeof changePass === 'function') changePass();
   });
 
-  on('btn-mail-test', 'click', async function () {
-    if (typeof adminMailTest !== 'function') return;
-    var btn = document.getElementById('btn-mail-test');
-    if (btn) { btn.disabled = true; btn.textContent = 'جاري الإرسال…'; }
-    try {
-      var r = await adminMailTest();
-      if (apiIsSuccess(r)) {
-        showToast((r && r.message) ? r.message : 'تم إرسال البريد التجريبي ✓');
-      } else {
-        showToast(apiErrorMessage(r) || 'فشل إرسال البريد', 'error');
-      }
-    } catch (e) {
-      showToast(e && e.message ? e.message : 'خطأ', 'error');
-    }
-    if (btn) { btn.disabled = false; btn.textContent = '📧 إرسال بريد تجريبي'; }
-  });
-
   on('saveSettingsBtn', 'click', function () {
     if (typeof saveSettings === 'function') saveSettings();
   });

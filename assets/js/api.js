@@ -836,10 +836,6 @@ async function adminChangePass(oldPass, newPass) {
   return await adminFetch('change_pass', { old_pass: oldPass, new_pass: newPass });
 }
 
-async function adminMailTest() {
-  return await adminFetch('mail_test', {}, 'POST');
-}
-
 async function adminBackup() {
   return await adminFetch('backup', {}, 'GET');
 }
@@ -902,7 +898,6 @@ window.adminSaveSubcategory = adminSaveSubcategory;
 window.adminDeleteSubcategory = adminDeleteSubcategory;
 window.adminSaveSettings = adminSaveSettings;
 window.adminChangePass = adminChangePass;
-window.adminMailTest = adminMailTest;
 window.adminBackup = adminBackup;
 window.adminRestore = adminRestore;
 window.adminGetReviews = adminGetReviews;
