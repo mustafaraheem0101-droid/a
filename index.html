@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.65" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.110" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.111" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.5" rel="stylesheet">
@@ -436,10 +436,8 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   body.index-page .p-tips-premium.p-sec{padding-block:22px 24px;}
   body.index-page .p-tips-grid{gap:12px;}
   body.index-page .p-tip{padding:18px 16px;}
-  body.index-page .p-sec-hd__actions{width:100%;justify-content:stretch;flex-direction:column;align-items:stretch;gap:10px;}
-  body.index-page .p-cta-wa-inline{justify-content:center;width:100%;min-height:52px;font-size:15px;}
   body.index-page #prod-sec{padding-block:32px 36px!important;}
-  body.index-page .p-footer{padding-block:44px 0;}
+  body.pharma-footer .p-footer{padding-block:44px 0;}
   .index-mobile-rail{
     position:fixed;
     z-index:8990;
@@ -520,13 +518,13 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   body.index-page .disclaimer-strip {
     padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
   }
-  body.index-page .p-ft-cta-wa {
+  body.pharma-footer .p-ft-cta-wa {
     width: 100%;
     max-width: 100%;
     justify-content: center;
     box-sizing: border-box;
   }
-  body.index-page .p-ft-meta {
+  body.pharma-footer .p-ft-meta {
     padding-bottom: max(28px, env(safe-area-inset-bottom, 0px) + 20px);
   }
 }
@@ -562,9 +560,9 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 /* LOGIN page */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,135,90,.15),transparent 60%),linear-gradient(150deg,#0a1628,#0f2744);}
 </style>
-<link href="assets/css/site-desktop-unified.css?v=1.0.14" rel="stylesheet">
+<link href="assets/css/site-desktop-unified.css?v=1.0.15" rel="stylesheet">
 </head>
-<body class="index-page">
+<body class="index-page pharma-footer">
 <div id="_globalLoader" role="status" aria-label="جارٍ التحميل"><div class="loader-ring"></div></div>
 
 <div class="toast" id="toast"><span id="toastMsg">✅ تم!</span></div>
@@ -769,10 +767,6 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   <div class="home-top-ordered__inner">
     <div class="home-top-ordered__head">
       <h2 class="sr-only" id="home-top-title">فيديوهات</h2>
-      <div class="p-sec-hd__actions">
-        <a href="#" class="p-cta-wa-inline" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، تواصلت معكم بعد مشاهدة الفيديو على الموقع">طلب عبر واتساب</a>
-        <a href="#prod-sec" class="p-see-all">كل المنتجات ↓</a>
-      </div>
     </div>
     <div class="home-spotlight-media" id="homeSpotlightMedia" aria-label="فيديوهات الصفحة الرئيسية"></div>
   </div>
@@ -782,11 +776,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <section class="p-sec flash-sec p-sec-fade" id="prod-sec">
   <div class="p-sec-inner">
     <div class="p-sec-hd">
-      <div><h2 class="p-sec-title" id="home-all-products-title"><span aria-hidden="true">📦</span> كل المنتجات</h2></div>
-      <div class="p-sec-hd__actions">
-        <a href="#" class="p-cta-wa-inline" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، أريد طلب منتجات من الموقع">طلب عبر واتساب</a>
-        <a href="categories.html" class="p-see-all">عرض جميع المنتجات →</a>
-      </div>
+      <h2 class="p-sec-title" id="home-all-products-title"><span aria-hidden="true">📦</span> كل المنتجات</h2>
     </div>
     <p class="home-prod-meta" id="homeProdMeta" hidden aria-live="polite"></p>
     <div class="sh" style="display:none"><div class="sh-l"><div class="sec-tag sec-tag--pop"></div><h2></h2></div></div>
@@ -965,7 +955,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/utils.js?v=3.5.14"></script>
   <script src="assets/js/ui.js?v=3.5.4"></script>
   <script src="assets/js/api.js?v=3.1.10"></script>
-  <script src="assets/js/main.js?v=3.9.6"></script>
+  <script src="assets/js/main.js?v=3.9.7"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>

@@ -101,7 +101,7 @@
 }
 
 /* ——— Index footer — 3 أعمدة: تواصل | أقسام | معلومات الموقع ——— */
-body.index-page .p-footer-inner {
+body.pharma-footer .p-footer-inner {
   display: grid;
   width: 100%;
   max-width: 1120px;
@@ -111,31 +111,31 @@ body.index-page .p-footer-inner {
   gap: clamp(28px, 4vw, 44px);
   align-items: start;
 }
-body.index-page .p-ft-brand-block {
+body.pharma-footer .p-ft-brand-block {
   min-width: 0;
 }
-body.index-page .p-ft-col {
+body.pharma-footer .p-ft-col {
   min-width: 0;
 }
-body.index-page .p-ft-meta {
+body.pharma-footer .p-ft-meta {
   grid-column: 1 / -1;
 }
 /* موبايل/تابلت: صفّان — تواصل | أقسام، ثم الهوية بعرض كامل (مثل سطح المكتب) */
 @media (max-width: 900px) {
-  body.index-page .p-footer-inner {
+  body.pharma-footer .p-footer-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px 20px;
     padding-inline: max(16px, env(safe-area-inset-left, 0px))
       max(16px, env(safe-area-inset-right, 0px));
     box-sizing: border-box;
   }
-  body.index-page .p-ft-brand-block {
+  body.pharma-footer .p-ft-brand-block {
     grid-column: 1 / -1;
   }
 }
 /* شاشات ضيقة جداً: عمود واحد لتفادي ضغط النص */
 @media (max-width: 360px) {
-  body.index-page .p-footer-inner {
+  body.pharma-footer .p-footer-inner {
     grid-template-columns: 1fr;
     gap: 28px;
   }

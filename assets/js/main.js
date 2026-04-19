@@ -832,6 +832,15 @@ function applyShopPageFooterFromSettings() {
   }
 }
 
+/** يملأ عمود «الأقسام» في الفوتر الموحّد (مثل الصفحة الرئيسية) عند وجود #footerCategories */
+async function syncFooterCategoriesFromApi() {
+  try {
+    const cr = await apiFetch('getCategories', { active: 1 });
+    if (!cr || !apiIsSuccess(cr) || typeof buildFooterCats !== 'function') return;
+    buildFooterCats(apiPick(cr, 'categories', []));
+  } catch (e) { /* ignore */ }
+}
+
 // ─── صفحة القسم (category.html) ───────────────────────────────
 
 function categoryPageCanonicalSlug(x) {
@@ -1060,11 +1069,15 @@ const categoryState = {
 /** قائمة القسم الكاملة (ثابتة بعد أول تحميل) */
 let categoryChipCatalog = [];
 
+/** صفحة القسم: صف واحد (7 بطاقات) ثم ترقيم 1 2 3… */
+const CATEGORY_PRODUCTS_PER_PAGE = 7;
+
 if (typeof subscribeShopState === 'function') {
   subscribeShopState(function (s, meta) {
     if (!meta || meta.view !== 'category') return;
     if (!slug || !document.getElementById('prodSec')) return;
     categoryState.filteredList = Array.isArray(s.products) ? s.products.slice() : [];
+    window.__categoryProductPage = 1;
     categoryViewRenderProductGrid();
   });
 }
@@ -1177,6 +1190,7 @@ function categorySyncShopAndRender() {
   if (typeof setShopProducts === 'function') {
     setShopProducts(categoryState.filteredList, { view: 'category', notify: false });
   }
+  window.__categoryProductPage = 1;
   categoryViewRenderProductGrid();
   categoryUpdateFilterMeta();
 }
@@ -1217,6 +1231,7 @@ function categoryViewRenderProductGrid() {
     const inner = typeof buildEmptyProductsStateHtml === 'function'
       ? buildEmptyProductsStateHtml('لا توجد منتجات حالياً في هذا القسم', { variant: 'default' })
       : `<div class="empty-state empty-state--rich" style="grid-column:1/-1" role="status"><div class="empty-state__icon">📦</div><p class="empty-state__msg">لا توجد منتجات حالياً في هذا القسم</p><a href="index.html" class="empty-state__back">الرئيسية</a></div>`;
+    window.__categoryProductPage = 1;
     replaceChildrenFromHtml(sec, `<div class="pgrid6">${inner}</div>`);
     return;
   }
@@ -1225,18 +1240,32 @@ function categoryViewRenderProductGrid() {
     const inner = typeof buildEmptyProductsStateHtml === 'function'
       ? buildEmptyProductsStateHtml('لا توجد نتائج مطابقة لبحثك في هذا القسم', { variant: 'search' })
       : `<div class="empty-state empty-state--rich" style="grid-column:1/-1" role="status"><div class="ei" aria-hidden="true">🔎</div><p class="empty-state__msg">لا توجد نتائج مطابقة لبحثك في هذا القسم</p></div>`;
+    window.__categoryProductPage = 1;
     replaceChildrenFromHtml(sec, `<div class="pgrid6">${inner}</div>`);
     return;
   }
 
-  const cards = typeof buildProductCardHtml === 'function' ? filt.map(function (p) { return buildProductCardHtml(p); }).join('') : '';
+  const per = CATEGORY_PRODUCTS_PER_PAGE;
+  let page = Number(window.__categoryProductPage);
+  if (!Number.isFinite(page) || page < 1) page = 1;
+  const totalPages = Math.max(1, Math.ceil(filt.length / per));
+  if (page > totalPages) page = totalPages;
+  window.__categoryProductPage = page;
+
+  const slice = filt.slice((page - 1) * per, page * per);
+  const cards = typeof buildProductCardHtml === 'function' ? slice.map(function (p) { return buildProductCardHtml(p); }).join('') : '';
   const statLine = categoryBuildProductStatLine();
+  const pagerBlock = totalPages > 1 && typeof buildPagerHtml === 'function'
+    ? '<div class="products-pager">' + buildPagerHtml(page, totalPages) + '</div>'
+    : '';
+
   replaceChildrenFromHtml(sec, `
     <div class="prods-hdr">
       <h3>المنتجات</h3>
       <span class="prods-hdr__stat" id="catProdStat">${statLine}</span>
     </div>
-    <div class="pgrid6" id="catPgrid" aria-label="شبكة المنتجات">${cards}</div>`);
+    <div class="pgrid6" id="catPgrid" aria-label="شبكة المنتجات">${cards}</div>
+    ${pagerBlock}`);
   const g = document.getElementById('catPgrid');
   if (g && cards) categoryViewObserveReveals(g);
 }
@@ -1397,6 +1426,7 @@ if (__pharmaStoreHtmlFile() === 'category.html') {
       }
     } catch (e) {}
     initShopChrome();
+    if (typeof syncFooterCategoriesFromApi === 'function') void syncFooterCategoriesFromApi();
     await load();
   })();
 }
@@ -1813,6 +1843,7 @@ async function loadProduct() {
       applySettings();
       applyShopPageFooterFromSettings();
     }
+    if (typeof syncFooterCategoriesFromApi === 'function') void syncFooterCategoriesFromApi();
 
     if (!apiIsSuccess(res) || !res.data || !res.data.product) {
       const errText = apiErrorMessage(res) || '';
@@ -2213,6 +2244,7 @@ if (__pharmaStoreHtmlFile() === 'subcategory.html') {
       }
     } catch (e) {}
     initShopChrome();
+    if (typeof syncFooterCategoriesFromApi === 'function') void syncFooterCategoriesFromApi();
     await loadCategoryAndProducts();
   })();
 }
@@ -2239,6 +2271,8 @@ async function initCategories() {
 
     allCats = (catRes && apiIsSuccess(catRes) && catRes.data && catRes.data.categories)
       ? catRes.data.categories.filter(c => c.active !== false) : [];
+
+    if (typeof buildFooterCats === 'function') buildFooterCats(allCats);
 
     if (skel) skel.style.display = 'none';
     renderCatsGrid(allCats);
@@ -3405,6 +3439,18 @@ async function goPage(p) {
       if (typeof hideLoader === 'function') hideLoader();
     }
     getProdSecEl()?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  if (typeof __pharmaStoreHtmlFile === 'function' && __pharmaStoreHtmlFile() === 'category.html' && slug) {
+    const per = CATEGORY_PRODUCTS_PER_PAGE;
+    const filt = categoryState.filteredList;
+    const pages = Math.max(1, Math.ceil((Array.isArray(filt) ? filt.length : 0) / per));
+    if (n > pages) return;
+    window.__categoryProductPage = n;
+    if (typeof categoryViewRenderProductGrid === 'function') categoryViewRenderProductGrid();
+    const catProd = document.getElementById('prodSec');
+    if (catProd) catProd.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
 

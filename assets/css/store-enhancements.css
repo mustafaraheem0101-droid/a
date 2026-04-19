@@ -2005,20 +2005,6 @@ body.index-page #homeTopOrderedGrid .pc-price {
   text-shadow: none;
 }
 
-body.index-page .flash-sec .p-see-all,
-body.index-page .home-top-ordered .p-see-all {
-  background: linear-gradient(135deg, rgba(0, 135, 90, 0.1), rgba(0, 135, 90, 0.04));
-  border: 2px solid rgba(0, 135, 90, 0.45);
-  font-size: 14px;
-  padding: 11px 22px;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0, 135, 90, 0.14);
-}
-body.index-page .flash-sec .p-see-all:hover,
-body.index-page .home-top-ordered .p-see-all:hover {
-  box-shadow: 0 8px 22px rgba(0, 135, 90, 0.22);
-}
-
 /* شارة الأكثر مبيعاً — زاوية بعيدة عن عمود زر واتساب (RTL: الزر يمين، الشارة يسار الصورة) */
 .pc-badge-bestseller {
   position: absolute;
@@ -3356,19 +3342,13 @@ body.index-page #prod-sec.flash-sec > .p-sec-inner {
   z-index: 1;
 }
 body.index-page #prod-sec .p-sec-hd {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(14px, 2.5vw, 22px);
-  margin-bottom: clamp(22px, 3vw, 32px);
-  padding: clamp(16px, 2.4vw, 24px) clamp(16px, 2.2vw, 26px);
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 252, 250, 0.95) 100%);
-  border: 1px solid rgba(0, 135, 90, 0.1);
-  box-shadow:
-    0 10px 40px rgba(15, 23, 42, 0.06),
-    0 1px 0 rgba(255, 255, 255, 1) inset;
+  display: block;
+  margin-bottom: clamp(18px, 2.5vw, 28px);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 body.index-page #prod-sec .p-sec-title {
   display: flex;
@@ -3386,166 +3366,17 @@ body.index-page #prod-sec .p-sec-title [aria-hidden='true'] {
   font-size: 1.15em;
   line-height: 1;
 }
-body.index-page #prod-sec .p-sec-hd__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 14px;
-}
-body.index-page .p-cta-wa-inline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 11px 20px;
-  border-radius: 14px;
-  font-weight: 800;
-  font-size: 14px;
-  color: #065f46;
-  background: linear-gradient(145deg, #ecfdf5, #d1fae5);
-  border: 1.5px solid rgba(16, 185, 129, 0.42);
-  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.14);
-  text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-body.index-page .p-cta-wa-inline:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.22);
-  filter: brightness(1.02);
-}
-body.index-page .p-cta-wa-inline:active {
-  transform: translateY(0);
-}
-body.index-page .p-cta-wa-inline:focus-visible {
-  outline: 2px solid rgba(16, 185, 129, 0.55);
-  outline-offset: 3px;
-}
-body.index-page #prod-sec .p-see-all {
-  font-weight: 900;
-  letter-spacing: 0.01em;
-  background: linear-gradient(135deg, rgba(0, 135, 90, 0.12), rgba(0, 135, 90, 0.05));
-}
-
 body.index-page .home-top-ordered__head {
-  padding: clamp(18px, 2.4vw, 24px) clamp(18px, 2.2vw, 26px);
-  border-radius: 22px;
-  background: linear-gradient(148deg, #ffffff 0%, #f6fbf8 52%, #f0faf5 100%);
-  border: 1px solid rgba(0, 135, 90, 0.1);
-  box-shadow:
-    0 4px 6px rgba(15, 23, 42, 0.04),
-    0 14px 36px rgba(0, 135, 90, 0.07);
-  margin-bottom: 26px;
-  gap: clamp(14px, 2.5vw, 22px);
+  padding: 0 0 12px;
+  margin-bottom: 18px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
-body.index-page .home-top-ordered__head .p-sec-hd__actions {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  background: rgba(0, 135, 90, 0.06);
-  border: 1px solid rgba(0, 135, 90, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
-}
-@media (min-width: 720px) {
-  body.index-page .home-top-ordered__head {
-    justify-content: center;
-    gap: 20px 28px;
-  }
-}
-
-/* موبايل: شريط «طلب واتساب + كل المنتجات» — بدون كروت متداخلة، أزرار متوازنة بعرض كامل */
 @media (max-width: 767px) {
   body.index-page #prod-sec .p-sec-hd {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
     margin-bottom: 20px;
-    padding: 0 0 4px;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-  }
-  body.index-page .home-top-ordered__head {
-    padding: 0 0 8px;
-    margin-bottom: 18px;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-  }
-  body.index-page .home-top-ordered__head .p-sec-hd__actions {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    width: 100%;
-    gap: 10px;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-  }
-  body.index-page #prod-sec .p-sec-hd__actions {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-  body.index-page .p-cta-wa-inline {
-    width: 100%;
-    box-sizing: border-box;
-    min-height: 50px;
-    padding: 14px 20px;
-    border-radius: 999px;
-    font-size: 15px;
-    font-weight: 800;
-    color: #fff !important;
-    background: #25d366;
-    border: none;
-    box-shadow: none;
-    transform: none;
-    filter: none;
-  }
-  body.index-page .p-cta-wa-inline:hover,
-  body.index-page .p-cta-wa-inline:active {
-    background: #1ebe5d;
-    box-shadow: none;
-    transform: none;
-    filter: none;
-  }
-  body.index-page #prod-sec .p-see-all,
-  body.index-page .flash-sec .p-see-all,
-  body.index-page .home-top-ordered .p-see-all {
-    display: inline-flex;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    justify-content: center;
-    min-height: 48px;
-    padding: 12px 18px;
-    border-radius: 999px;
-    font-size: 14.5px;
-    font-weight: 800;
-    color: var(--navy, #0f172a);
-    background: transparent;
-    border: 1.5px solid rgba(15, 23, 42, 0.18);
-    box-shadow: none;
-  }
-  body.index-page #prod-sec .p-see-all:hover,
-  body.index-page .flash-sec .p-see-all:hover,
-  body.index-page .home-top-ordered .p-see-all:hover {
-    background: rgba(15, 23, 42, 0.04);
-    box-shadow: none;
-    border-color: rgba(15, 23, 42, 0.28);
   }
   body.index-page .home-top-ordered {
     padding: 24px 16px 12px;
@@ -3554,25 +3385,25 @@ body.index-page .home-top-ordered__head .p-sec-hd__actions {
 }
 
 /* ——— Footer: تصميم بسيط بدون بطاقات أو ظلال ——— */
-body.index-page .p-footer {
+body.pharma-footer .p-footer {
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #0a1424 0%, #070f1a 100%) !important;
   box-shadow: none;
   border-top: 1px solid rgba(148, 163, 184, 0.1);
 }
-body.index-page .p-footer-inner {
+body.pharma-footer .p-footer-inner {
   position: relative;
   z-index: 1;
 }
-body.index-page .p-ft-meta {
+body.pharma-footer .p-ft-meta {
   position: relative;
   z-index: 1;
   margin-top: 8px;
   padding-top: 24px;
 }
 
-body.index-page .p-ft-brand-block {
+body.pharma-footer .p-ft-brand-block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -3583,7 +3414,7 @@ body.index-page .p-ft-brand-block {
   border: none;
   box-shadow: none;
 }
-body.index-page .p-ft-url {
+body.pharma-footer .p-ft-url {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -3591,7 +3422,7 @@ body.index-page .p-ft-url {
   margin: 0;
   line-height: 1.4;
 }
-body.index-page .p-ft-cta-wa {
+body.pharma-footer .p-ft-cta-wa {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3608,18 +3439,18 @@ body.index-page .p-ft-cta-wa {
   transition: background 0.2s ease, filter 0.2s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  body.index-page .p-ft-cta-wa:hover {
+  body.pharma-footer .p-ft-cta-wa:hover {
     background: #1ebe5d;
     filter: none;
   }
 }
-body.index-page .p-ft-services {
+body.pharma-footer .p-ft-services {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 18px;
   margin: 0;
 }
-body.index-page .p-ft-services span {
+body.pharma-footer .p-ft-services span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -3632,7 +3463,7 @@ body.index-page .p-ft-services span {
   color: rgba(203, 213, 225, 0.88);
 }
 
-body.index-page .p-ft-brand-block .p-ft-logo-link {
+body.pharma-footer .p-ft-brand-block .p-ft-logo-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3644,22 +3475,22 @@ body.index-page .p-ft-brand-block .p-ft-logo-link {
   transition: opacity 0.2s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  body.index-page .p-ft-brand-block .p-ft-logo-link:hover {
+  body.pharma-footer .p-ft-brand-block .p-ft-logo-link:hover {
     opacity: 0.88;
   }
 }
-body.index-page .p-ft-brand-block .p-ft-logo {
+body.pharma-footer .p-ft-brand-block .p-ft-logo {
   display: block;
   border-radius: 12px;
 }
-body.index-page .p-ft-col {
+body.pharma-footer .p-ft-col {
   padding: 0;
   border-radius: 0;
   background: none;
   border: none;
   box-shadow: none;
 }
-body.index-page .p-ft-col h4 {
+body.pharma-footer .p-ft-col h4 {
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -3668,7 +3499,7 @@ body.index-page .p-ft-col h4 {
   border: none;
   color: rgba(248, 250, 252, 0.98);
 }
-body.index-page .p-ft-col ul {
+body.pharma-footer .p-ft-col ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -3676,7 +3507,7 @@ body.index-page .p-ft-col ul {
   flex-direction: column;
   gap: 10px;
 }
-body.index-page .p-ft-col a {
+body.pharma-footer .p-ft-col a {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -3689,12 +3520,12 @@ body.index-page .p-ft-col a {
   transition: color 0.2s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  body.index-page .p-ft-col a:hover {
+  body.pharma-footer .p-ft-col a:hover {
     background: none;
     color: rgba(248, 250, 252, 0.98) !important;
   }
 }
-body.index-page #ft-hours {
+body.pharma-footer #ft-hours {
   padding: 4px 0;
   margin: 0;
   border-radius: 0;
@@ -3702,7 +3533,7 @@ body.index-page #ft-hours {
   color: rgba(203, 213, 225, 0.88);
   font-weight: 600;
 }
-body.index-page .p-ft-soc {
+body.pharma-footer .p-ft-soc {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -3710,7 +3541,7 @@ body.index-page .p-ft-soc {
   gap: 4px;
   margin-top: 4px;
 }
-body.index-page .p-ft-soc .p-soc {
+body.pharma-footer .p-ft-soc .p-soc {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3726,39 +3557,39 @@ body.index-page .p-ft-soc .p-soc {
   color: rgba(203, 213, 225, 0.82);
   transition: color 0.2s ease, opacity 0.2s ease;
 }
-body.index-page .p-ft-soc .p-soc svg,
-body.index-page .p-ft-soc #ft-wa svg,
-body.index-page .p-ft-soc #ft-ig svg {
+body.pharma-footer .p-ft-soc .p-soc svg,
+body.pharma-footer .p-ft-soc #ft-wa svg,
+body.pharma-footer .p-ft-soc #ft-ig svg {
   width: 22px !important;
   height: 22px !important;
   max-width: 22px;
   max-height: 22px;
 }
 @media (hover: hover) and (pointer: fine) {
-  body.index-page .p-ft-soc .p-soc:hover {
+  body.pharma-footer .p-ft-soc .p-soc:hover {
     color: rgba(248, 250, 252, 0.95);
     opacity: 1;
   }
-  body.index-page .p-ft-soc .p-soc--wa:hover {
+  body.pharma-footer .p-ft-soc .p-soc--wa:hover {
     color: #25d366;
   }
-  body.index-page .p-ft-soc .p-soc--ig:hover {
+  body.pharma-footer .p-ft-soc .p-soc--ig:hover {
     color: #f472b6;
   }
 }
 @media (max-width: 900px) {
   /* قائمة الأقسام — عمودان؛ مسافات كافية حتى لا يتداخل النص المكسور */
-  body.index-page .p-ft-col--cats ul {
+  body.pharma-footer .p-ft-col--cats ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px 12px;
     align-items: start;
   }
-  body.index-page .p-ft-col--cats ul li {
+  body.pharma-footer .p-ft-col--cats ul li {
     min-width: 0;
     align-self: start;
   }
-  body.index-page .p-ft-col--cats a {
+  body.pharma-footer .p-ft-col--cats a {
     display: flex;
     align-items: flex-start;
     gap: 6px 8px;
@@ -3771,24 +3602,24 @@ body.index-page .p-ft-soc #ft-ig svg {
     hyphens: auto;
     -webkit-hyphens: auto;
   }
-  body.index-page .p-ft-brand-block {
+  body.pharma-footer .p-ft-brand-block {
     align-items: center;
     text-align: center;
   }
-  body.index-page .p-ft-url {
+  body.pharma-footer .p-ft-url {
     margin-inline: auto;
   }
-  body.index-page .p-ft-services {
+  body.pharma-footer .p-ft-services {
     justify-content: center;
     gap: 12px 18px;
     width: 100%;
   }
-  body.index-page .p-ft-soc {
+  body.pharma-footer .p-ft-soc {
     justify-content: center;
     width: 100%;
     margin-top: 8px;
   }
-  body.index-page .p-ft-cta-wa {
+  body.pharma-footer .p-ft-cta-wa {
     width: 100%;
     max-width: 420px;
     box-sizing: border-box;
@@ -3798,18 +3629,18 @@ body.index-page .p-ft-soc #ft-ig svg {
 
 /* شاشات ضيقة: عمود واحد للأقسام — نص أصغر ومسافة واضحة بين البنود */
 @media (max-width: 520px) {
-  body.index-page .p-ft-col--cats ul {
+  body.pharma-footer .p-ft-col--cats ul {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  body.index-page .p-ft-col--cats a {
+  body.pharma-footer .p-ft-col--cats a {
     font-size: 12px;
     line-height: 1.48;
     padding: 5px 0;
   }
 }
 
-body.index-page .p-ft-gradient-rule {
+body.pharma-footer .p-ft-gradient-rule {
   display: block;
   width: 100%;
   height: 1px;
@@ -3822,14 +3653,14 @@ body.index-page .p-ft-gradient-rule {
     transparent 100%
   );
 }
-body.index-page .p-ft-copy {
+body.pharma-footer .p-ft-copy {
   margin: 0;
   text-align: center;
   font-size: 13px;
   line-height: 1.7;
   color: rgba(148, 163, 184, 0.88);
 }
-body.index-page .p-ft-copy .ft-privacy {
+body.pharma-footer .p-ft-copy .ft-privacy {
   color: rgba(226, 232, 240, 0.9);
   text-decoration: none;
   font-weight: 700;
@@ -3837,7 +3668,7 @@ body.index-page .p-ft-copy .ft-privacy {
   transition: color 0.18s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  body.index-page .p-ft-copy .ft-privacy:hover {
+  body.pharma-footer .p-ft-copy .ft-privacy:hover {
     color: rgba(127, 255, 196, 0.95);
   }
 }
@@ -4066,9 +3897,6 @@ body.index-page .p-tips-premium .p-tips-premium__art-ring {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.index-page .p-cta-wa-inline:hover {
-    transform: none;
-  }
   #daily-tip-sec .p-tip.p-tip--link:hover {
     transform: none;
   }

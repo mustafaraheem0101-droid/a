@@ -176,95 +176,10 @@ header.header,
   line-height: 1;
 }
 
-/* ═══ الصفحة الرئيسية — موبايل: شريط «كل المنتجات» بدون بطاقة، أزرار نهائية (يُحمّل هذا الملف أخيراً في index) ═══ */
+/* ═══ الصفحة الرئيسية — موبايل (يُحمّل هذا الملف أخيراً في index) ═══ */
 @media (max-width: 767px) {
   body.index-page #prod-sec.flash-sec .p-sec-hd {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 14px !important;
     margin-bottom: 20px !important;
-    padding: 0 0 8px !important;
-    border: none !important;
-    border-bottom: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-  }
-  body.index-page #prod-sec .p-sec-hd__actions,
-  body.index-page .home-top-ordered__head .p-sec-hd__actions {
-    width: 100% !important;
-    max-width: none !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    justify-content: flex-start !important;
-    gap: 10px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-  }
-  body.index-page .home-top-ordered__head {
-    padding: 0 0 8px !important;
-    margin-bottom: 18px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
-  }
-  body.index-page a.p-cta-wa-inline {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    min-height: 52px !important;
-    padding: 14px 20px !important;
-    border-radius: 999px !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    color: #fff !important;
-    background: #25d366 !important;
-    border: none !important;
-    box-shadow: none !important;
-    transform: none !important;
-    filter: none !important;
-    text-decoration: none !important;
-  }
-  body.index-page a.p-cta-wa-inline:hover,
-  body.index-page a.p-cta-wa-inline:active {
-    color: #fff !important;
-    background: #1ebe5d !important;
-    box-shadow: none !important;
-    transform: none !important;
-    filter: none !important;
-  }
-  body.index-page #prod-sec .p-see-all,
-  body.index-page .flash-sec .p-see-all,
-  body.index-page .home-top-ordered .p-see-all {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    min-height: 48px !important;
-    padding: 12px 18px !important;
-    border-radius: 999px !important;
-    font-size: 14.5px !important;
-    font-weight: 800 !important;
-    color: #0f172a !important;
-    background: transparent !important;
-    border: 1.5px solid rgba(15, 23, 42, 0.2) !important;
-    box-shadow: none !important;
-  }
-  body.index-page #prod-sec .p-see-all:hover,
-  body.index-page .flash-sec .p-see-all:hover,
-  body.index-page .home-top-ordered .p-see-all:hover {
-    background: rgba(15, 23, 42, 0.05) !important;
-    border-color: rgba(15, 23, 42, 0.3) !important;
-    box-shadow: none !important;
   }
   /* عناوين المنتجات الطويلة — ثلاثة أسطر على الموبايل */
   body.index-page .pgrid6--home .pc-name {
