@@ -3643,21 +3643,24 @@ function pharmaSpotlightVideoBlockHtml(videoUrl) {
   if (!u) return '';
   var yt = pharmaSpotlightYoutubeId(u);
   if (yt) {
+    /* loop يتطلّب playlist=nفس المعرف على يوتيوب */
     return (
-      '<div class="home-top-video home-top-video--embed" role="region" aria-label="فيديو">' +
+      '<div class="home-top-video home-top-video--embed home-top-video--spotlight" role="region" aria-label="فيديو">' +
       '<iframe class="home-top-video__iframe" src="https://www.youtube-nocookie.com/embed/' +
       esc(yt) +
-      '?rel=0&amp;modestbranding=1" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>' +
+      '?rel=0&amp;modestbranding=1&amp;mute=1&amp;autoplay=1&amp;loop=1&amp;playlist=' +
+      esc(yt) +
+      '&amp;playsinline=1" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>' +
       '</div>'
     );
   }
   var vm = pharmaSpotlightVimeoId(u);
   if (vm) {
     return (
-      '<div class="home-top-video home-top-video--embed" role="region" aria-label="فيديو">' +
+      '<div class="home-top-video home-top-video--embed home-top-video--spotlight" role="region" aria-label="فيديو">' +
       '<iframe class="home-top-video__iframe" src="https://player.vimeo.com/video/' +
       esc(vm) +
-      '" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>' +
+      '?autoplay=1&amp;loop=1&amp;muted=1&amp;background=0" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>' +
       '</div>'
     );
   }
@@ -3669,8 +3672,8 @@ function pharmaSpotlightVideoBlockHtml(videoUrl) {
   var su = esc(rawSrc);
   var mimeHint = /\.webm$/i.test(String(u || '')) ? 'video/webm' : 'video/mp4';
   return (
-    '<div class="home-top-video home-top-video--file" role="region" aria-label="فيديو">' +
-    '<video class="home-top-video__el" controls playsinline preload="metadata" title="فيديو">' +
+    '<div class="home-top-video home-top-video--file home-top-video--spotlight" role="region" aria-label="فيديو">' +
+    '<video class="home-top-video__el" loop muted playsinline autoplay preload="metadata" title="فيديو" aria-label="فيديو">' +
     '<source src="' +
     su +
     '" type="' +
