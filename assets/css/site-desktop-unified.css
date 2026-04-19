@@ -179,9 +179,6 @@ header.header,
 
 /* ═══ الصفحة الرئيسية — موبايل (يُحمّل هذا الملف أخيراً في index) ═══ */
 @media (max-width: 767px) {
-  body.index-page #prod-sec.flash-sec .p-sec-hd {
-    margin-bottom: 20px !important;
-  }
   /* عناوين المنتجات الطويلة — ثلاثة أسطر على الموبايل */
   body.index-page .pgrid6--home .pc-name {
     -webkit-line-clamp: 3;

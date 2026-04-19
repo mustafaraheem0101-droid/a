@@ -1731,7 +1731,7 @@ function buildProductMainHtml(p, similar, bundles) {
           const simSrc = typeof productCardDisplayImageUrl === 'function' ? productCardDisplayImageUrl(s) : fixImgUrl(s.image || s.img);
           return `
           <a href="${href}" class="sim-card sim-card--similar">
-            <div class="sim-img"><span class="sim-badge sim-badge--similar" aria-hidden="true"><span class="sim-badge__ico">🔥</span><span class="sim-badge__txt">مشابه</span></span>${simSrc ? `<img src="${simSrc}" alt="${escHtml(s.name)}" class="img-cover" loading="lazy" decoding="async" data-fallback-next="sim-img-fb"><span class="sim-img-fb" style="display:none;font-size:28px">${s.ico || '💊'}</span>` : `<span style="font-size:28px">${s.ico || '💊'}</span>`}</div>
+            <div class="sim-img">${simSrc ? `<img src="${simSrc}" alt="${escHtml(s.name)}" class="img-cover" loading="lazy" decoding="async" data-fallback-next="sim-img-fb"><span class="sim-img-fb" style="display:none;font-size:28px">${s.ico || '💊'}</span>` : `<span style="font-size:28px">${s.ico || '💊'}</span>`}</div>
             <div class="sim-info">
               <div class="sim-name">${escHtml(s.name)}</div>
               ${shelfSimPriceHtml(s)}
@@ -3228,7 +3228,20 @@ window.closeHomeCatSubpanel = function () {};
 /* ---------- main.js ---------- */
 /* main.js — المنطق الرئيسي للصفحة الرئيسية */
 const PRODUCTS_PER_PAGE = 8;
+/** الصفحة الرئيسية على الموبايل: 4 بطاقات ثم ترقيم 1 2 3… */
+const HOME_PRODUCTS_PER_PAGE_MOBILE = 4;
+function isHomeMobileViewport() {
+  try {
+    return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  } catch (e) {
+    return false;
+  }
+}
+function getHomeProductsPerPage() {
+  return isHomeMobileViewport() ? HOME_PRODUCTS_PER_PAGE_MOBILE : PRODUCTS_PER_PAGE;
+}
 try { window.HOME_ALL_PRODUCTS_PAGE_SIZE = PRODUCTS_PER_PAGE; } catch (e) {}
+try { window.getHomeProductsPerPage = getHomeProductsPerPage; } catch (e) {}
 let _currentPage = 1;
 let _filteredProds = [];
 let _elProdSec;
@@ -3333,13 +3346,14 @@ function renderProductGrid(list, page, pagMeta) {
   const pager = document.getElementById('pgrid2Pager');
   if (!grid) return;
 
+  const perGrid = getHomeProductsPerPage();
   const serverPag = pagMeta && typeof pagMeta.total === 'number';
   let pageItems;
   let totalPages;
 
   if (serverPag) {
-    /* شبكة الرئيسية (#pgrid2): دائماً PRODUCTS_PER_PAGE — حتى لا يُعرض 12 إذا رجع الخادم/الحالة per_page أعلى */
-    const per = PRODUCTS_PER_PAGE;
+    /* شبكة الرئيسية (#pgrid2): 4 على الموبايل، 8 على سطح المكتب — حتى لا يُعرض دفعة أكبر من perGrid */
+    const per = perGrid;
     const raw = Array.isArray(list) ? list : [];
     pageItems = raw.slice(0, per);
     const tot = pagMeta.total;
@@ -3350,13 +3364,13 @@ function renderProductGrid(list, page, pagMeta) {
       updateHomeProductsMetaBar([], 1);
     }
   } else {
-    const start = (page - 1) * PRODUCTS_PER_PAGE;
-    pageItems = (Array.isArray(list) ? list : []).slice(start, start + PRODUCTS_PER_PAGE);
-    totalPages = Math.max(1, Math.ceil((Array.isArray(list) ? list.length : 0) / PRODUCTS_PER_PAGE));
+    const start = (page - 1) * perGrid;
+    pageItems = (Array.isArray(list) ? list : []).slice(start, start + perGrid);
+    totalPages = Math.max(1, Math.ceil((Array.isArray(list) ? list.length : 0) / perGrid));
     updateHomeProductsMetaBar(Array.isArray(list) ? list : [], page);
   }
 
-  pageItems = (Array.isArray(pageItems) ? pageItems : []).slice(0, PRODUCTS_PER_PAGE);
+  pageItems = (Array.isArray(pageItems) ? pageItems : []).slice(0, perGrid);
 
   if (!pageItems.length) {
     renderEmptyState(grid, 'لا توجد منتجات تطابق البحث');
@@ -3394,7 +3408,7 @@ async function goPage(p) {
 
   if (typeof __pharmaStoreHtmlFile === 'function' && __pharmaStoreHtmlFile() === 'index.html' && window.__homeServerPagination && window.__homeProductPagination) {
     const hp = window.__homeProductPagination;
-    const perHome = PRODUCTS_PER_PAGE;
+    const perHome = getHomeProductsPerPage();
     const maxP = hp.total > 0 ? Math.max(1, Math.ceil(hp.total / perHome)) : hp.total_pages > 0 ? hp.total_pages : 0;
     if (n > maxP) return;
     var fullOrder = window.__homeGridFullOrder;
@@ -3455,11 +3469,48 @@ async function goPage(p) {
     return;
   }
 
-  const pages = Math.max(1, Math.ceil(_filteredProds.length / PRODUCTS_PER_PAGE));
+  const perFallback =
+    typeof __pharmaStoreHtmlFile === 'function' && __pharmaStoreHtmlFile() === 'index.html'
+      ? getHomeProductsPerPage()
+      : PRODUCTS_PER_PAGE;
+  const pages = Math.max(1, Math.ceil(_filteredProds.length / perFallback));
   if (n > pages) return;
   _currentPage = n;
   renderProductGrid(_filteredProds, n);
   getProdSecEl()?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/** عند تغيير عرض الشاشة (موبايل ↔ سطح مكتب) إعادة حساب الصفحات وعدد البطاقات */
+function refreshHomeGridAfterViewportChange() {
+  if (typeof __pharmaStoreHtmlFile !== 'function' || __pharmaStoreHtmlFile() !== 'index.html') return;
+  if (!document.getElementById('pgrid2')) return;
+  const per = getHomeProductsPerPage();
+  const hp = window.__homeProductPagination;
+  if (window.__homeServerPagination && hp && typeof hp.total === 'number' && hp.total > 0) {
+    var maxP = Math.max(1, Math.ceil(hp.total / per));
+    if (_currentPage > maxP) _currentPage = maxP;
+    hp.per_page = per;
+    hp.page = _currentPage;
+    hp.total_pages = maxP;
+    window.__homeProductPagination = hp;
+    var fullOrder = window.__homeGridFullOrder;
+    if (Array.isArray(fullOrder) && fullOrder.length) {
+      var prods = fullOrder.slice((_currentPage - 1) * per, _currentPage * per);
+      if (typeof setShopProducts === 'function') {
+        setShopProducts(prods, { view: 'home', homePagination: hp });
+      } else {
+        renderProductGrid(prods, _currentPage, hp);
+      }
+    } else if (typeof goPage === 'function') {
+      void goPage(_currentPage);
+    }
+  } else {
+    var p2 = getHomeProductsPerPage();
+    var totLen = Array.isArray(_filteredProds) ? _filteredProds.length : 0;
+    var pages = Math.max(1, Math.ceil(totLen / p2));
+    if (_currentPage > pages) _currentPage = pages;
+    renderProductGrid(_filteredProds, _currentPage);
+  }
 }
 
 // ──────────────────────────────────────────────
@@ -3470,9 +3521,10 @@ window.initHome = async function initHome() {
   const grid = document.getElementById('pgrid2');
 
   // 1. عرض skeleton فوراً — بدون showLoader() حتى لا يغطي #_globalLoader (z-index 9000) الهيرو والسلايدر
-  if (grid) renderSkeletons(grid, 8);
+  if (grid) renderSkeletons(grid, getHomeProductsPerPage());
 
   try {
+    try { window.HOME_ALL_PRODUCTS_PAGE_SIZE = getHomeProductsPerPage(); } catch (e) {}
     // 2. تحميل كل البيانات بالتوازي — Promise.allSettled يمنع توقف الكل عند فشل طلب واحد
     const data = await loadHomepageData();
 
@@ -3488,15 +3540,16 @@ window.initHome = async function initHome() {
 
     // 5. المنتجات — ترتيب عشوائي لكل تحميل؛ الترقيم من المصفوفة الكاملة (انظر loadHomepageData)
     var hp = data.productPagination;
+    var perHome = getHomeProductsPerPage();
     if (hp && typeof hp === 'object' && typeof hp.total === 'number' && hp.total > 0) {
-      hp.per_page = PRODUCTS_PER_PAGE;
-      hp.total_pages = Math.max(1, Math.ceil(hp.total / PRODUCTS_PER_PAGE));
+      hp.per_page = perHome;
+      hp.total_pages = Math.max(1, Math.ceil(hp.total / perHome));
     }
     window.__homeGridFullOrder = Array.isArray(data.homeGridFull) && data.homeGridFull.length ? data.homeGridFull : null;
     window.__homeServerPagination = !!(hp && hp.total > 0 && hp.total_pages >= 1);
     window.__homeProductPagination = hp || null;
     _currentPage = hp && hp.page ? hp.page : 1;
-    var firstPageProds = Array.isArray(data.products) ? data.products.slice(0, PRODUCTS_PER_PAGE) : data.products;
+    var firstPageProds = Array.isArray(data.products) ? data.products.slice(0, perHome) : data.products;
     if (typeof setShopProducts === 'function') {
       setShopProducts(firstPageProds, { view: 'home', homePagination: hp });
     } else {
@@ -3515,6 +3568,16 @@ window.initHome = async function initHome() {
 
     /* 7. كشف العناصر .reveal المحقونة بعد التحميل */
     if (typeof window.initScrollReveal === 'function') window.initScrollReveal();
+
+    if (!window.__homeGridViewportListenerBound) {
+      window.__homeGridViewportListenerBound = true;
+      var mqHome = window.matchMedia('(max-width: 768px)');
+      var onMq = function () {
+        refreshHomeGridAfterViewportChange();
+      };
+      if (mqHome.addEventListener) mqHome.addEventListener('change', onMq);
+      else if (mqHome.addListener) mqHome.addListener(onMq);
+    }
 
   } catch (e) {
     if (typeof pharmaLogError === 'function') pharmaLogError('[main] initHome', e);

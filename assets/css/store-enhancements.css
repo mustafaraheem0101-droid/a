@@ -3325,7 +3325,7 @@ body.pharma-offer-urgent .offer-countdown-bar:not(.offer-countdown-bar--expired)
 body.index-page #prod-sec.flash-sec {
   position: relative;
   isolation: isolate;
-  padding-top: 44px;
+  padding-top: 24px;
   padding-bottom: 48px;
   background: linear-gradient(165deg, #f3f7fb 0%, #eef2f8 42%, #f8fafc 100%) !important;
 }
@@ -3341,31 +3341,6 @@ body.index-page #prod-sec.flash-sec > .p-sec-inner {
   position: relative;
   z-index: 1;
 }
-body.index-page #prod-sec .p-sec-hd {
-  display: block;
-  margin-bottom: clamp(18px, 2.5vw, 28px);
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-body.index-page #prod-sec .p-sec-title {
-  display: flex;
-  align-items: center;
-  gap: 10px 12px;
-  flex-wrap: wrap;
-  margin: 0;
-  font-size: clamp(1.42rem, 3.4vw, 1.82rem);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--navy, #0a1628);
-}
-body.index-page #prod-sec .p-sec-title [aria-hidden='true'] {
-  font-size: 1.15em;
-  line-height: 1;
-}
 body.index-page .home-top-ordered__head {
   padding: 0 0 12px;
   margin-bottom: 18px;
@@ -3375,9 +3350,6 @@ body.index-page .home-top-ordered__head {
   box-shadow: none;
 }
 @media (max-width: 767px) {
-  body.index-page #prod-sec .p-sec-hd {
-    margin-bottom: 20px;
-  }
   body.index-page .home-top-ordered {
     padding: 24px 16px 12px;
     background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
@@ -3444,25 +3416,6 @@ body.pharma-footer .p-ft-cta-wa {
     filter: none;
   }
 }
-body.pharma-footer .p-ft-services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 0;
-}
-body.pharma-footer .p-ft-services span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-  border-radius: 0;
-  font-size: 12.5px;
-  font-weight: 600;
-  background: none;
-  border: none;
-  color: rgba(203, 213, 225, 0.88);
-}
-
 body.pharma-footer .p-ft-brand-block .p-ft-logo-link {
   display: inline-flex;
   align-items: center;
@@ -3608,11 +3561,6 @@ body.pharma-footer .p-ft-soc #ft-ig svg {
   }
   body.pharma-footer .p-ft-url {
     margin-inline: auto;
-  }
-  body.pharma-footer .p-ft-services {
-    justify-content: center;
-    gap: 12px 18px;
-    width: 100%;
   }
   body.pharma-footer .p-ft-soc {
     justify-content: center;
