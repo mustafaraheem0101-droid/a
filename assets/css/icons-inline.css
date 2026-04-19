@@ -76,19 +76,7 @@
   line-height: 1.45;
 }
 
-@media (max-width: 800px) {
-  .p-trust-inner {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* pharma-bundle uses flex on .p-trust-inner ≤600px — keep grid for stability */
-@media (max-width: 600px) {
-  .p-trust-inner {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-  }
-}
+/* تخطيط الموبايل (3 أعمدة في صف) يُعرّف في index.html — لا تُجبر عموداً واحداً هنا */
 
 /* ——— Footer social (index) ——— */
 .p-ft-soc .p-soc svg,

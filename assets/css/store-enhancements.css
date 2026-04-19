@@ -3747,19 +3747,29 @@ body.index-page .p-ft-soc #ft-ig svg {
   }
 }
 @media (max-width: 900px) {
-  /* قائمة الأقسام — عمودان داخل العمود (أقصر وأقرب لتخطيط الديسكتوب) */
+  /* قائمة الأقسام — عمودان؛ مسافات كافية حتى لا يتداخل النص المكسور */
   body.index-page .p-ft-col--cats ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px 14px;
+    gap: 14px 12px;
+    align-items: start;
   }
   body.index-page .p-ft-col--cats ul li {
     min-width: 0;
+    align-self: start;
   }
   body.index-page .p-ft-col--cats a {
-    font-size: 13px;
-    line-height: 1.4;
-    padding: 5px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 6px 4px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
   body.index-page .p-ft-brand-block {
     align-items: center;
@@ -3783,6 +3793,19 @@ body.index-page .p-ft-soc #ft-ig svg {
     max-width: 420px;
     box-sizing: border-box;
     margin-inline: auto;
+  }
+}
+
+/* شاشات ضيقة: عمود واحد للأقسام — نص أصغر ومسافة واضحة بين البنود */
+@media (max-width: 520px) {
+  body.index-page .p-ft-col--cats ul {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  body.index-page .p-ft-col--cats a {
+    font-size: 12px;
+    line-height: 1.48;
+    padding: 5px 0;
   }
 }
 
@@ -3826,12 +3849,12 @@ body.index-page .p-ft-copy .ft-privacy {
   align-items: stretch;
   min-width: 0;
 }
-/* موبايل: عمود واحد بعرض الشاشة — بدون تمرير أفقي يقطع المحتوى */
-@media (max-width: 900px) {
+/* لوحي ضيق: عمودان — أقل طولاً عمودياً من عمود واحد */
+@media (max-width: 900px) and (min-width: 768px) {
   .p-tips-premium .p-tips-grid--more {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 14px;
     overflow: visible;
     padding: 0;
   }
@@ -3840,6 +3863,115 @@ body.index-page .p-ft-copy .ft-privacy {
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
+  }
+}
+/* موبايل: تمرير أفقي + بطاقات بعرض ثابت — صف واحد بدل ثلاثة طويلة */
+@media (max-width: 767px) {
+  #daily-tip-sec .p-tips-premium__more {
+    margin-top: 2px;
+    padding-top: 16px;
+  }
+  .p-tips-premium .p-tips-grid--more {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(12px, env(safe-area-inset-left, 0px))
+      max(12px, env(safe-area-inset-right, 0px));
+    padding: 2px 0 10px;
+    padding-inline-end: max(10px, env(safe-area-inset-right, 0px));
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+    box-sizing: border-box;
+  }
+  .p-tips-premium .p-tips-grid--more .p-tip.p-tip--link {
+    flex: 0 0 min(288px, calc(100vw - 52px));
+    width: min(288px, calc(100vw - 52px));
+    max-width: min(288px, calc(100vw - 52px));
+    min-width: 0;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+  }
+  #daily-tip-sec .p-tip.p-tip--link {
+    padding: 14px 14px 16px 16px;
+  }
+  #daily-tip-sec .p-tip__ico {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  #daily-tip-sec .p-tip__title {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.32;
+  }
+  #daily-tip-sec .p-tip__text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.55;
+    font-weight: 600;
+  }
+  .p-tips-premium__split {
+    gap: 12px !important;
+  }
+  .p-tips-premium__kicker {
+    margin-bottom: 4px;
+  }
+  .p-tips-premium__title {
+    margin-bottom: 6px;
+  }
+  .p-tips-premium__lead {
+    font-size: 0.94rem;
+    line-height: 1.45;
+    max-width: none;
+  }
+  .p-tips-premium__spotlight {
+    padding: 12px 14px 14px 14px;
+    gap: 10px 12px;
+  }
+  .p-tips-premium__spotlight-line {
+    font-size: 14.25px;
+    line-height: 1.52;
+    margin-bottom: 6px;
+  }
+  .p-tips-premium__spotlight-line:last-child {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-top: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .p-tips-premium__art-ring {
+    width: 68px;
+    height: 68px;
+  }
+  .p-tips-premium__art-emoji {
+    font-size: 2rem;
+  }
+  /* يتجاوز site-desktop-unified (يُحمّل لاحقاً) — إيموجي أصغر ومساحة أقل */
+  body.index-page #daily-tip-sec .p-tips-premium__art {
+    width: 64px;
+    height: 64px;
+    min-height: 64px;
+  }
+  .p-tips-premium__actions {
+    margin-bottom: 8px;
+  }
+  .p-tips-premium__btn {
+    min-height: 48px;
+    padding: 12px 22px;
+    font-size: 14px;
   }
 }
 #daily-tip-sec .p-tip.p-tip--link {

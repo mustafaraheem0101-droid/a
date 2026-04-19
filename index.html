@@ -17,10 +17,10 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.65" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.108" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.110" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/icons-inline.css?v=1.0.4" rel="stylesheet">
+<link href="assets/css/icons-inline.css?v=1.0.5" rel="stylesheet">
 <style>
 :root{
   --g:#00875A;--g-d:#006644;--g-dd:#004d33;--g-l:#00a86e;--g-xl:#00d68a;
@@ -372,9 +372,42 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   .p-hero-p{font-size:15.5px;}
   .p-hero-stats{gap:22px;}
   .p-sv{font-size:24px;}
-  .p-trust-inner{grid-template-columns:1fr;}
-  .p-trust-item + .p-trust-item{border-inline-start:none;border-top:1px solid rgba(226,232,240,.95);}
+  /* مميزات الخدمة: صف واحد (3 أعمدة) — أيقونة فوق النص، حدود عمودية بين الأعمدة */
+  .p-trust-inner{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0;
+    align-items:stretch;
+  }
+  .p-trust-item{
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    text-align:center;
+    gap:6px;
+    padding:10px 4px;
+    min-height:0;
+  }
+  .p-trust-item + .p-trust-item{border-top:none;border-inline-start:1px solid rgba(226,232,240,.95);}
   .p-trust-item:hover{transform:none;box-shadow:none;}
+  .p-trust-ico{width:32px;height:32px;}
+  .p-trust-svg,.p-trust-ico .p-trust-svg,.p-trust-ico svg{width:28px!important;height:28px!important;max-width:28px;max-height:28px;}
+  .p-trust-body{width:100%;min-width:0;}
+  .p-trust-title{
+    font-size:clamp(10px,2.9vw,12px);
+    line-height:1.28;
+    margin:0;
+    font-weight:800;
+  }
+  .p-trust-sub{
+    font-size:clamp(9px,2.5vw,10.5px);
+    line-height:1.35;
+    margin:0;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    overflow-wrap:anywhere;
+  }
   .p-cats:not(.p-cats--subcats){grid-template-columns:repeat(3,1fr);gap:9px;}
   .p-tips-grid{grid-template-columns:1fr;}
   .p-footer-inner{grid-template-columns:1fr;gap:32px;}
@@ -400,7 +433,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   body.index-page{min-height:0;padding-bottom:max(72px, env(safe-area-inset-bottom, 0px) + 56px);}
   body.index-page .p-sec{padding-block:32px 30px;}
   body.index-page .p-sec-hd{margin-bottom:24px;}
-  body.index-page .p-tips-premium.p-sec{padding-block:26px 28px;}
+  body.index-page .p-tips-premium.p-sec{padding-block:22px 24px;}
   body.index-page .p-tips-grid{gap:12px;}
   body.index-page .p-tip{padding:18px 16px;}
   body.index-page .p-sec-hd__actions{width:100%;justify-content:stretch;flex-direction:column;align-items:stretch;gap:10px;}
@@ -482,7 +515,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
     padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
   }
   body.index-page .p-trust-item {
-    padding: 16px 14px;
+    padding: 10px 4px;
   }
   body.index-page .disclaimer-strip {
     padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
@@ -932,7 +965,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/utils.js?v=3.5.14"></script>
   <script src="assets/js/ui.js?v=3.5.4"></script>
   <script src="assets/js/api.js?v=3.1.10"></script>
-  <script src="assets/js/main.js?v=3.9.5"></script>
+  <script src="assets/js/main.js?v=3.9.6"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>

@@ -662,9 +662,11 @@ try {
     const ul = document.getElementById('footerCategories');
     if (!ul || !cats || !cats.length) return;
     const items = cats.filter(c => c.active !== false).sort((a, b) => (a.order || 0) - (b.order || 0)).slice(0, 6);
-    replaceChildrenFromHtml(ul, items.map(c =>
-      `<li style="cursor:pointer" data-action="nav-cat" data-slug="${escHtml(c.slug || c.id)}">${c.icon || '📦'} ${escHtml(c.name)}</li>`
-    ).join(''));
+    replaceChildrenFromHtml(ul, items.map(c => {
+      const slug = String(c.slug || c.id || '');
+      const href = 'category.html?slug=' + encodeURIComponent(slug);
+      return `<li><a href="${href}">${c.icon || '📦'} ${escHtml(c.name)}</a></li>`;
+    }).join(''));
   }
 
   window.buildNav = buildNav;
