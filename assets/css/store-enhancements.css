@@ -2576,12 +2576,25 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .promo-swiper-section {
   position: relative;
   overflow-x: clip;
-  background: linear-gradient(180deg, #e8edf5 0%, #f7f9fc 40%, #f7f9fc 100%);
-  padding-block: clamp(10px, 1.8vw, 18px) clamp(20px, 3.2vw, 32px);
+  background: linear-gradient(180deg, #ffffff 0%, #fafbfc 38%, #f4f6fb 100%);
+  padding-block: clamp(14px, 2.2vw, 22px) clamp(22px, 3.6vw, 36px);
   padding-inline: 0;
+}
+.promo-swiper-section::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: min(42vw, 520px);
+  height: min(38vh, 280px);
+  background: linear-gradient(135deg, transparent 45%, rgba(219, 39, 119, 0.06) 45%, rgba(219, 39, 119, 0.1) 100%);
+  clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 .promo-swiper-wrap {
   position: relative;
+  z-index: 1;
   --promo-h: clamp(210px, 32vw, 420px);
   box-sizing: border-box;
   width: 100%;
@@ -2595,9 +2608,11 @@ body.index-page .home-top-ordered .p-see-all:hover {
   width: 100%;
   height: var(--promo-h);
   overflow: hidden;
-  border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
-  background: #e2e8f0;
+  border-radius: 20px;
+  box-shadow:
+    0 14px 44px rgba(15, 23, 42, 0.07),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
   --swiper-navigation-size: 44px;
 }
 .promo-swiper .swiper-wrapper {
@@ -2606,7 +2621,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .promo-swiper .swiper-slide {
   height: var(--promo-h);
   flex-shrink: 0;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   box-sizing: border-box;
   display: flex;
@@ -2626,7 +2641,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   user-select: none;
 }
 .promo-slide-link:focus-visible {
-  box-shadow: inset 0 0 0 3px rgba(0, 135, 90, 0.45);
+  box-shadow: inset 0 0 0 3px rgba(219, 39, 119, 0.45);
 }
 /* ملء الشريحة بالكامل — يتفادى ارتفاع 0 مع flex + lazy */
 .promo-slide-img {
@@ -2684,8 +2699,8 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .promo-swiper > .promo-swiper-pagination .swiper-pagination-bullet-active {
   width: 26px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #00a86e, #00875a);
-  box-shadow: 0 2px 14px rgba(0, 135, 90, 0.35);
+  background: linear-gradient(90deg, #0f172a, #db2777);
+  box-shadow: 0 2px 16px rgba(219, 39, 119, 0.35);
 }
 /* أسهم داخل البطاقة — حواف يمين/يسار ثابتة بصرياً مع الحواف المستديرة */
 .promo-swiper-nav {
@@ -2706,12 +2721,12 @@ body.index-page .home-top-ordered .p-see-all:hover {
 }
 .promo-swiper-nav:hover {
   background: #fff;
-  border-color: rgba(0, 135, 90, 0.22);
+  border-color: rgba(219, 39, 119, 0.28);
   transform: scale(1.06);
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.14);
 }
 .promo-swiper-nav:focus-visible {
-  outline: 2px solid #00875a;
+  outline: 2px solid #db2777;
   outline-offset: 2px;
 }
 .promo-swiper-nav::after {
@@ -2805,17 +2820,17 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .brand-showcase-sec {
   position: relative;
   overflow-x: clip;
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 55%, #f8fafc 100%);
-  padding-block: clamp(20px, 3.5vw, 36px) clamp(24px, 4vw, 40px);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
+  padding-block: clamp(22px, 3.8vw, 40px) clamp(26px, 4.2vw, 44px);
   padding-inline: 0;
-  border-top: 1px solid rgba(226, 232, 240, 0.95);
+  border-top: 1px solid rgba(226, 232, 240, 0.85);
 }
 .brand-showcase-sec__head {
   max-width: 1360px;
   margin: 0 auto;
   padding-inline: clamp(16px, 4vw, 24px);
   text-align: center;
-  margin-bottom: clamp(16px, 2.5vw, 22px);
+  margin-bottom: clamp(18px, 2.8vw, 26px);
 }
 .brand-showcase-sec__title {
   margin: 0;
@@ -2824,6 +2839,18 @@ body.index-page .home-top-ordered .p-see-all:hover {
   color: #0f172a;
   letter-spacing: -0.02em;
   line-height: 1.25;
+  position: relative;
+  display: inline-block;
+}
+.brand-showcase-sec__title::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: min(140px, 52%);
+  margin-block-start: 12px;
+  margin-inline: auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0f172a 0%, #db2777 72%, rgba(219, 39, 119, 0.2) 100%);
 }
 .brand-showcase-wrap {
   position: relative;
@@ -2840,17 +2867,17 @@ body.index-page .home-top-ordered .p-see-all:hover {
   width: 100%;
   height: var(--brand-h);
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 22px;
   box-shadow:
-    0 16px 48px rgba(15, 23, 42, 0.09),
-    0 0 0 1px rgba(15, 23, 42, 0.05);
-  background: #e2e8f0;
+    0 18px 52px rgba(15, 23, 42, 0.07),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(160deg, #f8fafc 0%, #e8edf4 100%);
   --swiper-navigation-size: 44px;
 }
 .brand-showcase-swiper .swiper-slide {
   height: var(--brand-h);
   flex-shrink: 0;
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -2867,7 +2894,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   user-select: none;
 }
 .brand-showcase-link:focus-visible {
-  box-shadow: inset 0 0 0 3px rgba(0, 135, 90, 0.45);
+  box-shadow: inset 0 0 0 3px rgba(219, 39, 119, 0.45);
 }
 .brand-showcase-img {
   position: absolute;
@@ -2922,8 +2949,8 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .brand-showcase-swiper > .brand-showcase-pagination .swiper-pagination-bullet-active {
   width: 26px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #00a86e, #00875a);
-  box-shadow: 0 2px 14px rgba(0, 135, 90, 0.35);
+  background: linear-gradient(90deg, #0f172a, #db2777);
+  box-shadow: 0 2px 16px rgba(219, 39, 119, 0.32);
 }
 .brand-showcase-nav {
   position: absolute;
@@ -2943,12 +2970,12 @@ body.index-page .home-top-ordered .p-see-all:hover {
 }
 .brand-showcase-nav:hover {
   background: #fff;
-  border-color: rgba(0, 135, 90, 0.22);
+  border-color: rgba(219, 39, 119, 0.28);
   transform: scale(1.06);
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.14);
 }
 .brand-showcase-nav:focus-visible {
-  outline: 2px solid #00875a;
+  outline: 2px solid #db2777;
   outline-offset: 2px;
 }
 .brand-showcase-nav::after {
@@ -3041,10 +3068,10 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .spotlight-slider-sec {
   position: relative;
   overflow-x: clip;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 45%, #eef2ff 100%);
-  padding-block: clamp(18px, 3.2vw, 32px) clamp(22px, 3.8vw, 38px);
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 48%, #f1f5f9 100%);
+  padding-block: clamp(20px, 3.4vw, 34px) clamp(24px, 4vw, 40px);
   padding-inline: 0;
-  border-top: 1px solid rgba(226, 232, 240, 0.95);
+  border-top: 1px solid rgba(226, 232, 240, 0.85);
 }
 .spotlight-slider-sec__head {
   max-width: 1360px;
@@ -3060,6 +3087,18 @@ body.index-page .home-top-ordered .p-see-all:hover {
   color: #0f172a;
   letter-spacing: -0.02em;
   line-height: 1.25;
+  position: relative;
+  display: inline-block;
+}
+.spotlight-slider-sec__title::after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: min(130px, 48%);
+  margin-block-start: 12px;
+  margin-inline: auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0f172a 0%, #db2777 75%, rgba(219, 39, 119, 0.15) 100%);
 }
 .spotlight-slider-wrap {
   position: relative;
@@ -3076,17 +3115,17 @@ body.index-page .home-top-ordered .p-see-all:hover {
   width: 100%;
   height: var(--spotlight-h);
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 22px;
   box-shadow:
-    0 16px 48px rgba(15, 23, 42, 0.09),
-    0 0 0 1px rgba(15, 23, 42, 0.05);
-  background: #e2e8f0;
+    0 18px 52px rgba(15, 23, 42, 0.07),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(150deg, #f1f5f9 0%, #e2e8f0 100%);
   --swiper-navigation-size: 44px;
 }
 .spotlight-slider-swiper .swiper-slide {
   height: var(--spotlight-h);
   flex-shrink: 0;
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -3103,7 +3142,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   user-select: none;
 }
 .spotlight-slider-link:focus-visible {
-  box-shadow: inset 0 0 0 3px rgba(0, 135, 90, 0.45);
+  box-shadow: inset 0 0 0 3px rgba(219, 39, 119, 0.45);
 }
 .spotlight-slider-img {
   position: absolute;
@@ -3158,8 +3197,8 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .spotlight-slider-swiper > .spotlight-slider-pagination .swiper-pagination-bullet-active {
   width: 26px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #6366f1, #4f46e5);
-  box-shadow: 0 2px 14px rgba(79, 70, 229, 0.35);
+  background: linear-gradient(90deg, #0f172a, #db2777);
+  box-shadow: 0 2px 16px rgba(219, 39, 119, 0.32);
 }
 .spotlight-slider-nav {
   position: absolute;
@@ -3179,12 +3218,12 @@ body.index-page .home-top-ordered .p-see-all:hover {
 }
 .spotlight-slider-nav:hover {
   background: #fff;
-  border-color: rgba(79, 70, 229, 0.28);
+  border-color: rgba(219, 39, 119, 0.28);
   transform: scale(1.06);
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.14);
 }
 .spotlight-slider-nav:focus-visible {
-  outline: 2px solid #4f46e5;
+  outline: 2px solid #db2777;
   outline-offset: 2px;
 }
 .spotlight-slider-nav::after {
@@ -3221,11 +3260,12 @@ body.index-page .home-top-ordered .p-see-all:hover {
   aspect-ratio: 16 / 10;
   height: auto;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 22px;
   box-shadow:
-    0 16px 48px rgba(15, 23, 42, 0.09),
-    0 0 0 1px rgba(15, 23, 42, 0.05);
-  background: #0b1220;
+    0 18px 52px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(15, 23, 42, 0.06),
+    inset 0 0 0 1px rgba(219, 39, 119, 0.12);
+  background: linear-gradient(145deg, #0b1220 0%, #141a2e 100%);
 }
 .spotlight-video-block__media {
   position: absolute;
