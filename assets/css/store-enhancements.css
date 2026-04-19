@@ -3643,23 +3643,6 @@ body.index-page .home-top-ordered__head {
   margin-bottom: 26px;
   gap: clamp(14px, 2.5vw, 22px);
 }
-body.index-page .home-top-ordered__head .home-top-ordered__title-wrap {
-  text-align: center;
-  flex: 0 0 auto;
-}
-body.index-page .home-top-ordered__head .home-top-ordered__title-ico {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  line-height: 1;
-  font-size: 0;
-}
-body.index-page .home-top-ordered__head .home-top-ordered__emoji {
-  font-size: clamp(2.25rem, 6vw, 2.75rem);
-  line-height: 1;
-  filter: drop-shadow(0 2px 8px rgba(0, 90, 70, 0.15));
-}
 body.index-page .home-top-ordered__head .p-sec-hd__actions {
   display: inline-flex;
   flex-wrap: wrap;
@@ -3757,20 +3740,6 @@ body.index-page .p-ft-desc {
   font-size: 14px;
   line-height: 1.75;
   color: rgba(226, 232, 240, 0.74);
-}
-body.index-page .p-ft-trust {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 8px;
-  margin: 0;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 800;
-  background: rgba(245, 158, 11, 0.11);
-  border: 1px solid rgba(245, 158, 11, 0.28);
-  color: rgba(254, 243, 199, 0.96);
 }
 body.index-page .p-ft-cta-wa {
   display: inline-flex;
