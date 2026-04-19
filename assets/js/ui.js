@@ -65,19 +65,37 @@ function initCategorySectionSliders() {
   document.addEventListener(
     'click',
     function (e) {
-      const btn = e.target.closest('.p-sec-slider__btn');
+      const raw = e.target;
+      const el = raw && raw.nodeType === 1 ? raw : raw && raw.parentElement;
+      if (!el || typeof el.closest !== 'function') return;
+      const btn = el.closest('.p-sec-slider__btn');
       if (!btn) return;
       const root = btn.closest('[data-sec-slider]');
       if (!root) return;
       const viewport = root.querySelector('[data-sec-slider-viewport]');
       if (!viewport) return;
       e.preventDefault();
-      const prev = btn.classList.contains('p-sec-slider__btn--prev');
+      const isPrev = btn.classList.contains('p-sec-slider__btn--prev');
       const amount = Math.min(Math.round(viewport.clientWidth * 0.72), 420);
-      const dir = prev ? -1 : 1;
       const smooth =
         !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-      viewport.scrollBy({ inline: dir * amount, behavior: smooth ? 'smooth' : 'auto' });
+      const beh = smooth ? 'smooth' : 'auto';
+      let delta = isPrev ? -amount : amount;
+      try {
+        const rtl = getComputedStyle(viewport).direction === 'rtl';
+        if (rtl) delta = -delta;
+      } catch (err) { /* ignore */ }
+      try {
+        if (typeof viewport.scrollBy === 'function') {
+          viewport.scrollBy({ left: delta, top: 0, behavior: beh });
+        } else {
+          viewport.scrollLeft += delta;
+        }
+      } catch (err2) {
+        try {
+          viewport.scrollLeft += delta;
+        } catch (err3) { /* ignore */ }
+      }
     },
     false
   );
