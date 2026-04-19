@@ -1561,9 +1561,58 @@ function renderHomepageSettings() {
   setVal('hp-sec-kicker', s.homeSectionCategoryKicker || 'تصفّح الأقسام');
   setVal('hp-sec-sub', s.homeSectionCategorySub || '');
   setVal('hp-spotlight-video-url', s.homeSpotlightVideoUrl || '');
+  if (typeof syncHomepageSpotlightVideoPreview === 'function') syncHomepageSpotlightVideoPreview();
 
   renderHeroSlidesList(s.heroSlides || []);
   renderCatSlidesList(s.categorySliderItems || []);
+}
+
+function syncHomepageSpotlightVideoPreview() {
+  var url = (typeof getVal === 'function' ? getVal('hp-spotlight-video-url') : '') || '';
+  var prev = document.getElementById('hp-spotlight-video-preview');
+  var status = document.getElementById('hp-spotlight-video-status');
+  var btnClear = document.getElementById('btn-hp-spotlight-video-clear');
+  if (!prev) return;
+  if (url && /^https?:\/\//i.test(url)) {
+    prev.removeAttribute('src');
+    prev.style.display = 'none';
+    if (btnClear) btnClear.style.display = 'inline-flex';
+    if (status) {
+      status.textContent = 'محفوظ كرابط خارجي. لاستخدام رفع ملف من الجهاز، احذف القيمة بـ «إزالة» ثم ارفع ملفاً.';
+    }
+    return;
+  }
+  if (url) {
+    var src = url;
+    if (typeof pharmaPublicAssetUrl === 'function') {
+      src = url.indexOf('/') === 0 ? pharmaPublicAssetUrl(url) : pharmaPublicAssetUrl('/' + url.replace(/^\//, ''));
+    }
+    prev.src = src;
+    prev.style.display = 'block';
+    if (btnClear) btnClear.style.display = 'inline-flex';
+    if (status) {
+      status.textContent = 'فيديو محفوظ على السيرفر. اضغط «💾 حفظ التغييرات» أعلاه إن رفعت ملفاً جديداً للتو.';
+    }
+  } else {
+    prev.removeAttribute('src');
+    prev.style.display = 'none';
+    if (btnClear) btnClear.style.display = 'none';
+    if (status) status.textContent = 'لا يوجد فيديو — ارفع ملف MP4 أو WebM.';
+  }
+}
+
+async function tryUploadHomepageSpotlightVideo(file) {
+  if (!file || typeof uploadSpotlightVideo !== 'function') return;
+  showToast('جاري رفع الفيديو… قد يستغرق وقتاً للملفات الكبيرة');
+  var r = await uploadSpotlightVideo(file);
+  if (apiIsSuccess(r) && (r.url || (r.data && (r.data.url || r.data.path)))) {
+    var u = r.url || r.data.url || r.data.path;
+    setVal('hp-spotlight-video-url', u);
+    syncHomepageSpotlightVideoPreview();
+    showToast('تم رفع الفيديو — اضغط «حفظ التغييرات» لتثبيته على الموقع');
+  } else {
+    showToast(apiErrorMessage(r) || 'فشل رفع الفيديو', 'error');
+  }
 }
 
 function renderHeroSlidesList(slides) {
@@ -1678,6 +1727,8 @@ window.removeCatSlide = removeCatSlide;
 window.addHeroSlide = addHeroSlide;
 window.addCatSlide = addCatSlide;
 window.saveHomepageSettings = saveHomepageSettings;
+window.syncHomepageSpotlightVideoPreview = syncHomepageSpotlightVideoPreview;
+window.tryUploadHomepageSpotlightVideo = tryUploadHomepageSpotlightVideo;
 
 /* ---------- hero-slider-admin.js ---------- */
 /**
@@ -2673,6 +2724,22 @@ function initCpStaticBindings() {
 
   on('btn-save-homepage-2', 'click', function () {
     if (typeof saveHomepageSettings === 'function') saveHomepageSettings();
+  });
+
+  on('btn-hp-spotlight-video-pick', 'click', function () {
+    var inp = document.getElementById('hp-spotlight-video-file');
+    if (inp) inp.click();
+  });
+  on('hp-spotlight-video-file', 'change', function () {
+    var f = this.files && this.files[0];
+    if (f && typeof tryUploadHomepageSpotlightVideo === 'function') {
+      tryUploadHomepageSpotlightVideo(f);
+    }
+    this.value = '';
+  });
+  on('btn-hp-spotlight-video-clear', 'click', function () {
+    if (typeof setVal === 'function') setVal('hp-spotlight-video-url', '');
+    if (typeof syncHomepageSpotlightVideoPreview === 'function') syncHomepageSpotlightVideoPreview();
   });
 
   /* ═══════════════════════════════════════════

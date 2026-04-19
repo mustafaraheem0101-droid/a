@@ -3661,13 +3661,21 @@ function pharmaSpotlightVideoBlockHtml(videoUrl) {
       '</div>'
     );
   }
-  var su = esc(u);
+  var rawSrc = u;
+  if (typeof fixImgUrl === 'function') {
+    var fixed = fixImgUrl(u);
+    if (fixed) rawSrc = fixed;
+  }
+  var su = esc(rawSrc);
+  var mimeHint = /\.webm$/i.test(String(u || '')) ? 'video/webm' : 'video/mp4';
   return (
     '<div class="home-top-video home-top-video--file" role="region" aria-label="فيديو">' +
     '<video class="home-top-video__el" controls playsinline preload="metadata" title="فيديو">' +
     '<source src="' +
     su +
-    '" type="video/mp4">' +
+    '" type="' +
+    mimeHint +
+    '">' +
     'المتصفح لا يدعم تشغيل الفيديو.' +
     '</video></div>'
   );

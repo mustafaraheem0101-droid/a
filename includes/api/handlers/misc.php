@@ -28,6 +28,26 @@ function handle_misc(string $action, array $body, array $rawBody, string $client
             jsonSuccess(['path' => '/images/' . $name, 'name' => $name, 'url' => '/images/' . $name], '');
             break;
 
+        /* ══════ رفع فيديو الصفحة الرئيسية (بدل رابط) — إدارة فقط ══════ */
+        case 'upload_spotlight_video':
+            if (empty($_SESSION['admin_logged_in'])) { jsonError('غير مصرح', [], 401); }
+            if ($method !== 'POST') { jsonError('POST فقط', [], 405); }
+            if (empty($_FILES['video']) || !is_array($_FILES['video'])) { jsonError('لم يتم إرسال ملف فيديو'); }
+            $check = validateUploadedVideo($_FILES['video']);
+            if (!$check['ok']) { jsonError($check['msg']); }
+            if (!is_dir(VIDEOS_DIR)) { mkdir(VIDEOS_DIR, 0755, true); }
+            $name   = 'spotlight_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $check['ext'];
+            $target = VIDEOS_DIR . $name;
+            if (!move_uploaded_file($_FILES['video']['tmp_name'], $target)) { jsonError('تعذر حفظ الفيديو على السيرفر', [], 500); }
+            chmod($target, 0644);
+            if (!is_file($target) || !is_readable($target)) {
+                jsonError('تم الرفع لكن التحقق من الملف فشل — تحقق من صلاحيات uploads/videos/', [], 500);
+            }
+            logActivity('UPLOAD_SPOTLIGHT_VIDEO', 'فيديو الصفحة الرئيسية: ' . $name, $clientIP);
+            $pub = '/uploads/videos/' . $name;
+            jsonSuccess(['path' => $pub, 'name' => $name, 'url' => $pub], '');
+            break;
+
         /* ══════ رفع صورة تقييم ══════ */
         case 'upload_review_image':
             if ($method !== 'POST') { jsonError('POST فقط', [], 405); }

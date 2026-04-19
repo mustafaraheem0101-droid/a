@@ -1755,11 +1755,18 @@ a { text-decoration: none; color: inherit; }
           <p class="hp-lead">تحكم بسلايدر الهيرو وبسلايدر الأقسام والعناوين. التغييرات تظهر على الموقع بعد الحفظ.</p>
           <div class="hp-block" style="margin-bottom:18px;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(0,135,90,.04));border:1.5px solid rgba(59,130,246,.2);border-radius:16px;padding:20px;">
             <h4 class="hp-block-title" style="margin:0 0 8px;">🎬 فيديو أسفل الهيرو</h4>
-            <p style="margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5;">يظهر في الصفحة الرئيسية بدل بطاقات المنتجات السابقة. اتركه فارغاً لإخفاء القسم بالكامل.</p>
+            <p style="margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5;">يظهر في الصفحة الرئيسية بدل بطاقات المنتجات السابقة. ارفع ملفاً من جهازك ثم احفظ. اتركه فارغاً لإخفاء القسم.</p>
+            <input type="hidden" id="hp-spotlight-video-url" value="">
             <div class="fg full">
-              <label for="hp-spotlight-video-url">رابط الفيديو</label>
-              <input type="url" id="hp-spotlight-video-url" placeholder="https://www.youtube.com/watch?v=… أو رابط ملف .mp4 مستضاف">
-              <small style="display:block;margin-top:6px;color:var(--muted);font-size:11px;">يُدعم يوتيوب (رابط المشاهدة أو Shorts) وفيميو، أو ملف فيديو مباشر (mp4/webm) على نفس النطاق أو CDN.</small>
+              <label>ملف الفيديو</label>
+              <input type="file" id="hp-spotlight-video-file" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
+              <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+                <button type="button" class="edit-btn" id="btn-hp-spotlight-video-pick">📤 رفع فيديو من الجهاز (MP4 / WebM)</button>
+                <button type="button" class="del-btn" id="btn-hp-spotlight-video-clear" style="display:none;">🗑 إزالة الفيديو</button>
+              </div>
+              <p id="hp-spotlight-video-status" style="margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5;">لا يوجد فيديو محفوظ.</p>
+              <video id="hp-spotlight-video-preview" controls muted playsinline style="display:none;max-width:100%;max-height:280px;border-radius:12px;margin-top:12px;background:#0f172a;"></video>
+              <small style="display:block;margin-top:8px;color:var(--muted);font-size:11px;">الحد الأقصى 100 ميجابايت. إن فشل الرفع، راجع حد <code style="font-size:11px">upload_max_filesize</code> و <code style="font-size:11px">post_max_size</code> في PHP.</small>
             </div>
           </div>
           <div class="hp-block" style="background:linear-gradient(135deg,rgba(0,135,90,.06),rgba(0,168,110,.03));border:1.5px solid rgba(0,135,90,.15);border-radius:16px;padding:20px;">
@@ -2056,7 +2063,7 @@ a { text-decoration: none; color: inherit; }
 <script src="/assets/js/utils.js?v=3.5.10"></script>
 
 <!-- API لازم يكون قبل الكل -->
-<script src="/assets/js/api.js?v=3.1.16"></script>
+<script src="/assets/js/api.js?v=3.2.0"></script>
 
 <!-- طبقة البنية: متجر + خدمات + صفحات + موجّه (قبل admin.js) -->
 <script src="/assets/js/admin/store/adminStore.js?v=3.1.1"></script>
@@ -2080,7 +2087,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.2.0"></script>
+<script src="/assets/js/admin.js?v=3.2.1"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 
 </body>

@@ -64,6 +64,7 @@ define('SECRET_FILE', PRIVATE_DIR . 'session_secret.txt');
 define('LOGS_DIR',    PRIVATE_DIR . 'logs/');
 define('BACKUP_DIR',  PRIVATE_DIR . 'backups/');
 define('IMAGES_DIR',  __DIR__ . '/images/');
+define('VIDEOS_DIR',  __DIR__ . '/uploads/videos/');
 
 foreach ([PRIVATE_DIR, LOGS_DIR, BACKUP_DIR] as $dir) {
     if (!is_dir($dir)) { mkdir($dir, 0700, true); chmod($dir, 0700); }
@@ -126,6 +127,7 @@ if (!API_DEBUG && env('RATE_LIMIT_BLOCK_DURATION', '') === '0') {
 define('CSRF_LIFETIME',             3600);
 
 if (!is_dir(IMAGES_DIR)) { mkdir(IMAGES_DIR, 0755, true); }
+if (!is_dir(VIDEOS_DIR)) { mkdir(VIDEOS_DIR, 0755, true); }
 
 require_once __DIR__ . '/includes/defaults.php';
 require_once __DIR__ . '/includes/normalize.php';

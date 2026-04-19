@@ -259,3 +259,35 @@ function validateUploadedImage(array $file): array {
 
     return ['ok' => true, 'mime' => $mime, 'ext' => $allowed[$mime]];
 }
+
+/**
+ * فيديو مرفوع للصفحة الرئيسية — MP4 / WebM فقط، مع التحقق من MIME الحقيقي
+ */
+function validateUploadedVideo(array $file): array
+{
+    $allowed = [
+        'video/mp4'  => 'mp4',
+        'video/webm' => 'webm',
+    ];
+    $maxBytes = 100 * 1024 * 1024;
+    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+        return ['ok' => false, 'msg' => 'فشل رفع الفيديو (كود: ' . ($file['error'] ?? -1) . ')'];
+    }
+    if (($file['size'] ?? 0) > $maxBytes) {
+        return ['ok' => false, 'msg' => 'حجم الفيديو أكبر من 100 ميجابايت'];
+    }
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime  = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    if (!isset($allowed[$mime])) {
+        return ['ok' => false, 'msg' => 'صيغة الفيديو غير مدعومة — استخدم MP4 أو WebM (MIME: ' . $mime . ')'];
+    }
+
+    $ext = strtolower(pathinfo($file['name'] ?? '', PATHINFO_EXTENSION));
+    if (!in_array($ext, ['mp4', 'webm'], true)) {
+        return ['ok' => false, 'msg' => 'امتداد الملف يجب أن يكون .mp4 أو .webm'];
+    }
+
+    return ['ok' => true, 'mime' => $mime, 'ext' => $allowed[$mime]];
+}

@@ -462,6 +462,45 @@ async function adminFetch(action, data, method, fetchOptions) {
   });
 }
 
+/** فيديو الصفحة الرئيسية (MP4/WebM) — يُحفظ تحت /uploads/videos/ */
+async function uploadSpotlightVideo(file) {
+  const formData = new FormData();
+  formData.append('video', file);
+  var csrfUp = adminApiGetCsrf();
+  if (csrfUp) {
+    formData.append('_csrf', csrfUp);
+  }
+  const url = API + '?action=upload_spotlight_video';
+  const name = 'upload_spotlight_video';
+  logAPIRequest(name, { phase: 'before_fetch', method: 'POST', url: url, body: 'FormData(video)' });
+  try {
+    const r = await fetch(url, { method: 'POST', body: formData, credentials: 'same-origin' });
+    const ct = (r.headers.get('content-type') || '').toLowerCase();
+    if (!ct.includes('application/json')) {
+      if (typeof pharmaLogWarn === 'function') pharmaLogWarn('[admin-api] upload_spotlight_video', 'Non-JSON response');
+      const errObj = { status: 'error', data: [], message: 'HTTP ' + r.status };
+      logAPI(name, errObj);
+      return errObj;
+    }
+    const j = await r.json();
+    logAPI(name, j && typeof j === 'object' ? j : { status: 'error', data: [], message: 'Invalid JSON' });
+    if (!r.ok) {
+      const msg = (j && j.message) ? j.message : ('HTTP ' + r.status);
+      return { status: 'error', data: (j && j.data) || [], message: msg };
+    }
+    if (apiIsSuccess(j) && j.data) {
+      const u = j.data.url || j.data.path;
+      return { status: 'success', data: j.data, message: j.message || '', url: u };
+    }
+    return j;
+  } catch (e) {
+    if (typeof pharmaLogWarn === 'function') pharmaLogWarn('[admin-api] upload_spotlight_video', e.message || e);
+    const errObj = { status: 'error', data: [], message: String(e) };
+    logAPI(name, errObj);
+    return errObj;
+  }
+}
+
 async function uploadImage(file) {
   const formData = new FormData();
   formData.append('image', file);
@@ -724,6 +763,7 @@ window.apiFetch = apiFetch;
 window.adminFetch = adminFetch;
 window.fetchApiJson = fetchApiJson;
 window.uploadImage = uploadImage;
+window.uploadSpotlightVideo = uploadSpotlightVideo;
 window.analyzeProductImageForAdmin = analyzeProductImageForAdmin;
 window.logoutPhp = logoutPhp;
 window.fetchProductReviews = fetchProductReviews;
