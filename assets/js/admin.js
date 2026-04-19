@@ -1727,12 +1727,24 @@ function addCatSlide() {
 
 async function saveHomepageSettings() {
   const s = _adminState.settings;
-  s.heroSliderAutoplayMs = Number(getVal('hp-hero-ms')) || 2000;
-  s.heroSliderEffect = getVal('hp-hero-effect') || 'slide';
-  s.categorySliderMode = getVal('hp-cat-mode') || 'manual';
-  s.homeSectionCategoryTitle = getVal('hp-sec-title');
-  s.homeSectionCategoryKicker = getVal('hp-sec-kicker');
-  s.homeSectionCategorySub = getVal('hp-sec-sub');
+  if (document.getElementById('hp-hero-ms')) {
+    s.heroSliderAutoplayMs = Number(getVal('hp-hero-ms')) || 2000;
+  }
+  if (document.getElementById('hp-hero-effect')) {
+    s.heroSliderEffect = getVal('hp-hero-effect') || 'slide';
+  }
+  if (document.getElementById('hp-cat-mode')) {
+    s.categorySliderMode = getVal('hp-cat-mode') || 'manual';
+  }
+  if (document.getElementById('hp-sec-title')) {
+    s.homeSectionCategoryTitle = getVal('hp-sec-title');
+  }
+  if (document.getElementById('hp-sec-kicker')) {
+    s.homeSectionCategoryKicker = getVal('hp-sec-kicker');
+  }
+  if (document.getElementById('hp-sec-sub')) {
+    s.homeSectionCategorySub = getVal('hp-sec-sub');
+  }
   s.homeSpotlightVideos = [0, 1, 2, 3].map(function (ii) {
     return (typeof getVal === 'function' ? getVal('hp-spotlight-video-url-' + ii) : '').trim();
   });
@@ -1777,8 +1789,8 @@ window.tryUploadHomepageSpotlightVideo = tryUploadHomepageSpotlightVideo;
     {
       id: 'slide_default_1',
       badge: 'صيدلية موثوقة — الديالى · خانقين',
-      title: 'صحتك أولويتنا دائماً',
-      titleEm: 'أولويتنا',
+      title: 'طلباتك بسرعة وأمان دائماً',
+      titleEm: 'بسرعة',
       desc: 'أدوية أصيلة ومنتجات صحية معتمدة — نوصلها أينما كنت في الديالى والمحافظات العراقية بسرعة وأمان.',
       btn1Text: 'اطلب الآن', btn1Link: '#prod-sec', btn1Style: 'primary',
       btn2Text: '💬 استشارة واتساب', btn2Link: 'wa', btn2Style: 'wa',

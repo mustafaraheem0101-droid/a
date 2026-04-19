@@ -809,7 +809,7 @@ function getDefaultSettings(): array {
         'homeSectionCategoryKicker'   => 'تصفّح الأقسام',
         'homeSectionCategorySub'      => 'فئات مختارة بمنتجات جاهزة للطلب',
         'homeSpotlightVideos'         => ['', '', '', ''],
-        'tagline'                     => 'صحتك أولويتنا — طلباتك عبر واتساب بسرعة وأمان',
+        'tagline'                     => 'طلباتك عبر واتساب بسرعة وأمان',
         'deliveryTime'                => 'التوصيل خلال 24–48 ساعة حسب المنطقة والتوفر',
         'deliveryAreas'               => 'نخدم الديالى والمحافظات العراقية — للاستفسار عن منطقتك تواصل عبر واتساب',
         'googleMapsEmbedUrl'          => '',
@@ -818,7 +818,7 @@ function getDefaultSettings(): array {
 
 function getDefaultHeroSlides(): array {
     return [
-        ['id'=>'hero_default_1','image'=>'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1920&q=80','tag'=>'صيدلية موثوقة في الديالى','headline'=>'صحتك','headlineEm'=>'أولويتنا','headlineLine2'=>'أدوية أصلية وتوصيل سريع','subtitle'=>'تسوق بثقة — نصلك أينما كنت.','btnPrimaryText'=>'اطلب الآن','btnPrimaryHref'=>'#prod-sec','btnSecondaryText'=>'تصفح الأقسام','btnSecondaryHref'=>'categories.html','showWhatsAppBtn'=>true,'order'=>1,'active'=>true],
+        ['id'=>'hero_default_1','image'=>'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1920&q=80','tag'=>'صيدلية موثوقة في الديالى','headline'=>'أدوية أصلية','headlineEm'=>'وخدمة موثوقة','headlineLine2'=>'توصيل سريع في المنطقة','subtitle'=>'تسوق بثقة — نصلك أينما كنت.','btnPrimaryText'=>'اطلب الآن','btnPrimaryHref'=>'#prod-sec','btnSecondaryText'=>'تصفح الأقسام','btnSecondaryHref'=>'categories.html','showWhatsAppBtn'=>true,'order'=>1,'active'=>true],
         ['id'=>'hero_default_2','image'=>'https://images.unsplash.com/photo-1631549916768-4119b2d5e946?auto=format&fit=crop&w=1920&q=80','tag'=>'عناية واستشارة','headline'=>'فيتامينات وعناية','headlineEm'=>'يومية','headlineLine2'=>'تصفّح منتجات مختارة بعناية','subtitle'=>'أدوية أصلية وتوصيل سريع في خانقين والمنطقة.','btnPrimaryText'=>'الأكثر طلباً','btnPrimaryHref'=>'#prod-sec','btnSecondaryText'=>'تصفح الأقسام','btnSecondaryHref'=>'categories.html','showWhatsAppBtn'=>true,'order'=>2,'active'=>true],
         ['id'=>'hero_default_3','image'=>'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80','tag'=>'جودة معتمدة','headline'=>'رعاية صحية','headlineEm'=>'متكاملة','headlineLine2'=>'من صيدليتك الموثوقة','subtitle'=>'توصيل سريع، أسعار مناسبة، ومتابعة لطلبك.','btnPrimaryText'=>'تصفح الأقسام','btnPrimaryHref'=>'categories.html','btnSecondaryText'=>'سياسة الخصوصية','btnSecondaryHref'=>'privacy.html','showWhatsAppBtn'=>true,'order'=>3,'active'=>true],
     ];

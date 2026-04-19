@@ -1747,12 +1747,12 @@ a { text-decoration: none; color: inherit; }
     <div class="page" id="page-homepage">
       <div class="sec-card">
         <div class="sec-hd">
-          <h3>🖼️ الصفحة الرئيسية — السلايدر والأقسام</h3>
+          <h3>🖼️ الصفحة الرئيسية — فيديوهات التركيز</h3>
           <button type="button" class="save-btn" id="btn-save-homepage">💾 حفظ التغييرات</button>
         </div>
         <div class="sec-body hp-wrap">
           <p class="cp-page-lead">تُحمَّل الإعدادات من الخادم عند فتح هذه الصفحة. إذا ظهرت قوائم فارغة، تأكد من الاتصال ثم أعد فتح «الصفحة الرئيسية» من القائمة. احفظ بالزر أعلاه أو بالزر في الأسفل.</p>
-          <p class="hp-lead">تحكم بسلايدر الهيرو وبسلايدر الأقسام والعناوين. التغييرات تظهر على الموقع بعد الحفظ.</p>
+          <p class="hp-lead">إدارة مقاطع الفيديو الظاهرة أسفل منطقة الترحيب في الصفحة الرئيسية. التغييرات تظهر على الموقع بعد الحفظ.</p>
           <div class="hp-block" style="margin-bottom:18px;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(0,135,90,.04));border:1.5px solid rgba(59,130,246,.2);border-radius:16px;padding:20px;">
             <h4 class="hp-block-title" style="margin:0 0 8px;">🎬 فيديوهات أسفل الهيرو (4 خانات)</h4>
             <p style="margin:0 0 16px;font-size:13px;color:var(--muted);line-height:1.5;">أربع خانات بحجم بطاقات المنتجات تقريباً. ارفع فيديواً لكل خانة ثم احفظ. إذا كانت كل الخانات فارغة يُخفى القسم على الموقع.</p>
@@ -1803,50 +1803,6 @@ a { text-decoration: none; color: inherit; }
               </div>
             </div>
             <small style="display:block;margin-top:12px;color:var(--muted);font-size:11px;">الحد الأقصى 100 ميجابايت لكل ملف. إن فشل الرفع، راجع <code style="font-size:11px">upload_max_filesize</code> و <code style="font-size:11px">post_max_size</code> في PHP.</small>
-          </div>
-          <div class="hp-block" style="background:linear-gradient(135deg,rgba(0,135,90,.06),rgba(0,168,110,.03));border:1.5px solid rgba(0,135,90,.15);border-radius:16px;padding:20px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-              <div>
-                <h4 class="hp-block-title" style="margin:0 0 4px;">🎠 شرائح الهيرو</h4>
-                <p style="margin:0;font-size:12px;color:var(--muted);">كل شريحة تظهر في السلايدر الرئيسي. يمكنك إضافة/حذف/ترتيب الشرائح.</p>
-              </div>
-              <a href="index.html" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;background:rgba(0,135,90,.1);color:var(--em);font-size:12.5px;font-weight:700;border:1px solid rgba(0,135,90,.2);text-decoration:none;">👁 معاينة</a>
-            </div>
-            <div class="hp-row" style="margin-bottom:14px;">
-              <div class="fg">
-                <label>⏱ مدة كل شريحة (ملّي ثانية)</label>
-                <input type="number" id="hp-hero-ms" min="1500" max="60000" step="500" value="2000">
-                <small style="color:var(--muted);font-size:11px;">2000 = ثانيتان</small>
-              </div>
-              <div class="fg">
-                <label>🔄 تأثير الانتقال</label>
-                <select id="hp-hero-effect">
-                  <option value="slide">انزلاق أفقي</option>
-                  <option value="fade">تلاشي</option>
-                </select>
-              </div>
-            </div>
-            <div id="hpHeroList" class="hp-list" style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;"></div>
-            <button type="button" class="edit-btn" id="btn-add-hero-slide" style="width:100%;justify-content:center;padding:12px;">➕ إضافة شريحة جديدة</button>
-          </div>
-          <div class="hp-block">
-            <h4 class="hp-block-title">📂 سلايدر الأقسام</h4>
-            <div class="hp-row">
-              <div class="fg full">
-                <label>وضع العرض</label>
-                <select id="hp-cat-mode">
-                  <option value="manual">يدوي — البطاقات أدناه</option>
-                  <option value="auto">تلقائي — من أقسام المنتجات</option>
-                </select>
-              </div>
-            </div>
-            <div class="hp-row">
-              <div class="fg"><label>عنوان القسم (صغير)</label><input type="text" id="hp-sec-kicker" placeholder="تصفّح الأقسام"></div>
-              <div class="fg"><label>العنوان الرئيسي</label><input type="text" id="hp-sec-title" placeholder="تسوّق حسب الفئة"></div>
-              <div class="fg full"><label>وصف تحت العنوان</label><input type="text" id="hp-sec-sub" placeholder="جملة قصيرة — مثال: فئات مختارة بمنتجات جاهزة"></div>
-            </div>
-            <div id="hpCatList" class="hp-list"></div>
-            <button type="button" class="edit-btn" id="btn-add-cat-slide">➕ إضافة بطاقة قسم</button>
           </div>
           <div class="hp-actions">
             <button type="button" class="save-btn" id="btn-save-homepage-2">💾 حفظ كل التغييرات</button>
@@ -2122,7 +2078,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.3.0"></script>
+<script src="/assets/js/admin.js?v=3.3.1"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 
 </body>
