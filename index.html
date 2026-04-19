@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.50">
+<meta name="asset-version" content="1.0.51">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -229,7 +229,7 @@ body.index-page .home-hero-video{margin-bottom:0;}
 body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index:41;}
 
 /* ══════════════════════════════════════════════
-   HOME — بانر فيديو (نفس مقاس فيديو «عروض ومنتجات مختارة»)
+   HOME — بانر فيديو في أعلى الصفحة
    ══════════════════════════════════════════════ */
 .home-hero-video{
   position:relative;
@@ -483,16 +483,14 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 @media (prefers-reduced-motion:no-preference){
   body.index-page .promo-swiper-section,
   body.index-page .p-trust,
-  body.index-page .brand-showcase-sec,
-  body.index-page .spotlight-slider-sec{
+  body.index-page .brand-showcase-sec{
     content-visibility:auto;
     contain-intrinsic-size:auto 420px;
   }
 }
 @media (max-width:768px) and (prefers-reduced-motion:no-preference){
   body.index-page .promo-swiper-section,
-  body.index-page .brand-showcase-sec,
-  body.index-page .spotlight-slider-sec{
+  body.index-page .brand-showcase-sec{
     contain-intrinsic-size:auto min(240px,55vw);
   }
 }
@@ -710,44 +708,6 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
       <div class="brand-showcase-pagination"></div>
       <button type="button" class="brand-showcase-nav brand-showcase-prev" aria-label="الشريحة السابقة"></button>
       <button type="button" class="brand-showcase-nav brand-showcase-next" aria-label="الشريحة التالية"></button>
-    </div>
-  </div>
-</section>
-
-<!-- عروض ومنتجات مختارة — صورة البانر أولاً ثم انتقال إلى الفيديو؛ الملف spotlight-offers.mp4 في assets/videos/ -->
-<section class="spotlight-slider-sec p-sec-fade" id="spotlightSliderSec" aria-labelledby="spotlight-slider-title">
-  <div class="spotlight-slider-sec__head">
-    <h2 class="spotlight-slider-sec__title" id="spotlight-slider-title">عروض ومنتجات مختارة</h2>
-  </div>
-  <div class="spotlight-slider-wrap">
-    <div class="spotlight-video-block" id="spotlightVideoStage">
-      <img
-        class="spotlight-video-block__still"
-        src="assets/img/spotlight-banners/slide-03.png"
-        alt=""
-        width="1600"
-        height="400"
-        decoding="async"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="spotlight-video-block__media">
-        <video
-          id="spotlightOffersVideo"
-          class="spotlight-video-block__video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-          disablepictureinpicture
-          disableremoteplayback
-          poster="assets/img/spotlight-banners/slide-03.png"
-          aria-label="عرض ترويجي للعروض والمنتجات المختارة"
-        >
-          <source src="assets/videos/spotlight-offers.mp4" type="video/mp4" />
-        </video>
-      </div>
     </div>
   </div>
 </section>
@@ -1016,6 +976,5 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
-<script src="assets/js/spotlight-offers-video.js?v=1.0.0"></script>
 </body>
 </html>
