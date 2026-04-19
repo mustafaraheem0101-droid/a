@@ -1496,9 +1496,33 @@ img.img-cover {
   padding: 0;
 }
 
+/* موبايل: شبكة عمودين مثل سطح المكتب (لا عمود واحد طويل) */
 @media (max-width: 520px) {
   .subcat-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .subcat-chip {
+    padding: 10px 10px;
+    gap: 8px;
+  }
+
+  .subcat-chip__ico,
+  .subcat-chip__media {
+    width: 42px;
+    height: 42px;
+    font-size: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .subcat-chip__name {
+    font-size: 12.5px;
+    line-height: 1.35;
+  }
+
+  .subcat-chip__meta {
+    font-size: 11px;
   }
 }
 
