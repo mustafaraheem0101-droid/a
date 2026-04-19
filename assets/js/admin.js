@@ -1560,6 +1560,7 @@ function renderHomepageSettings() {
   setVal('hp-sec-title', s.homeSectionCategoryTitle || 'تسوّق حسب الفئة');
   setVal('hp-sec-kicker', s.homeSectionCategoryKicker || 'تصفّح الأقسام');
   setVal('hp-sec-sub', s.homeSectionCategorySub || '');
+  setVal('hp-spotlight-video-url', s.homeSpotlightVideoUrl || '');
 
   renderHeroSlidesList(s.heroSlides || []);
   renderCatSlidesList(s.categorySliderItems || []);
@@ -1657,6 +1658,7 @@ async function saveHomepageSettings() {
   s.homeSectionCategoryTitle = getVal('hp-sec-title');
   s.homeSectionCategoryKicker = getVal('hp-sec-kicker');
   s.homeSectionCategorySub = getVal('hp-sec-sub');
+  s.homeSpotlightVideoUrl = getVal('hp-spotlight-video-url').trim();
 
   const r = await adminSaveSettings(s);
   if (apiIsSuccess(r)) {

@@ -808,6 +808,7 @@ function getDefaultSettings(): array {
         'homeSectionCategoryTitle'    => 'تسوّق حسب الفئة',
         'homeSectionCategoryKicker'   => 'تصفّح الأقسام',
         'homeSectionCategorySub'      => 'فئات مختارة بمنتجات جاهزة للطلب',
+        'homeSpotlightVideoUrl'       => '',
         'tagline'                     => 'صحتك أولويتنا — طلباتك عبر واتساب بسرعة وأمان',
         'deliveryTime'                => 'التوصيل خلال 24–48 ساعة حسب المنطقة والتوفر',
         'deliveryAreas'               => 'نخدم الديالى والمحافظات العراقية — للاستفسار عن منطقتك تواصل عبر واتساب',

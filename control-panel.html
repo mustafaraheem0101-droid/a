@@ -1753,6 +1753,15 @@ a { text-decoration: none; color: inherit; }
         <div class="sec-body hp-wrap">
           <p class="cp-page-lead">تُحمَّل الإعدادات من الخادم عند فتح هذه الصفحة. إذا ظهرت قوائم فارغة، تأكد من الاتصال ثم أعد فتح «الصفحة الرئيسية» من القائمة. احفظ بالزر أعلاه أو بالزر في الأسفل.</p>
           <p class="hp-lead">تحكم بسلايدر الهيرو وبسلايدر الأقسام والعناوين. التغييرات تظهر على الموقع بعد الحفظ.</p>
+          <div class="hp-block" style="margin-bottom:18px;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(0,135,90,.04));border:1.5px solid rgba(59,130,246,.2);border-radius:16px;padding:20px;">
+            <h4 class="hp-block-title" style="margin:0 0 8px;">🎬 فيديو أسفل الهيرو</h4>
+            <p style="margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5;">يظهر في الصفحة الرئيسية بدل بطاقات المنتجات السابقة. اتركه فارغاً لإخفاء القسم بالكامل.</p>
+            <div class="fg full">
+              <label for="hp-spotlight-video-url">رابط الفيديو</label>
+              <input type="url" id="hp-spotlight-video-url" placeholder="https://www.youtube.com/watch?v=… أو رابط ملف .mp4 مستضاف">
+              <small style="display:block;margin-top:6px;color:var(--muted);font-size:11px;">يُدعم يوتيوب (رابط المشاهدة أو Shorts) وفيميو، أو ملف فيديو مباشر (mp4/webm) على نفس النطاق أو CDN.</small>
+            </div>
+          </div>
           <div class="hp-block" style="background:linear-gradient(135deg,rgba(0,135,90,.06),rgba(0,168,110,.03));border:1.5px solid rgba(0,135,90,.15);border-radius:16px;padding:20px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
               <div>
@@ -2071,7 +2080,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.1.9"></script>
+<script src="/assets/js/admin.js?v=3.2.0"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 
 </body>

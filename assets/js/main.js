@@ -19,7 +19,8 @@ let settings = {
   closeHour: 24,
   mapUrl: MAP_URL,
   instagram: '',
-  facebook: ''
+  facebook: '',
+  homeSpotlightVideoUrl: ''
 };
 
 let prods = [];
@@ -3603,6 +3604,75 @@ if (typeof __pharmaStoreHtmlFile === 'function' && __pharmaStoreHtmlFile() === '
   }
 }
 
+function pharmaSpotlightYoutubeId(url) {
+  try {
+    var s = String(url || '').trim();
+    var u = new URL(s, typeof location !== 'undefined' ? location.href : 'https://example.com');
+    var h = u.hostname.replace(/^www\./, '');
+    if (h === 'youtu.be') {
+      var idBe = u.pathname.replace(/^\//, '').split('/')[0];
+      return /^[a-zA-Z0-9_-]{11}$/.test(idBe) ? idBe : '';
+    }
+    if (h === 'youtube.com' || h === 'm.youtube.com' || h === 'www.youtube.com') {
+      var v = u.searchParams.get('v');
+      if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+      var emb = u.pathname.match(/^\/embed\/([a-zA-Z0-9_-]{11})/);
+      if (emb) return emb[1];
+      var sh = u.pathname.match(/^\/shorts\/([a-zA-Z0-9_-]{11})/);
+      if (sh) return sh[1];
+    }
+  } catch (e) { /* ignore */ }
+  return '';
+}
+
+function pharmaSpotlightVimeoId(url) {
+  try {
+    var u = new URL(String(url || '').trim(), typeof location !== 'undefined' ? location.href : 'https://example.com');
+    var h = u.hostname.replace(/^www\./, '');
+    if (h === 'vimeo.com' || h === 'player.vimeo.com') {
+      var m = u.pathname.match(/\/(?:video\/)?(\d+)/);
+      return m ? m[1] : '';
+    }
+  } catch (e) { /* ignore */ }
+  return '';
+}
+
+function pharmaSpotlightVideoBlockHtml(videoUrl) {
+  var esc = typeof escHtml === 'function' ? escHtml : escHtmlR;
+  var u = String(videoUrl || '').trim();
+  if (!u) return '';
+  var yt = pharmaSpotlightYoutubeId(u);
+  if (yt) {
+    return (
+      '<div class="home-top-video home-top-video--embed" role="region" aria-label="فيديو">' +
+      '<iframe class="home-top-video__iframe" src="https://www.youtube-nocookie.com/embed/' +
+      esc(yt) +
+      '?rel=0&amp;modestbranding=1" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"></iframe>' +
+      '</div>'
+    );
+  }
+  var vm = pharmaSpotlightVimeoId(u);
+  if (vm) {
+    return (
+      '<div class="home-top-video home-top-video--embed" role="region" aria-label="فيديو">' +
+      '<iframe class="home-top-video__iframe" src="https://player.vimeo.com/video/' +
+      esc(vm) +
+      '" title="فيديو" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>' +
+      '</div>'
+    );
+  }
+  var su = esc(u);
+  return (
+    '<div class="home-top-video home-top-video--file" role="region" aria-label="فيديو">' +
+    '<video class="home-top-video__el" controls playsinline preload="metadata" title="فيديو">' +
+    '<source src="' +
+    su +
+    '" type="video/mp4">' +
+    'المتصفح لا يدعم تشغيل الفيديو.' +
+    '</video></div>'
+  );
+}
+
 function renderHomeExtras(data) {
   const s = (data && data.settings) ? data.settings : {};
   const tag = document.getElementById('p-logo-tagline');
@@ -3616,46 +3686,18 @@ function renderHomeExtras(data) {
     }).join('');
   }
   const topSec = document.getElementById('home-top-ordered-sec');
-  const topGrid = document.getElementById('homeTopOrderedGrid');
-  function isHiddenFromHome(p) {
-    var h = p && p.hide_from_home;
-    return h === true || h === 1 || h === '1';
-  }
-  const prods = (data && data.products)
-    ? data.products.filter(function (p) {
-      if (p.active === false) return false;
-      return !isHiddenFromHome(p);
-    })
-    : [];
-  const ranked = prods.slice().sort(function (a, b) {
-    const wa = (b.wa_order_count || 0) - (a.wa_order_count || 0);
-    if (wa !== 0) return wa;
-    return (b.badge === 'pb-hot' ? 1 : 0) - (a.badge === 'pb-hot' ? 1 : 0);
-  });
-  const HOT_MAX = 6;
-  const top = ranked.slice(0, HOT_MAX);
+  const mediaEl = document.getElementById('homeSpotlightMedia');
+  var videoUrl = s.homeSpotlightVideoUrl != null ? String(s.homeSpotlightVideoUrl).trim() : '';
 
-  if (topSec && topGrid && top.length && typeof buildProductCardHtml === 'function') {
+  if (topSec && mediaEl && videoUrl) {
     topSec.hidden = false;
-    var cardsHtml = top.map(function (p, i) {
-      return buildProductCardHtml(p, {
-        trustStrip: true,
-        bestseller: i < 3,
-        waProminent: true,
-        size: 'hot'
-      });
-    }).join('');
-    /* شبكة ثابتة — بدون ماركي أفقي ولا تمرير يمين/يسار */
-    var trackHtml =
-      '<div class="home-hot-slider__track home-hot-slider__track--static" role="list">' +
-      '<div class="home-hot-slider__segment" role="presentation">' +
-      cardsHtml +
-      '</div></div>';
-    topGrid.classList.add('home-hot-slider__viewport--static');
-    replaceChildrenFromHtml(topGrid, trackHtml);
+    replaceChildrenFromHtml(mediaEl, pharmaSpotlightVideoBlockHtml(videoUrl));
+  } else if (topSec) {
+    topSec.hidden = true;
+    if (mediaEl && typeof replaceChildrenFromHtml === 'function') replaceChildrenFromHtml(mediaEl, '');
   }
 
-  if (top.length && typeof initScrollReveal === 'function') initScrollReveal();
+  if (topSec && !topSec.hidden && typeof initScrollReveal === 'function') initScrollReveal();
 }
 window.renderHomeExtras = renderHomeExtras;
 
