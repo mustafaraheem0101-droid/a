@@ -1360,7 +1360,11 @@ function categoryViewRenderSubcategorySection(subcatSec, subcats, products) {
   }).join('');
   subcatSec.innerHTML =
     '<section class="subcat-sec" aria-label="الأقسام الفرعية">' +
-    '<ul class="subcat-grid" role="list">' + items + '</ul></section>';
+    '<div class="p-sec-slider p-sec-slider--subcat" data-sec-slider>' +
+    '<button type="button" class="p-sec-slider__btn p-sec-slider__btn--prev" aria-label="تمرير الأقسام الفرعية للخلف">‹</button>' +
+    '<ul class="subcat-grid subcat-grid--slider" data-sec-slider-viewport role="list">' + items + '</ul>' +
+    '<button type="button" class="p-sec-slider__btn p-sec-slider__btn--next" aria-label="تمرير الأقسام الفرعية للأمام">›</button>' +
+    '</div></section>';
   subcatSec.hidden = false;
   if (typeof initScrollReveal === 'function') initScrollReveal();
 }
@@ -2278,7 +2282,10 @@ async function initCategories() {
 
   } catch (e) {
     if (typeof pharmaLogError === 'function') pharmaLogError('[categories-page]', e);
-    if (grid) replaceChildrenFromHtml(grid, '<div class="empty-state"><div class="ei">⚠️</div><p>حدث خطأ في تحميل الأقسام</p></div>');
+    if (grid) {
+      replaceChildrenFromHtml(grid, '<div class="empty-state"><div class="ei">⚠️</div><p>حدث خطأ في تحميل الأقسام</p></div>');
+      grid.removeAttribute('hidden');
+    }
     if (skel) skel.style.display = 'none';
     if (typeof showToast === 'function') showToast('تعذر تحميل الأقسام', 'error');
   } finally {
@@ -2312,6 +2319,7 @@ async function initCategories() {
     if (!grid) return;
     if (!cats.length) {
       replaceChildrenFromHtml(grid, '<div class="empty-state"><div class="ei">📦</div><p>لا توجد أقسام</p></div>');
+      grid.removeAttribute('hidden');
       return;
     }
     const sorted = [...cats].sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -2332,6 +2340,7 @@ async function initCategories() {
         <div style="padding:14px 16px;font-size:13px;color:#94a3b8">تصفح المنتجات ←</div>
       </div>`;
     }).join(''));
+    grid.removeAttribute('hidden');
 
     if (typeof initScrollReveal === 'function') initScrollReveal();
   }

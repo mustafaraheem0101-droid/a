@@ -1492,32 +1492,32 @@ img.img-cover {
   padding: 0;
 }
 
-/* موبايل: شبكة عمودين مثل سطح المكتب (لا عمود واحد طويل) */
+/* موبايل: شبكة عمودين — فقط إن لم يُستخدم السلايدر الأفقي (.subcat-grid--slider) */
 @media (max-width: 520px) {
-  .subcat-grid {
+  .subcat-grid:not(.subcat-grid--slider) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
-  .subcat-chip {
+  .subcat-grid:not(.subcat-grid--slider) .subcat-chip {
     padding: 10px 10px;
     gap: 8px;
   }
 
-  .subcat-chip__ico,
-  .subcat-chip__media {
+  .subcat-grid:not(.subcat-grid--slider) .subcat-chip__ico,
+  .subcat-grid:not(.subcat-grid--slider) .subcat-chip__media {
     width: 42px;
     height: 42px;
     font-size: 1.5rem;
     border-radius: 12px;
   }
 
-  .subcat-chip__name {
+  .subcat-grid:not(.subcat-grid--slider) .subcat-chip__name {
     font-size: 12.5px;
     line-height: 1.35;
   }
 
-  .subcat-chip__meta {
+  .subcat-grid:not(.subcat-grid--slider) .subcat-chip__meta {
     font-size: 11px;
   }
 }

@@ -57,6 +57,33 @@ function clearPharmaStoreDarkTheme() {
 }
 
 // ══════════════════════════════════════════════
+// سلايدر أفقي بسيط للأقسام (أزرار ‹ › + تمرير سلس)
+// ══════════════════════════════════════════════
+function initCategorySectionSliders() {
+  if (initCategorySectionSliders._done) return;
+  initCategorySectionSliders._done = true;
+  document.addEventListener(
+    'click',
+    function (e) {
+      const btn = e.target.closest('.p-sec-slider__btn');
+      if (!btn) return;
+      const root = btn.closest('[data-sec-slider]');
+      if (!root) return;
+      const viewport = root.querySelector('[data-sec-slider-viewport]');
+      if (!viewport) return;
+      e.preventDefault();
+      const prev = btn.classList.contains('p-sec-slider__btn--prev');
+      const amount = Math.min(Math.round(viewport.clientWidth * 0.72), 420);
+      const dir = prev ? -1 : 1;
+      const smooth =
+        !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      viewport.scrollBy({ inline: dir * amount, behavior: smooth ? 'smooth' : 'auto' });
+    },
+    false
+  );
+}
+
+// ══════════════════════════════════════════════
 // تهيئة مشتركة (الأحداث العامة تُدار من app.js)
 // ══════════════════════════════════════════════
 function initShopChrome() {
@@ -64,6 +91,7 @@ function initShopChrome() {
   if (typeof updateCartBadge === 'function') updateCartBadge();
   applySettings();
   clearPharmaStoreDarkTheme();
+  initCategorySectionSliders();
 }
 
 function initImageFallbacks() {

@@ -15,9 +15,9 @@
 <title>صيدلية شهد محمد</title>
 <link rel="icon" href="brand-logo-20260330.png?v=2" type="image/png">
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="assets/css/shop-bundle.css?v=1.0.66" rel="stylesheet">
+<link href="assets/css/shop-bundle.css?v=1.0.67" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.113" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.114" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.5" rel="stylesheet">
@@ -175,6 +175,7 @@ body.index-page .p-logo-tagline{display:block;font-size:11px;font-weight:600;col
   overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
   scroll-snap-type:x proximity;scrollbar-width:thin;
   padding-block:8px 6px;
+  touch-action:pan-x;
   mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);
 }
 #navContainer.p-nav-rings::-webkit-scrollbar{height:5px;}
@@ -635,7 +636,11 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 
 <nav class="p-nav" id="mainNavbar" aria-label="تصفح الأقسام">
   <div class="p-nav-inner">
-    <div id="navContainer" class="p-nav-rings"></div>
+    <div class="p-sec-slider p-sec-slider--nav" data-sec-slider>
+      <button type="button" class="p-sec-slider__btn p-sec-slider__btn--prev" aria-label="تمرير الأقسام للخلف">‹</button>
+      <div id="navContainer" class="p-nav-rings p-sec-slider__viewport" data-sec-slider-viewport tabindex="0"></div>
+      <button type="button" class="p-sec-slider__btn p-sec-slider__btn--next" aria-label="تمرير الأقسام للأمام">›</button>
+    </div>
   </div>
 </nav>
 
@@ -944,9 +949,9 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 
 <!-- ═══ JS — ترتيب التحميل مهم ═══ -->
 <script src="assets/js/utils.js?v=3.5.14"></script>
-  <script src="assets/js/ui.js?v=3.5.4"></script>
+  <script src="assets/js/ui.js?v=3.5.5"></script>
   <script src="assets/js/api.js?v=3.1.10"></script>
-  <script src="assets/js/main.js?v=3.9.11"></script>
+  <script src="assets/js/main.js?v=3.9.12"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
