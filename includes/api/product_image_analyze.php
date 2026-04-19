@@ -121,7 +121,7 @@ function pharma_gemini_friendly_error(string $googleMessage, int $http): string
         return 'مفتاح GEMINI_API_KEY غير صالح أو غير مفعّل لـ Generative Language API — راجع Google AI Studio.';
     }
     if (str_contains($m, 'not found') || str_contains($m, 'does not exist') || $http === 404) {
-        return 'اسم النموذج غير متاح. جرّب في .env: GEMINI_VISION_MODEL=gemini-2.0-flash';
+        return 'اسم النموذج أو إصدار الـ API غير متاح. جرّب في .env: GEMINI_API_VERSION=v1 ثم GEMINI_VISION_MODEL=gemini-2.0-flash-001 — أو فعّل API_DEBUG=1 لرؤية الخطأ من Google.';
     }
     if (str_contains($m, 'billing') || str_contains($m, 'quota')) {
         return 'حد الاستخدام أو الفوترة في مشروع Google — راجع لوحة Google Cloud.';
@@ -135,9 +135,10 @@ function pharma_gemini_friendly_error(string $googleMessage, int $http): string
  *
  * @return array{ok:bool, http:int, body:array, curl_err:string, text_out:string}
  */
-function pharma_gemini_generate_attempt(string $mime, string $binary, string $apiKey, string $model, bool $jsonMimeResponse): array
+function pharma_gemini_generate_attempt(string $mime, string $binary, string $apiKey, string $model, bool $jsonMimeResponse, string $apiVersion): array
 {
-    $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model) . ':generateContent?key=' . rawurlencode($apiKey);
+    $ver = ($apiVersion === 'v1') ? 'v1' : 'v1beta';
+    $url = 'https://generativelanguage.googleapis.com/' . $ver . '/models/' . rawurlencode($model) . ':generateContent?key=' . rawurlencode($apiKey);
 
     $prompt = <<<'PROMPT'
 You assist a pharmacy admin. Read the product packaging image carefully. Output ONE JSON object only (no markdown).
@@ -237,18 +238,38 @@ function pharma_gemini_packaging_json(string $mime, string $binary, string $apiK
     if ($envModel !== '') {
         $models[] = $envModel;
     }
-    foreach (['gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-flash-8b', 'gemini-1.5-flash'] as $m) {
+    /* أسماء محدّثة (2025–2026): النسخة -001 غالباً متاحة في v1 */
+    foreach ([
+        'gemini-2.0-flash-001',
+        'gemini-2.0-flash',
+        'gemini-1.5-flash-002',
+        'gemini-1.5-flash-latest',
+        'gemini-1.5-flash-8b',
+        'gemini-1.5-flash',
+    ] as $m) {
         if (!in_array($m, $models, true)) {
             $models[] = $m;
+        }
+    }
+
+    $envVer = strtolower(trim((string) env('GEMINI_API_VERSION', '')));
+    $apiVersions = [];
+    if ($envVer === 'v1' || $envVer === 'v1beta') {
+        $apiVersions[] = $envVer;
+    }
+    foreach (['v1', 'v1beta'] as $v) {
+        if (!in_array($v, $apiVersions, true)) {
+            $apiVersions[] = $v;
         }
     }
 
     $lastGoogleMsg = '';
     $lastHttp = 0;
 
+    foreach ($apiVersions as $apiVer) {
     foreach ($models as $model) {
         foreach ([true, false] as $jsonMode) {
-            $r = pharma_gemini_generate_attempt($mime, $binary, $apiKey, $model, $jsonMode);
+            $r = pharma_gemini_generate_attempt($mime, $binary, $apiKey, $model, $jsonMode, $apiVer);
             $lastHttp = $r['http'];
 
             if (!empty($r['curl_err']) && $r['curl_err'] !== 'invalid json') {
@@ -293,6 +314,7 @@ function pharma_gemini_packaging_json(string $mime, string $binary, string $apiK
                 break 1;
             }
         }
+    }
     }
 
     $detail = $lastGoogleMsg !== '' ? $lastGoogleMsg : ('HTTP ' . (string) $lastHttp);
