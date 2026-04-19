@@ -112,14 +112,31 @@ function pharma_api_json_from_ai_text(string $text): array
 }
 
 /**
- * @return array<string, mixed>
+ * رسالة خطأ أوضح للواجهة عند فشل Gemini (بدون كشف تفاصيل كاملة إلا مع API_DEBUG).
  */
-function pharma_gemini_packaging_json(string $mime, string $binary, string $apiKey): array
+function pharma_gemini_friendly_error(string $googleMessage, int $http): string
 {
-    $model = trim((string) env('GEMINI_VISION_MODEL', 'gemini-1.5-flash'));
-    if ($model === '') {
-        $model = 'gemini-1.5-flash';
+    $m = strtolower($googleMessage);
+    if (str_contains($m, 'api key') || str_contains($m, 'invalid') || str_contains($m, 'permission') || $http === 403) {
+        return 'مفتاح GEMINI_API_KEY غير صالح أو غير مفعّل لـ Generative Language API — راجع Google AI Studio.';
     }
+    if (str_contains($m, 'not found') || str_contains($m, 'does not exist') || $http === 404) {
+        return 'اسم النموذج غير متاح. جرّب في .env: GEMINI_VISION_MODEL=gemini-2.0-flash';
+    }
+    if (str_contains($m, 'billing') || str_contains($m, 'quota')) {
+        return 'حد الاستخدام أو الفوترة في مشروع Google — راجع لوحة Google Cloud.';
+    }
+
+    return 'فشل تحليل الصورة عبر Gemini. إن استمر الخطأ: عيّن API_DEBUG=1 مؤقتاً في .env لرؤية تفاصيل الخطأ.';
+}
+
+/**
+ * طلب واحد إلى Gemini؛ يعيد ['ok'=>bool, 'http'=>int, 'body'=>array, 'curl_err'=>string, 'text_out'=>string]
+ *
+ * @return array{ok:bool, http:int, body:array, curl_err:string, text_out:string}
+ */
+function pharma_gemini_generate_attempt(string $mime, string $binary, string $apiKey, string $model, bool $jsonMimeResponse): array
+{
     $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model) . ':generateContent?key=' . rawurlencode($apiKey);
 
     $prompt = <<<'PROMPT'
@@ -142,6 +159,13 @@ Keys (all strings except arrays):
 - quantity_label: e.g. "30 capsules" or "30 كبسولة" if visible, else ""
 PROMPT;
 
+    $generationConfig = [
+        'temperature' => 0.15,
+    ];
+    if ($jsonMimeResponse) {
+        $generationConfig['responseMimeType'] = 'application/json';
+    }
+
     $payload = [
         'contents' => [
             [
@@ -156,10 +180,7 @@ PROMPT;
                 ],
             ],
         ],
-        'generationConfig' => [
-            'temperature' => 0.15,
-            'responseMimeType' => 'application/json',
-        ],
+        'generationConfig' => $generationConfig,
     ];
 
     $ch = curl_init($url);
@@ -173,19 +194,22 @@ PROMPT;
     ]);
     $resp = curl_exec($ch);
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
+    $err = (string) curl_error($ch);
     curl_close($ch);
+
     if ($resp === false || $resp === '') {
-        jsonError(API_DEBUG ? ('Gemini: ' . $err) : 'تعذر الاتصال بخدمة التحليل', [], 502);
+        return ['ok' => false, 'http' => $code > 0 ? $code : 0, 'body' => [], 'curl_err' => $err !== '' ? $err : 'empty response', 'text_out' => ''];
     }
+
     $j = json_decode((string) $resp, true);
     if (!is_array($j)) {
-        jsonError(API_DEBUG ? ('Gemini غير JSON: ' . substr((string) $resp, 0, 400)) : 'استجابة غير متوقعة من خدمة التحليل', [], 502);
+        return ['ok' => false, 'http' => $code, 'body' => [], 'curl_err' => 'invalid json', 'text_out' => ''];
     }
+
     if ($code >= 400) {
-        $msg = isset($j['error']['message']) ? (string) $j['error']['message'] : ('HTTP ' . $code);
-        jsonError(API_DEBUG ? $msg : 'فشل تحليل الصورة (تحقق من GEMINI_API_KEY والنموذج)', [], 502);
+        return ['ok' => false, 'http' => $code, 'body' => $j, 'curl_err' => '', 'text_out' => ''];
     }
+
     $text = '';
     if (isset($j['candidates'][0]['content']['parts']) && is_array($j['candidates'][0]['content']['parts'])) {
         foreach ($j['candidates'][0]['content']['parts'] as $part) {
@@ -194,12 +218,89 @@ PROMPT;
             }
         }
     }
-    $parsed = pharma_api_json_from_ai_text($text);
-    if ($parsed === []) {
-        jsonError(API_DEBUG ? ('لم يُستخرج JSON: ' . substr($text, 0, 500)) : 'لم يُستخرج نص مناسب من الصورة', [], 422);
+
+    return ['ok' => true, 'http' => $code, 'body' => $j, 'curl_err' => '', 'text_out' => $text];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function pharma_gemini_packaging_json(string $mime, string $binary, string $apiKey): array
+{
+    $apiKey = trim($apiKey);
+    if ($apiKey === '') {
+        jsonError('مفتاح Gemini فارغ بعد القص', [], 500);
     }
 
-    return pharma_api_normalize_packaging_ai_json($parsed);
+    $envModel = trim((string) env('GEMINI_VISION_MODEL', ''));
+    $models = [];
+    if ($envModel !== '') {
+        $models[] = $envModel;
+    }
+    foreach (['gemini-2.0-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-flash-8b', 'gemini-1.5-flash'] as $m) {
+        if (!in_array($m, $models, true)) {
+            $models[] = $m;
+        }
+    }
+
+    $lastGoogleMsg = '';
+    $lastHttp = 0;
+
+    foreach ($models as $model) {
+        foreach ([true, false] as $jsonMode) {
+            $r = pharma_gemini_generate_attempt($mime, $binary, $apiKey, $model, $jsonMode);
+            $lastHttp = $r['http'];
+
+            if (!empty($r['curl_err']) && $r['curl_err'] !== 'invalid json') {
+                jsonError(API_DEBUG ? ('Gemini cURL: ' . $r['curl_err']) : 'تعذر الاتصال بخدمة Google (تحقق من الشبكة أو جدار الحماية)', [], 502);
+            }
+
+            if ($r['ok'] && $r['text_out'] !== '') {
+                $parsed = pharma_api_json_from_ai_text($r['text_out']);
+                if ($parsed !== []) {
+                    return pharma_api_normalize_packaging_ai_json($parsed);
+                }
+            }
+
+            if (!$r['ok']) {
+                $body = $r['body'];
+                $lastGoogleMsg = isset($body['error']['message']) ? (string) $body['error']['message'] : '';
+                if ($lastGoogleMsg === '' && !empty($r['curl_err'])) {
+                    $lastGoogleMsg = $r['curl_err'];
+                }
+                if ($lastHttp === 401 || $lastHttp === 403) {
+                    jsonError(
+                        API_DEBUG ? $lastGoogleMsg : pharma_gemini_friendly_error($lastGoogleMsg, $lastHttp),
+                        [],
+                        502
+                    );
+                }
+                /* 404 = اسم نموذج خاطئ — جرّب النموذج التالي مباشرة */
+                if ($lastHttp === 404) {
+                    break 1;
+                }
+                /* 400 غالباً بسبب responseMimeType — أعد المحاولة بدون JSON schema */
+                if ($lastHttp === 400 && $jsonMode) {
+                    continue;
+                }
+                /* فشل بدون خيار آخر لهذا النموذج */
+                break 1;
+            }
+
+            /* HTTP 200 لكن نص فارغ أو JSON فارغ */
+            if ($r['ok'] && $r['text_out'] === '') {
+                $lastGoogleMsg = 'empty candidates or blocked content';
+                break 1;
+            }
+        }
+    }
+
+    $detail = $lastGoogleMsg !== '' ? $lastGoogleMsg : ('HTTP ' . (string) $lastHttp);
+    jsonError(
+        API_DEBUG ? $detail : pharma_gemini_friendly_error($detail, $lastHttp),
+        [],
+        502
+    );
 }
 
 /**
