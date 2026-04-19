@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.64" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.97" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.98" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.2" rel="stylesheet">
@@ -42,6 +42,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--navy);-we
 body.index-page{padding-top:0!important;padding-inline:0;min-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 a{text-decoration:none;color:inherit;}
 img{display:block;max-width:100%;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 /* Toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--mint);padding:13px 28px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:var(--tr);border:1px solid rgba(0,168,110,.3);box-shadow:var(--sh-lg);white-space:nowrap;}
@@ -715,9 +716,11 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <section class="home-top-ordered p-sec-fade" id="home-top-ordered-sec" aria-labelledby="home-top-title" hidden>
   <div class="home-top-ordered__inner">
     <div class="home-top-ordered__head">
-      <div>
-        <div class="p-kicker">تعرّف على صيدليتنا</div>
-        <h2 class="p-sec-title" id="home-top-title"><span aria-hidden="true">🎬</span> فيديوهات</h2>
+      <div class="home-top-ordered__title-wrap">
+        <h2 class="p-sec-title home-top-ordered__title-ico" id="home-top-title">
+          <span class="sr-only">فيديوهات</span>
+          <span class="home-top-ordered__emoji" aria-hidden="true">🎬</span>
+        </h2>
       </div>
       <div class="p-sec-hd__actions">
         <a href="#" class="p-cta-wa-inline" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، تواصلت معكم بعد مشاهدة الفيديو على الموقع">طلب عبر واتساب</a>
