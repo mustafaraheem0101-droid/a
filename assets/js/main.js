@@ -3688,14 +3688,6 @@ function renderHomeExtras(data) {
   const s = (data && data.settings) ? data.settings : {};
   const tag = document.getElementById('p-logo-tagline');
   if (tag && s.tagline) tag.textContent = s.tagline;
-  const faqList = document.getElementById('homeFaqList');
-  if (faqList && Array.isArray(s.faq) && s.faq.length) {
-    faqList.innerHTML = s.faq.map(function (item, i) {
-      if (!item || !item.q) return '';
-      var op = i === 0 ? ' open' : '';
-      return '<details class="faq-item"' + op + '><summary>' + escHtml(item.q) + '</summary><p>' + escHtml(item.a || '') + '</p></details>';
-    }).join('');
-  }
   const topSec = document.getElementById('home-top-ordered-sec');
   const mediaEl = document.getElementById('homeSpotlightMedia');
   var urls = ['', '', '', ''];
