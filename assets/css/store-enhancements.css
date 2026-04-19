@@ -2078,6 +2078,8 @@ body.index-page .home-top-ordered .p-see-all:hover {
 .p-tips-premium {
   position: relative;
   overflow: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   padding-top: 38px !important;
   padding-bottom: 40px !important;
   background: linear-gradient(155deg, #070f1c 0%, #0a1628 38%, #152238 100%);
@@ -2090,6 +2092,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   max-width: 1140px;
   margin-inline: auto;
   box-sizing: border-box;
+  min-width: 0;
 }
 .p-tips-premium__layer {
   position: absolute;
@@ -2271,6 +2274,8 @@ body.index-page .home-top-ordered .p-see-all:hover {
   font-weight: 800;
   line-height: 1.72;
   color: rgba(255, 255, 255, 0.96);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .p-tips-premium__spotlight-line:last-child {
   margin-bottom: 0;
@@ -2398,6 +2403,9 @@ body.index-page .home-top-ordered .p-see-all:hover {
   }
 }
 @media (max-width: 900px) {
+  .p-tips-premium__inner {
+    padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  }
   .p-tips-premium__split {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
@@ -2410,6 +2418,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   .p-tips-premium__panel {
     grid-column: 1;
     grid-row: 2;
+    min-width: 0;
   }
   .p-tips-premium__foot {
     grid-column: 1;
@@ -2421,13 +2430,18 @@ body.index-page .home-top-ordered .p-see-all:hover {
     grid-row: 4;
     margin-top: 4px;
     padding-top: 22px;
+    min-width: 0;
   }
   .p-tips-premium__panel-link {
     grid-template-columns: 1fr;
     justify-items: stretch;
+    max-width: 100%;
   }
   .p-tips-premium__spotlight {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-inline: 16px 18px;
   }
   .p-tips-premium__art {
     order: -1;
@@ -3733,12 +3747,42 @@ body.index-page .p-ft-soc #ft-ig svg {
   }
 }
 @media (max-width: 900px) {
+  /* قائمة الأقسام — عمودان داخل العمود (أقصر وأقرب لتخطيط الديسكتوب) */
+  body.index-page .p-ft-col--cats ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 14px;
+  }
+  body.index-page .p-ft-col--cats ul li {
+    min-width: 0;
+  }
+  body.index-page .p-ft-col--cats a {
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 5px 0;
+  }
   body.index-page .p-ft-brand-block {
-    align-items: stretch;
+    align-items: center;
+    text-align: center;
+  }
+  body.index-page .p-ft-url {
+    margin-inline: auto;
+  }
+  body.index-page .p-ft-services {
+    justify-content: center;
+    gap: 12px 18px;
+    width: 100%;
+  }
+  body.index-page .p-ft-soc {
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
   }
   body.index-page .p-ft-cta-wa {
     width: 100%;
+    max-width: 420px;
     box-sizing: border-box;
+    margin-inline: auto;
   }
 }
 
@@ -3780,28 +3824,22 @@ body.index-page .p-ft-copy .ft-privacy {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px 20px;
   align-items: stretch;
+  min-width: 0;
 }
+/* موبايل: عمود واحد بعرض الشاشة — بدون تمرير أفقي يقطع المحتوى */
 @media (max-width: 900px) {
   .p-tips-premium .p-tips-grid--more {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 14px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 4px;
-    overscroll-behavior-x: contain;
-    padding: 6px 2px 14px;
-    scrollbar-width: thin;
+    overflow: visible;
+    padding: 0;
   }
   .p-tips-premium .p-tips-grid--more .p-tip.p-tip--link {
-    flex: 0 0 min(86vw, 300px);
-    width: min(86vw, 300px);
-    max-width: min(86vw, 300px);
-    min-height: 0;
-    scroll-snap-align: start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 }
 #daily-tip-sec .p-tip.p-tip--link {
@@ -3848,6 +3886,8 @@ body.index-page .p-ft-copy .ft-privacy {
   line-height: 1.38;
   color: #fff;
   letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 #daily-tip-sec .p-tip__text {
   margin: 0;
@@ -3856,6 +3896,8 @@ body.index-page .p-ft-copy .ft-privacy {
   line-height: 1.72;
   color: rgba(226, 232, 240, 0.86);
   flex: 1;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 @media (hover: hover) and (pointer: fine) {
   #daily-tip-sec .p-tip.p-tip--link:hover {

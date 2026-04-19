@@ -3224,43 +3224,16 @@ if (typeof subscribeShopState === 'function') {
 function updateHomeProductsMetaBar(list, page) {
   const meta = document.getElementById('homeProdMeta');
   if (!meta) return;
-  const total = list.length;
-  if (!total) {
-    meta.textContent = '';
-    meta.hidden = true;
-    return;
-  }
-  meta.hidden = false;
-  const pages = Math.max(1, Math.ceil(total / PRODUCTS_PER_PAGE));
-  const start = (page - 1) * PRODUCTS_PER_PAGE + 1;
-  const end = Math.min(page * PRODUCTS_PER_PAGE, total);
-  if (pages <= 1) {
-    meta.textContent = 'عرض ' + total + ' منتجًا متاحًا للطلب عبر واتساب';
-  } else {
-    meta.textContent = 'عرض ' + start + '–' + end + ' من ' + total + ' منتجًا · الصفحة ' + page + ' من ' + pages;
-  }
+  meta.textContent = '';
+  meta.hidden = true;
 }
 
 /** شريط النص عند التصفح من الخادم (page / limit / total) */
 function updateHomeProductsMetaBarServer(total, page, totalPages /* , perPage ignored — الشبكة ثابتة PRODUCTS_PER_PAGE */) {
   const meta = document.getElementById('homeProdMeta');
   if (!meta) return;
-  /* دائماً حجم صفحة الشبكة في الرئيسية — يمنع عرض «1–12» إذا رجع الخادم per_page أعلى من 8 */
-  const lim = PRODUCTS_PER_PAGE;
-  if (!total) {
-    meta.textContent = '';
-    meta.hidden = true;
-    return;
-  }
-  meta.hidden = false;
-  const pages = Math.max(1, totalPages || Math.ceil(total / lim));
-  const start = (page - 1) * lim + 1;
-  const end = Math.min(page * lim, total);
-  if (pages <= 1) {
-    meta.textContent = 'عرض ' + total + ' منتجًا متاحًا للطلب عبر واتساب';
-  } else {
-    meta.textContent = 'عرض ' + start + '–' + end + ' من ' + total + ' منتجًا · الصفحة ' + page + ' من ' + pages;
-  }
+  meta.textContent = '';
+  meta.hidden = true;
 }
 
 /**
