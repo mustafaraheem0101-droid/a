@@ -241,9 +241,34 @@ body.index-page .home-spotlight-tile .home-top-video--file .home-top-video__el {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 520px) {
+/* موبايل: صف أفقي — البطاقات جنب بعض مع سحب يمين/يسار (مثل عرض سطح المكتب) */
+@media (max-width: 720px) {
+  body.index-page .home-spotlight-media {
+    margin-inline: -24px;
+    padding-inline: 16px;
+    width: auto;
+    max-width: none;
+    box-sizing: border-box;
+  }
   body.index-page .home-spotlight-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  body.index-page .home-spotlight-tile {
+    flex: 0 0 min(42vw, 200px);
+    width: min(42vw, 200px);
+    min-width: min(42vw, 200px);
+    max-width: min(42vw, 200px);
+    scroll-snap-align: start;
   }
 }
 body.index-page .home-top-video--embed:not(.home-top-video--spotlight) {
