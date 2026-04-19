@@ -166,12 +166,43 @@
   flex-wrap: wrap;
 }
 
-/* فيديو أسفل الهيرو (بدل بطاقات المنتجات في هذا القسم) */
+/* فيديوهات أسفل الهيرو — شبكة 4 أعمدة (مثل عرض بطاقات المنتجات) */
 body.index-page .home-spotlight-media {
   width: 100%;
-  max-width: 960px;
+  max-width: 1360px;
   margin-inline: auto;
   padding: 4px 0 10px;
+}
+body.index-page .home-spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+  width: 100%;
+}
+body.index-page .home-spotlight-tile {
+  min-width: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 167, 124, 0.18),
+    0 8px 28px rgba(0, 90, 70, 0.1);
+  background: #fff;
+}
+body.index-page .home-spotlight-tile .home-top-video--embed,
+body.index-page .home-spotlight-tile .home-top-video--file {
+  box-shadow: none;
+  border-radius: 0;
+}
+@media (max-width: 1100px) {
+  body.index-page .home-spotlight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  body.index-page .home-spotlight-grid {
+    grid-template-columns: 1fr;
+  }
 }
 body.index-page .home-top-video--embed {
   position: relative;
@@ -199,6 +230,12 @@ body.index-page .home-top-video__el {
   display: block;
   width: 100%;
   max-height: min(72vh, 560px);
+}
+body.index-page .home-spotlight-tile .home-top-video__el {
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  vertical-align: middle;
 }
 
 /* الأكثر طلباً — شبكة ثابتة (لف متعدد الأسطر، بدون حركة أفقية) */

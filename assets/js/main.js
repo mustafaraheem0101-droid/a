@@ -20,7 +20,7 @@ let settings = {
   mapUrl: MAP_URL,
   instagram: '',
   facebook: '',
-  homeSpotlightVideoUrl: ''
+  homeSpotlightVideos: ['', '', '', '']
 };
 
 let prods = [];
@@ -3695,11 +3695,33 @@ function renderHomeExtras(data) {
   }
   const topSec = document.getElementById('home-top-ordered-sec');
   const mediaEl = document.getElementById('homeSpotlightMedia');
-  var videoUrl = s.homeSpotlightVideoUrl != null ? String(s.homeSpotlightVideoUrl).trim() : '';
+  var urls = ['', '', '', ''];
+  if (Array.isArray(s.homeSpotlightVideos)) {
+    for (var vi = 0; vi < 4; vi++) {
+      urls[vi] = s.homeSpotlightVideos[vi] != null ? String(s.homeSpotlightVideos[vi]).trim() : '';
+    }
+  } else if (s.homeSpotlightVideoUrl != null && String(s.homeSpotlightVideoUrl).trim() !== '') {
+    urls[0] = String(s.homeSpotlightVideoUrl).trim();
+  }
+  var anyVideo = urls.some(function (x) {
+    return x && String(x).trim() !== '';
+  });
 
-  if (topSec && mediaEl && videoUrl) {
+  if (topSec && mediaEl && anyVideo) {
     topSec.hidden = false;
-    replaceChildrenFromHtml(mediaEl, pharmaSpotlightVideoBlockHtml(videoUrl));
+    var gridHtml =
+      '<div class="home-spotlight-grid" role="list">' +
+      urls
+        .map(function (u, i) {
+          var t = String(u || '').trim();
+          if (!t) return '';
+          var inner = pharmaSpotlightVideoBlockHtml(t);
+          if (!inner) return '';
+          return '<div class="home-spotlight-tile" role="listitem" data-spotlight-idx="' + i + '">' + inner + '</div>';
+        })
+        .join('') +
+      '</div>';
+    replaceChildrenFromHtml(mediaEl, gridHtml);
   } else if (topSec) {
     topSec.hidden = true;
     if (mediaEl && typeof replaceChildrenFromHtml === 'function') replaceChildrenFromHtml(mediaEl, '');

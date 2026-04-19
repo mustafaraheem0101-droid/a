@@ -1754,20 +1754,55 @@ a { text-decoration: none; color: inherit; }
           <p class="cp-page-lead">تُحمَّل الإعدادات من الخادم عند فتح هذه الصفحة. إذا ظهرت قوائم فارغة، تأكد من الاتصال ثم أعد فتح «الصفحة الرئيسية» من القائمة. احفظ بالزر أعلاه أو بالزر في الأسفل.</p>
           <p class="hp-lead">تحكم بسلايدر الهيرو وبسلايدر الأقسام والعناوين. التغييرات تظهر على الموقع بعد الحفظ.</p>
           <div class="hp-block" style="margin-bottom:18px;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(0,135,90,.04));border:1.5px solid rgba(59,130,246,.2);border-radius:16px;padding:20px;">
-            <h4 class="hp-block-title" style="margin:0 0 8px;">🎬 فيديو أسفل الهيرو</h4>
-            <p style="margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.5;">يظهر في الصفحة الرئيسية بدل بطاقات المنتجات السابقة. ارفع ملفاً من جهازك ثم احفظ. اتركه فارغاً لإخفاء القسم.</p>
-            <input type="hidden" id="hp-spotlight-video-url" value="">
-            <div class="fg full">
-              <label>ملف الفيديو</label>
-              <input type="file" id="hp-spotlight-video-file" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
-              <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-                <button type="button" class="edit-btn" id="btn-hp-spotlight-video-pick">📤 رفع فيديو من الجهاز (MP4 / WebM)</button>
-                <button type="button" class="del-btn" id="btn-hp-spotlight-video-clear" style="display:none;">🗑 إزالة الفيديو</button>
+            <h4 class="hp-block-title" style="margin:0 0 8px;">🎬 فيديوهات أسفل الهيرو (4 خانات)</h4>
+            <p style="margin:0 0 16px;font-size:13px;color:var(--muted);line-height:1.5;">أربع خانات بحجم بطاقات المنتجات تقريباً. ارفع فيديواً لكل خانة ثم احفظ. إذا كانت كل الخانات فارغة يُخفى القسم على الموقع.</p>
+            <div class="hp-spotlight-grid-admin" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
+              <div class="hp-spotlight-slot" style="border:1px solid rgba(0,135,90,.2);border-radius:14px;padding:12px;background:rgba(255,255,255,.6);">
+                <div style="font-weight:800;font-size:13px;margin-bottom:8px;">🎬 فيديو 1</div>
+                <input type="hidden" id="hp-spotlight-video-url-0" value="">
+                <input type="file" class="hp-spotlight-video-file" id="hp-spotlight-video-file-0" data-spotlight-idx="0" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  <button type="button" class="edit-btn btn-hp-spotlight-pick" data-spotlight-idx="0">📤 رفع</button>
+                  <button type="button" class="del-btn btn-hp-spotlight-clear" id="btn-hp-spotlight-video-clear-0" data-spotlight-idx="0" style="display:none;">🗑</button>
+                </div>
+                <p id="hp-spotlight-video-status-0" style="margin:8px 0 0;font-size:11.5px;color:var(--muted);">فارغ</p>
+                <video id="hp-spotlight-video-preview-0" controls muted playsinline style="display:none;width:100%;max-height:200px;border-radius:10px;margin-top:8px;background:#0f172a;"></video>
               </div>
-              <p id="hp-spotlight-video-status" style="margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5;">لا يوجد فيديو محفوظ.</p>
-              <video id="hp-spotlight-video-preview" controls muted playsinline style="display:none;max-width:100%;max-height:280px;border-radius:12px;margin-top:12px;background:#0f172a;"></video>
-              <small style="display:block;margin-top:8px;color:var(--muted);font-size:11px;">الحد الأقصى 100 ميجابايت. إن فشل الرفع، راجع حد <code style="font-size:11px">upload_max_filesize</code> و <code style="font-size:11px">post_max_size</code> في PHP.</small>
+              <div class="hp-spotlight-slot" style="border:1px solid rgba(0,135,90,.2);border-radius:14px;padding:12px;background:rgba(255,255,255,.6);">
+                <div style="font-weight:800;font-size:13px;margin-bottom:8px;">🎬 فيديو 2</div>
+                <input type="hidden" id="hp-spotlight-video-url-1" value="">
+                <input type="file" class="hp-spotlight-video-file" id="hp-spotlight-video-file-1" data-spotlight-idx="1" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  <button type="button" class="edit-btn btn-hp-spotlight-pick" data-spotlight-idx="1">📤 رفع</button>
+                  <button type="button" class="del-btn btn-hp-spotlight-clear" id="btn-hp-spotlight-video-clear-1" data-spotlight-idx="1" style="display:none;">🗑</button>
+                </div>
+                <p id="hp-spotlight-video-status-1" style="margin:8px 0 0;font-size:11.5px;color:var(--muted);">فارغ</p>
+                <video id="hp-spotlight-video-preview-1" controls muted playsinline style="display:none;width:100%;max-height:200px;border-radius:10px;margin-top:8px;background:#0f172a;"></video>
+              </div>
+              <div class="hp-spotlight-slot" style="border:1px solid rgba(0,135,90,.2);border-radius:14px;padding:12px;background:rgba(255,255,255,.6);">
+                <div style="font-weight:800;font-size:13px;margin-bottom:8px;">🎬 فيديو 3</div>
+                <input type="hidden" id="hp-spotlight-video-url-2" value="">
+                <input type="file" class="hp-spotlight-video-file" id="hp-spotlight-video-file-2" data-spotlight-idx="2" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  <button type="button" class="edit-btn btn-hp-spotlight-pick" data-spotlight-idx="2">📤 رفع</button>
+                  <button type="button" class="del-btn btn-hp-spotlight-clear" id="btn-hp-spotlight-video-clear-2" data-spotlight-idx="2" style="display:none;">🗑</button>
+                </div>
+                <p id="hp-spotlight-video-status-2" style="margin:8px 0 0;font-size:11.5px;color:var(--muted);">فارغ</p>
+                <video id="hp-spotlight-video-preview-2" controls muted playsinline style="display:none;width:100%;max-height:200px;border-radius:10px;margin-top:8px;background:#0f172a;"></video>
+              </div>
+              <div class="hp-spotlight-slot" style="border:1px solid rgba(0,135,90,.2);border-radius:14px;padding:12px;background:rgba(255,255,255,.6);">
+                <div style="font-weight:800;font-size:13px;margin-bottom:8px;">🎬 فيديو 4</div>
+                <input type="hidden" id="hp-spotlight-video-url-3" value="">
+                <input type="file" class="hp-spotlight-video-file" id="hp-spotlight-video-file-3" data-spotlight-idx="3" accept="video/mp4,video/webm,.mp4,.webm" style="display:none" aria-hidden="true">
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                  <button type="button" class="edit-btn btn-hp-spotlight-pick" data-spotlight-idx="3">📤 رفع</button>
+                  <button type="button" class="del-btn btn-hp-spotlight-clear" id="btn-hp-spotlight-video-clear-3" data-spotlight-idx="3" style="display:none;">🗑</button>
+                </div>
+                <p id="hp-spotlight-video-status-3" style="margin:8px 0 0;font-size:11.5px;color:var(--muted);">فارغ</p>
+                <video id="hp-spotlight-video-preview-3" controls muted playsinline style="display:none;width:100%;max-height:200px;border-radius:10px;margin-top:8px;background:#0f172a;"></video>
+              </div>
             </div>
+            <small style="display:block;margin-top:12px;color:var(--muted);font-size:11px;">الحد الأقصى 100 ميجابايت لكل ملف. إن فشل الرفع، راجع <code style="font-size:11px">upload_max_filesize</code> و <code style="font-size:11px">post_max_size</code> في PHP.</small>
           </div>
           <div class="hp-block" style="background:linear-gradient(135deg,rgba(0,135,90,.06),rgba(0,168,110,.03));border:1.5px solid rgba(0,135,90,.15);border-radius:16px;padding:20px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
@@ -2087,7 +2122,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.2.1"></script>
+<script src="/assets/js/admin.js?v=3.3.0"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 
 </body>

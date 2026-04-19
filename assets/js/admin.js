@@ -1560,25 +1560,45 @@ function renderHomepageSettings() {
   setVal('hp-sec-title', s.homeSectionCategoryTitle || 'تسوّق حسب الفئة');
   setVal('hp-sec-kicker', s.homeSectionCategoryKicker || 'تصفّح الأقسام');
   setVal('hp-sec-sub', s.homeSectionCategorySub || '');
-  setVal('hp-spotlight-video-url', s.homeSpotlightVideoUrl || '');
-  if (typeof syncHomepageSpotlightVideoPreview === 'function') syncHomepageSpotlightVideoPreview();
+  var spotUrls = normalizeHomeSpotlightVideosFromSettings(s);
+  for (var si = 0; si < 4; si++) {
+    setVal('hp-spotlight-video-url-' + si, spotUrls[si] || '');
+  }
+  if (typeof syncAllHomepageSpotlightVideoPreviews === 'function') syncAllHomepageSpotlightVideoPreviews();
 
   renderHeroSlidesList(s.heroSlides || []);
   renderCatSlidesList(s.categorySliderItems || []);
 }
 
-function syncHomepageSpotlightVideoPreview() {
-  var url = (typeof getVal === 'function' ? getVal('hp-spotlight-video-url') : '') || '';
-  var prev = document.getElementById('hp-spotlight-video-preview');
-  var status = document.getElementById('hp-spotlight-video-status');
-  var btnClear = document.getElementById('btn-hp-spotlight-video-clear');
+function normalizeHomeSpotlightVideosFromSettings(s) {
+  var out = ['', '', '', ''];
+  if (!s || typeof s !== 'object') return out;
+  if (Array.isArray(s.homeSpotlightVideos)) {
+    for (var i = 0; i < 4; i++) {
+      out[i] = s.homeSpotlightVideos[i] != null ? String(s.homeSpotlightVideos[i]).trim() : '';
+    }
+    return out;
+  }
+  if (s.homeSpotlightVideoUrl != null && String(s.homeSpotlightVideoUrl).trim() !== '') {
+    out[0] = String(s.homeSpotlightVideoUrl).trim();
+  }
+  return out;
+}
+
+function syncHomepageSpotlightVideoPreview(idx) {
+  var i = typeof idx === 'number' ? idx : parseInt(String(idx), 10);
+  if (isNaN(i) || i < 0 || i > 3) return;
+  var url = (typeof getVal === 'function' ? getVal('hp-spotlight-video-url-' + i) : '') || '';
+  var prev = document.getElementById('hp-spotlight-video-preview-' + i);
+  var status = document.getElementById('hp-spotlight-video-status-' + i);
+  var btnClear = document.getElementById('btn-hp-spotlight-video-clear-' + i);
   if (!prev) return;
   if (url && /^https?:\/\//i.test(url)) {
     prev.removeAttribute('src');
     prev.style.display = 'none';
     if (btnClear) btnClear.style.display = 'inline-flex';
     if (status) {
-      status.textContent = 'محفوظ كرابط خارجي. لاستخدام رفع ملف من الجهاز، احذف القيمة بـ «إزالة» ثم ارفع ملفاً.';
+      status.textContent = 'رابط خارجي — للرفع من الجهاز استخدم «إزالة» ثم ارفع ملفاً.';
     }
     return;
   }
@@ -1590,25 +1610,31 @@ function syncHomepageSpotlightVideoPreview() {
     prev.src = src;
     prev.style.display = 'block';
     if (btnClear) btnClear.style.display = 'inline-flex';
-    if (status) {
-      status.textContent = 'فيديو محفوظ على السيرفر. اضغط «💾 حفظ التغييرات» أعلاه إن رفعت ملفاً جديداً للتو.';
-    }
+    if (status) status.textContent = 'محفوظ — اضغط «حفظ» لتثبيت التغييرات على الموقع.';
   } else {
     prev.removeAttribute('src');
     prev.style.display = 'none';
     if (btnClear) btnClear.style.display = 'none';
-    if (status) status.textContent = 'لا يوجد فيديو — ارفع ملف MP4 أو WebM.';
+    if (status) status.textContent = 'فارغ — ارفع MP4 أو WebM.';
   }
 }
 
-async function tryUploadHomepageSpotlightVideo(file) {
+function syncAllHomepageSpotlightVideoPreviews() {
+  for (var j = 0; j < 4; j++) {
+    syncHomepageSpotlightVideoPreview(j);
+  }
+}
+
+async function tryUploadHomepageSpotlightVideo(file, idx) {
+  var i = typeof idx === 'number' ? idx : parseInt(String(idx), 10);
+  if (isNaN(i) || i < 0 || i > 3) return;
   if (!file || typeof uploadSpotlightVideo !== 'function') return;
   showToast('جاري رفع الفيديو… قد يستغرق وقتاً للملفات الكبيرة');
   var r = await uploadSpotlightVideo(file);
   if (apiIsSuccess(r) && (r.url || (r.data && (r.data.url || r.data.path)))) {
     var u = r.url || r.data.url || r.data.path;
-    setVal('hp-spotlight-video-url', u);
-    syncHomepageSpotlightVideoPreview();
+    setVal('hp-spotlight-video-url-' + i, u);
+    syncHomepageSpotlightVideoPreview(i);
     showToast('تم رفع الفيديو — اضغط «حفظ التغييرات» لتثبيته على الموقع');
   } else {
     showToast(apiErrorMessage(r) || 'فشل رفع الفيديو', 'error');
@@ -1707,7 +1733,12 @@ async function saveHomepageSettings() {
   s.homeSectionCategoryTitle = getVal('hp-sec-title');
   s.homeSectionCategoryKicker = getVal('hp-sec-kicker');
   s.homeSectionCategorySub = getVal('hp-sec-sub');
-  s.homeSpotlightVideoUrl = getVal('hp-spotlight-video-url').trim();
+  s.homeSpotlightVideos = [0, 1, 2, 3].map(function (ii) {
+    return (typeof getVal === 'function' ? getVal('hp-spotlight-video-url-' + ii) : '').trim();
+  });
+  try {
+    delete s.homeSpotlightVideoUrl;
+  } catch (e) { /* ignore */ }
 
   const r = await adminSaveSettings(s);
   if (apiIsSuccess(r)) {
@@ -1727,7 +1758,9 @@ window.removeCatSlide = removeCatSlide;
 window.addHeroSlide = addHeroSlide;
 window.addCatSlide = addCatSlide;
 window.saveHomepageSettings = saveHomepageSettings;
+window.normalizeHomeSpotlightVideosFromSettings = normalizeHomeSpotlightVideosFromSettings;
 window.syncHomepageSpotlightVideoPreview = syncHomepageSpotlightVideoPreview;
+window.syncAllHomepageSpotlightVideoPreviews = syncAllHomepageSpotlightVideoPreviews;
 window.tryUploadHomepageSpotlightVideo = tryUploadHomepageSpotlightVideo;
 
 /* ---------- hero-slider-admin.js ---------- */
@@ -2726,20 +2759,25 @@ function initCpStaticBindings() {
     if (typeof saveHomepageSettings === 'function') saveHomepageSettings();
   });
 
-  on('btn-hp-spotlight-video-pick', 'click', function () {
-    var inp = document.getElementById('hp-spotlight-video-file');
+  onSel('.btn-hp-spotlight-pick', 'click', function () {
+    var idx = this.getAttribute('data-spotlight-idx');
+    if (idx == null) return;
+    var inp = document.getElementById('hp-spotlight-video-file-' + idx);
     if (inp) inp.click();
   });
-  on('hp-spotlight-video-file', 'change', function () {
+  onSel('.hp-spotlight-video-file', 'change', function () {
+    var idx = this.getAttribute('data-spotlight-idx');
     var f = this.files && this.files[0];
-    if (f && typeof tryUploadHomepageSpotlightVideo === 'function') {
-      tryUploadHomepageSpotlightVideo(f);
+    if (f && idx != null && typeof tryUploadHomepageSpotlightVideo === 'function') {
+      tryUploadHomepageSpotlightVideo(f, parseInt(idx, 10));
     }
     this.value = '';
   });
-  on('btn-hp-spotlight-video-clear', 'click', function () {
-    if (typeof setVal === 'function') setVal('hp-spotlight-video-url', '');
-    if (typeof syncHomepageSpotlightVideoPreview === 'function') syncHomepageSpotlightVideoPreview();
+  onSel('.btn-hp-spotlight-clear', 'click', function () {
+    var idx = this.getAttribute('data-spotlight-idx');
+    if (idx == null) return;
+    if (typeof setVal === 'function') setVal('hp-spotlight-video-url-' + idx, '');
+    if (typeof syncHomepageSpotlightVideoPreview === 'function') syncHomepageSpotlightVideoPreview(parseInt(idx, 10));
   });
 
   /* ═══════════════════════════════════════════
