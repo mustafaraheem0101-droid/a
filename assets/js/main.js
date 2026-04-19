@@ -340,7 +340,7 @@ function renderCartBody() {
         ${(item.image && typeof item.image === 'string' && (item.image.startsWith('http://')||item.image.startsWith('https://')||item.image.startsWith('/'))) ? `<img src="${escHtml(item.image)}" alt="${escHtml(item.name)}" class="img-cover" loading="lazy" decoding="async">` : `<span style="font-size:28px">📦</span>`}
       </div>
       <div class="cs-item-info">
-        <div class="cs-item-name">${escHtml(item.name)}</div>
+        <div class="cs-item-name" title="${escHtml(item.name)}">${escHtml(item.name)}</div>
         ${priceBlock}
       </div>
       <div class="cs-item-qty">

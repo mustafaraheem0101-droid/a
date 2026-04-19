@@ -963,11 +963,18 @@ img.img-cover {
   padding-top: 2px;
 }
 .cs-item-name {
+  min-width: 0;
   font-size: 15.5px;
   font-weight: 800;
   line-height: 1.35;
   color: var(--navy, #0f172a);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .cs-item-price-block {
   display: flex;

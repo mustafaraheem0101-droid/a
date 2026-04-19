@@ -112,15 +112,15 @@
   fill: currentColor;
 }
 
-/* ——— Index footer — شبكة ثلاثية: هوية | أقسام | تواصل (بدون صفّ علوي فارغ) ——— */
+/* ——— Index footer — 3 أعمدة: تواصل | أقسام | معلومات الموقع ——— */
 body.index-page .p-footer-inner {
   display: grid;
   width: 100%;
-  max-width: 1220px;
+  max-width: 1120px;
   margin-inline: auto;
   box-sizing: border-box;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.88fr) minmax(0, 0.95fr);
-  gap: clamp(22px, 3.5vw, 36px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 44px);
   align-items: start;
 }
 body.index-page .p-ft-brand-block {
@@ -135,13 +135,13 @@ body.index-page .p-ft-meta {
 @media (max-width: 900px) {
   body.index-page .p-footer-inner {
     grid-template-columns: 1fr;
-    gap: 26px;
+    gap: 32px;
   }
 }
 @media (min-width: 560px) and (max-width: 900px) {
   body.index-page .p-footer-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 20px;
+    gap: 28px 24px;
   }
   body.index-page .p-ft-brand-block {
     grid-column: 1 / -1;
