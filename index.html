@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.64" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.103" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.104" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.2" rel="stylesheet">
@@ -455,9 +455,6 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   body.index-page .disclaimer-strip {
     padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
   }
-  body.index-page .how-order-sec__inner {
-    padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
-  }
   body.index-page .p-ft-cta-wa {
     width: 100%;
     max-width: 100%;
@@ -466,10 +463,6 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   }
   body.index-page .p-ft-meta {
     padding-bottom: max(28px, env(safe-area-inset-bottom, 0px) + 20px);
-  }
-  /* إخفاء قسم خطوات الطلب عبر واتساب على الموبايل — يبدو مزدحماً/كنافذة منبثقة */
-  body.index-page #how-order.how-order-sec {
-    display: none !important;
   }
   body.index-page .p-sec-hd .p-see-all {
     min-height: 44px;
@@ -807,44 +800,6 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 
 <section class="tips-sec" style="display:none;" aria-hidden="true">
   <div class="tips-sec__inner"><div class="tips-scroll" id="tipsTrack" role="list"></div></div>
-</section>
-
-<!-- طريقة الطلب عبر واتساب -->
-<section class="how-order-sec p-sec-fade" id="how-order" aria-labelledby="how-order-title">
-  <div class="how-order-sec__inner">
-    <div class="p-sec-hd how-order-sec__hd">
-      <div class="p-kicker" style="justify-content:center;">طلب سهل وآمن</div>
-      <h2 class="p-sec-title" id="how-order-title">اطلب بسهولة عبر واتساب خلال دقيقة</h2>
-      <p class="how-order-sec__lead">3 خطوات بسيطة بدون دفع مسبق</p>
-    </div>
-    <ol class="how-order-steps" aria-label="خطوات الطلب عبر واتساب">
-      <li class="how-order-step">
-        <span class="how-order-step__num" aria-hidden="true">1</span>
-        <div class="how-order-step__body">
-          <span class="how-order-step__ico" aria-hidden="true">🔍</span>
-          <p class="how-order-step__line">تصفّح الأقسام أو ابحث واختر منتجك في ثوانٍ.</p>
-        </div>
-      </li>
-      <li class="how-order-step">
-        <span class="how-order-step__num" aria-hidden="true">2</span>
-        <div class="how-order-step__body">
-          <span class="how-order-step__ico" aria-hidden="true">🛒</span>
-          <p class="how-order-step__line">اضغط «اطلب الآن» ويُرسل الموقع تفاصيل طلبك عبر واتساب.</p>
-        </div>
-      </li>
-      <li class="how-order-step">
-        <span class="how-order-step__num" aria-hidden="true">3</span>
-        <div class="how-order-step__body">
-          <span class="how-order-step__ico" aria-hidden="true">🚚</span>
-          <p class="how-order-step__line">يؤكد الصيدلي التوفر والسعر ثم يُنسّق معك التوصيل أو الاستلام.</p>
-        </div>
-      </li>
-    </ol>
-    <div class="how-order-footer">
-      <a href="#" class="how-order-cta" data-wa-link data-wa-text="مرحباً، أريد البدء بالطلب عبر واتساب">ابدأ الطلب الآن عبر واتساب</a>
-      <p class="how-order-trust">بدون دفع مسبق – تأكيد مباشر مع الصيدلي</p>
-    </div>
-  </div>
 </section>
 
 <div class="disclaimer-strip" role="note">
