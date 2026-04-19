@@ -965,7 +965,7 @@ window.adminGetCustomers = adminGetCustomers;
     if (!img || img.tagName !== 'IMG') return;
     if (img.dataset.skipImgFallback === '1') return;
     /* سلايدرات الصفحة الرئيسية — لا تستبدل بـ placeholder حتى لا يظهر «لا توجد صورة» عند 404 مؤقت أو مسار فرعي */
-    if (img.classList.contains('brand-showcase-img') || img.classList.contains('promo-slide-img') || img.classList.contains('spotlight-slider-img')) return;
+    if (img.classList.contains('brand-showcase-img') || img.classList.contains('promo-slide-img') || img.classList.contains('spotlight-slider-img') || img.classList.contains('spotlight-video-block__still')) return;
     if (img.id === 'imgModalImg' || (img.closest && img.closest('.img-modal'))) return;
 
     var srcAttr = img.getAttribute('src');

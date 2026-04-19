@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.49">
+<meta name="asset-version" content="1.0.50">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -17,7 +17,7 @@
 <link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
 <link href="assets/css/shop-bundle.css?v=1.0.64" rel="stylesheet">
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.85" rel="stylesheet">
+<link href="assets/css/store-enhancements.css?v=1.0.86" rel="stylesheet">
 <link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
 <link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <link href="assets/css/icons-inline.css?v=1.0.1" rel="stylesheet">
@@ -714,14 +714,24 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   </div>
 </section>
 
-<!-- فيديو بنر — نفس موضع وأبعاد سلايدر «عروض ومنتجات مختارة» سابقاً؛ ضع الملف spotlight-offers.mp4 في assets/videos/ -->
+<!-- عروض ومنتجات مختارة — صورة البانر أولاً ثم انتقال إلى الفيديو؛ الملف spotlight-offers.mp4 في assets/videos/ -->
 <section class="spotlight-slider-sec p-sec-fade" id="spotlightSliderSec" aria-labelledby="spotlight-slider-title">
   <div class="spotlight-slider-sec__head">
     <h2 class="spotlight-slider-sec__title" id="spotlight-slider-title">عروض ومنتجات مختارة</h2>
   </div>
   <div class="spotlight-slider-wrap">
-    <div class="spotlight-video-block">
-      <div class="spotlight-video-block__media" aria-hidden="true">
+    <div class="spotlight-video-block" id="spotlightVideoStage">
+      <img
+        class="spotlight-video-block__still"
+        src="assets/img/spotlight-banners/slide-03.png"
+        alt=""
+        width="1600"
+        height="400"
+        decoding="async"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="spotlight-video-block__media">
         <video
           id="spotlightOffersVideo"
           class="spotlight-video-block__video"
@@ -729,10 +739,11 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="auto"
           disablepictureinpicture
           disableremoteplayback
           poster="assets/img/spotlight-banners/slide-03.png"
+          aria-label="عرض ترويجي للعروض والمنتجات المختارة"
         >
           <source src="assets/videos/spotlight-offers.mp4" type="video/mp4" />
         </video>
@@ -998,12 +1009,13 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <!-- ═══ JS — ترتيب التحميل مهم ═══ -->
 <script src="assets/js/utils.js?v=3.5.14"></script>
   <script src="assets/js/ui.js?v=3.5.4"></script>
-  <script src="assets/js/api.js?v=3.1.9"></script>
+  <script src="assets/js/api.js?v=3.1.10"></script>
   <script src="assets/js/main.js?v=3.7.14"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
+<script src="assets/js/spotlight-offers-video.js?v=1.0.0"></script>
 </body>
 </html>
