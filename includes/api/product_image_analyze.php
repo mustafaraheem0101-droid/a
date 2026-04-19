@@ -1,0 +1,303 @@
+<?php
+/**
+ * استخراج بيانات منتج من صورة عبوة (Vision) — يتطلب GEMINI_API_KEY أو OPENAI_API_KEY في .env
+ */
+declare(strict_types=1);
+
+/**
+ * @return array{mime:string, binary:string}
+ */
+function pharma_api_decode_packaging_image(array $rawBody): array
+{
+    $img = $rawBody['image'] ?? $rawBody['imageBase64'] ?? '';
+    if (!is_string($img)) {
+        jsonError('أرسل حقل image كسلسلة (data URL أو base64)', [], 400);
+    }
+    $img = trim($img);
+    if ($img === '') {
+        jsonError('صورة المنتج مطلوبة', [], 400);
+    }
+    if (preg_match('#^data:(image/[a-zA-Z0-9.+-]+);base64,(.+)$#s', $img, $m)) {
+        $mime = strtolower($m[1]);
+        $bin = base64_decode(str_replace(["\r", "\n", ' '], '', $m[2]), true);
+        if ($bin === false || $bin === '') {
+            jsonError('فك تشفير الصورة فشل', [], 400);
+        }
+
+        return ['mime' => $mime, 'binary' => $bin];
+    }
+    $raw = preg_replace('#\s#', '', $img);
+    if (strlen($raw) < 80) {
+        jsonError('صورة غير صالحة أو قصيرة جداً', [], 400);
+    }
+    $bin = base64_decode($raw, true);
+    if ($bin === false || $bin === '') {
+        jsonError('صورة غير صالحة (توقع data:image/...;base64,...)', [], 400);
+    }
+
+    return ['mime' => 'image/jpeg', 'binary' => $bin];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function pharma_api_normalize_packaging_ai_json(array $j): array
+{
+    $pt = isset($j['product_type']) ? strtolower((string) $j['product_type']) : '';
+    $allowedPt = ['medicine', 'cosmetic', 'device', 'supplement', 'other'];
+    if (!in_array($pt, $allowedPt, true)) {
+        $pt = 'other';
+    }
+    $slugs = [];
+    if (isset($j['main_category_slugs']) && is_array($j['main_category_slugs'])) {
+        foreach ($j['main_category_slugs'] as $s) {
+            $s = strtolower(trim((string) $s));
+            $aliases = [
+                'medicines' => 'medicine',
+                'drugs' => 'medicine',
+                'vitamin' => 'vitamins',
+                'cosmetics' => 'cosmetics',
+                'beauty' => 'cosmetics',
+                'kids' => 'kids',
+                'children' => 'kids',
+                'baby' => 'kids',
+                'devices' => 'medical',
+            ];
+            if (isset($aliases[$s])) {
+                $s = $aliases[$s];
+            }
+            if ($s !== '') {
+                $slugs[] = $s;
+            }
+        }
+        $slugs = array_values(array_unique($slugs));
+    }
+
+    return [
+        'name_ar' => isset($j['name_ar']) ? trim((string) $j['name_ar']) : '',
+        'brand' => isset($j['brand']) ? trim((string) $j['brand']) : '',
+        'desc' => isset($j['desc']) ? trim((string) $j['desc']) : '',
+        'usage' => isset($j['usage']) ? trim((string) $j['usage']) : '',
+        'dose' => isset($j['dose']) ? trim((string) $j['dose']) : '',
+        'frequency' => isset($j['frequency']) ? trim((string) $j['frequency']) : '',
+        'age' => isset($j['age']) ? trim((string) $j['age']) : '',
+        'storage' => isset($j['storage']) ? trim((string) $j['storage']) : '',
+        'warnings' => isset($j['warnings']) ? trim((string) $j['warnings']) : '',
+        'ingredients' => isset($j['ingredients']) ? trim((string) $j['ingredients']) : '',
+        'contraindications' => isset($j['contraindications']) ? trim((string) $j['contraindications']) : '',
+        'product_type' => $pt,
+        'main_category_slugs' => $slugs,
+        'quantity_label' => isset($j['quantity_label']) ? trim((string) $j['quantity_label']) : '',
+    ];
+}
+
+function pharma_api_json_from_ai_text(string $text): array
+{
+    $text = trim($text);
+    if ($text === '') {
+        return [];
+    }
+    $decoded = json_decode($text, true);
+    if (is_array($decoded)) {
+        return $decoded;
+    }
+    if (preg_match('/\{[\s\S]*\}/', $text, $m)) {
+        $decoded = json_decode($m[0], true);
+        if (is_array($decoded)) {
+            return $decoded;
+        }
+    }
+
+    return [];
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function pharma_gemini_packaging_json(string $mime, string $binary, string $apiKey): array
+{
+    $model = trim((string) env('GEMINI_VISION_MODEL', 'gemini-1.5-flash'));
+    if ($model === '') {
+        $model = 'gemini-1.5-flash';
+    }
+    $url = 'https://generativelanguage.googleapis.com/v1beta/models/' . rawurlencode($model) . ':generateContent?key=' . rawurlencode($apiKey);
+
+    $prompt = <<<'PROMPT'
+You assist a pharmacy admin. Read the product packaging image carefully. Output ONE JSON object only (no markdown).
+Use Arabic for name_ar, desc, usage, dose, frequency, age, storage, warnings, ingredients, contraindications when the packaging is Arabic or bilingual; keep Latin brand names as on pack.
+Keys (all strings except arrays):
+- name_ar: full product title for the web store
+- brand: brand name or ""
+- desc: 2-4 sentences: what the product is and main benefit
+- usage: indications / what it is used for
+- dose: dosing if visible, else ""
+- frequency: e.g. twice daily, else ""
+- age: age restrictions if any, else ""
+- storage: storage instructions if any, else ""
+- warnings: warnings if any, else ""
+- ingredients: active ingredients / composition summary
+- contraindications: who should not use, else ""
+- product_type: exactly one of: medicine, cosmetic, device, supplement, other
+- main_category_slugs: array of 1-3 slugs from: medicine, medical, cosmetics, haircare, oralcare, vitamins, kids — pick what fits (e.g. omega supplement -> vitamins; prescription drug -> medicine)
+- quantity_label: e.g. "30 capsules" or "30 كبسولة" if visible, else ""
+PROMPT;
+
+    $payload = [
+        'contents' => [
+            [
+                'parts' => [
+                    ['text' => $prompt],
+                    [
+                        'inline_data' => [
+                            'mime_type' => $mime,
+                            'data' => base64_encode($binary),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'generationConfig' => [
+            'temperature' => 0.15,
+            'responseMimeType' => 'application/json',
+        ],
+    ];
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 90,
+        CURLOPT_CONNECTTIMEOUT => 15,
+    ]);
+    $resp = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err = curl_error($ch);
+    curl_close($ch);
+    if ($resp === false || $resp === '') {
+        jsonError(API_DEBUG ? ('Gemini: ' . $err) : 'تعذر الاتصال بخدمة التحليل', [], 502);
+    }
+    $j = json_decode((string) $resp, true);
+    if (!is_array($j)) {
+        jsonError(API_DEBUG ? ('Gemini غير JSON: ' . substr((string) $resp, 0, 400)) : 'استجابة غير متوقعة من خدمة التحليل', [], 502);
+    }
+    if ($code >= 400) {
+        $msg = isset($j['error']['message']) ? (string) $j['error']['message'] : ('HTTP ' . $code);
+        jsonError(API_DEBUG ? $msg : 'فشل تحليل الصورة (تحقق من GEMINI_API_KEY والنموذج)', [], 502);
+    }
+    $text = '';
+    if (isset($j['candidates'][0]['content']['parts']) && is_array($j['candidates'][0]['content']['parts'])) {
+        foreach ($j['candidates'][0]['content']['parts'] as $part) {
+            if (isset($part['text']) && is_string($part['text'])) {
+                $text .= $part['text'];
+            }
+        }
+    }
+    $parsed = pharma_api_json_from_ai_text($text);
+    if ($parsed === []) {
+        jsonError(API_DEBUG ? ('لم يُستخرج JSON: ' . substr($text, 0, 500)) : 'لم يُستخرج نص مناسب من الصورة', [], 422);
+    }
+
+    return pharma_api_normalize_packaging_ai_json($parsed);
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function pharma_openai_packaging_json(string $mime, string $binary, string $apiKey): array
+{
+    $model = trim((string) env('OPENAI_VISION_MODEL', 'gpt-4o-mini'));
+    if ($model === '') {
+        $model = 'gpt-4o-mini';
+    }
+    $dataUrl = 'data:' . $mime . ';base64,' . base64_encode($binary);
+
+    $prompt = <<<'PROMPT'
+Read this pharmacy product packaging. Reply with ONE JSON object only, no markdown.
+Keys: name_ar, brand, desc, usage, dose, frequency, age, storage, warnings, ingredients, contraindications,
+product_type (medicine|cosmetic|device|supplement|other),
+main_category_slugs (array of slugs from: medicine, medical, cosmetics, haircare, oralcare, vitamins, kids),
+quantity_label.
+Use Arabic where appropriate for an Iraqi pharmacy site.
+PROMPT;
+
+    $payload = [
+        'model' => $model,
+        'temperature' => 0.15,
+        'response_format' => ['type' => 'json_object'],
+        'messages' => [
+            [
+                'role' => 'user',
+                'content' => [
+                    ['type' => 'text', 'text' => $prompt],
+                    ['type' => 'image_url', 'image_url' => ['url' => $dataUrl]],
+                ],
+            ],
+        ],
+    ];
+
+    $ch = curl_init('https://api.openai.com/v1/chat/completions');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey,
+        ],
+        CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 90,
+        CURLOPT_CONNECTTIMEOUT => 15,
+    ]);
+    $resp = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($resp === false || $resp === '') {
+        jsonError('تعذر الاتصال بـ OpenAI', [], 502);
+    }
+    $j = json_decode((string) $resp, true);
+    if (!is_array($j)) {
+        jsonError(API_DEBUG ? ('OpenAI: ' . substr((string) $resp, 0, 400)) : 'استجابة OpenAI غير صالحة', [], 502);
+    }
+    if ($code >= 400) {
+        $msg = isset($j['error']['message']) ? (string) $j['error']['message'] : ('HTTP ' . $code);
+        jsonError(API_DEBUG ? $msg : 'فشل تحليل الصورة (OpenAI)', [], 502);
+    }
+    $text = (string) ($j['choices'][0]['message']['content'] ?? '');
+    $parsed = pharma_api_json_from_ai_text($text);
+    if ($parsed === []) {
+        jsonError('لم يُستخرج JSON من OpenAI', [], 422);
+    }
+
+    return pharma_api_normalize_packaging_ai_json($parsed);
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function pharma_api_run_packaging_analysis(array $rawBody): array
+{
+    $decoded = pharma_api_decode_packaging_image($rawBody);
+    $bin = $decoded['binary'];
+    if (strlen($bin) > 6 * 1024 * 1024) {
+        jsonError('حجم الصورة يتجاوز 6 ميجابايت', [], 400);
+    }
+    $mime = $decoded['mime'];
+    if (!preg_match('#^image/(jpeg|png|gif|webp)$#', $mime)) {
+        $mime = 'image/jpeg';
+    }
+
+    $gem = trim((string) env('GEMINI_API_KEY', ''));
+    $oai = trim((string) env('OPENAI_API_KEY', ''));
+    if ($gem !== '') {
+        return pharma_gemini_packaging_json($mime, $bin, $gem);
+    }
+    if ($oai !== '') {
+        return pharma_openai_packaging_json($mime, $oai);
+    }
+    jsonError(
+        'لم يُضبط مفتاح تحليل الصور: أضف GEMINI_API_KEY أو OPENAI_API_KEY في ملف .env على الخادم (مجلد المشروع أو private_data/.env).',
+        [],
+        503
+    );
+}

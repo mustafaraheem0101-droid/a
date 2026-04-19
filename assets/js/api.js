@@ -500,6 +500,14 @@ async function uploadImage(file) {
   }
 }
 
+/** استخراج بيانات من صورة عبوة (يتطلب مفتاح Gemini أو OpenAI في .env على الخادم). */
+async function analyzeProductImageForAdmin(dataUrl) {
+  if (!dataUrl || typeof dataUrl !== 'string') {
+    return { status: 'error', data: [], message: 'لا توجد صورة' };
+  }
+  return adminFetch('analyzeProductImage', { image: dataUrl }, 'POST', { timeoutMs: 120000 });
+}
+
 async function logoutPhp() {
   const name = 'logout.php';
   logAPIRequest(name, { phase: 'before_fetch', method: 'GET', url: 'logout.php' });
@@ -716,6 +724,7 @@ window.apiFetch = apiFetch;
 window.adminFetch = adminFetch;
 window.fetchApiJson = fetchApiJson;
 window.uploadImage = uploadImage;
+window.analyzeProductImageForAdmin = analyzeProductImageForAdmin;
 window.logoutPhp = logoutPhp;
 window.fetchProductReviews = fetchProductReviews;
 window.uploadReviewImage = uploadReviewImage;

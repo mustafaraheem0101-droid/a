@@ -261,6 +261,7 @@ try {
         'search','search_products','search_suggest',
         'addProduct','add_product','updateProduct','update_product',
         'deleteProduct','delete_product','clear_all_products','toggle_product',
+        'analyzeProductImage','analyze_product_image',
     ];
     $categoryActions = [
         'categories','getCategories','get_categories',

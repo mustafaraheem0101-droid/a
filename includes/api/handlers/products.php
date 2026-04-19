@@ -5,6 +5,8 @@
  */
 declare(strict_types=1);
 
+require_once __DIR__ . '/../product_image_analyze.php';
+
 /**
  * يمنع حفظ مسار /images/prod_* إن لم يكن الملف موجوداً تحت IMAGES_DIR (يُفسّر 404 عند العرض).
  */
@@ -278,6 +280,18 @@ function handle_products(string $action, array $body, array $rawBody, string $cl
             });
             if ($active === null) { jsonError('المنتج غير موجود'); }
             jsonSuccess(['active' => $active], '');
+            break;
+
+        /* ══════════════ تعبئة نموذج المنتج من صورة العبوة (Vision) ══════════════ */
+        case 'analyzeProductImage':
+        case 'analyze_product_image':
+            checkAuth($clientIP);
+            if ($method !== 'POST') {
+                jsonError('POST فقط', [], 405);
+            }
+            $out = pharma_api_run_packaging_analysis($rawBody);
+            logActivity('ANALYZE_PRODUCT_IMAGE', 'استخراج بيانات من صورة عبوة', $clientIP);
+            jsonSuccess(['fields' => $out], '');
             break;
 
         default:

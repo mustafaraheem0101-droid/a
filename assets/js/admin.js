@@ -427,6 +427,11 @@ function resetForm() {
   if (prev) prev.src = '';
   if (prevWrap) prevWrap.style.display = 'none';
   if (prevGrid) prevGrid.innerHTML = '';
+  try {
+    window.__lastPackagingImageFile = null;
+  } catch (e) {
+    /* ignore */
+  }
   _adminState.selectedProducts.clear();
 
   // تحديث العنوان
@@ -673,9 +678,146 @@ async function saveProduct() {
   }
 }
 
+function pharmaReadFileAsDataUrl(file) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      resolve(String(reader.result || ''));
+    };
+    reader.onerror = function () {
+      reject(new Error('read'));
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/** ضغط خفيف للصور الكبيرة قبل إرسالها لتحليل Vision (يبقى الرفع الأصلي كما هو). */
+function pharmaCompressDataUrlIfLarge(file, maxBytes, maxW, quality) {
+  return pharmaReadFileAsDataUrl(file).then(function (dataUrl) {
+    if (!dataUrl || file.size <= maxBytes || typeof document.createElement !== 'function') return dataUrl;
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var w = img.width;
+          var h = img.height;
+          if (w > maxW) {
+            h = Math.round((h * maxW) / w);
+            w = maxW;
+          }
+          var c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          var ctx = c.getContext('2d');
+          if (!ctx) {
+            resolve(dataUrl);
+            return;
+          }
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(c.toDataURL('image/jpeg', quality));
+        } catch (e) {
+          resolve(dataUrl);
+        }
+      };
+      img.onerror = function () {
+        resolve(dataUrl);
+      };
+      img.src = dataUrl;
+    });
+  });
+}
+
+function applyPackagingAnalysisToForm(fields) {
+  if (!fields || typeof fields !== 'object') return;
+  var nm = fields.name_ar ? String(fields.name_ar).trim() : '';
+  var br = fields.brand ? String(fields.brand).trim() : '';
+  if (nm && br && nm.indexOf(br) === -1) {
+    setVal('f-name', br + ' — ' + nm);
+  } else if (nm) {
+    setVal('f-name', nm);
+  } else if (br) {
+    setVal('f-name', br);
+  }
+  if (fields.desc) setVal('f-desc', fields.desc);
+  if (fields.usage) setVal('f-usage', fields.usage);
+  if (fields.dose) setVal('f-dose', fields.dose);
+  if (fields.frequency) setVal('f-frequency', fields.frequency);
+  if (fields.age) setVal('f-age', fields.age);
+  if (fields.storage) setVal('f-storage', fields.storage);
+  if (fields.warnings) setVal('f-warnings', fields.warnings);
+  if (fields.ingredients) setVal('f-ingredients', fields.ingredients);
+  if (fields.contraindications) setVal('f-contraindications', fields.contraindications);
+  if (fields.product_type) {
+    var sel = document.getElementById('f-product-type');
+    var v = String(fields.product_type).toLowerCase();
+    if (sel && ['medicine', 'cosmetic', 'device', 'supplement', 'other'].indexOf(v) !== -1) {
+      sel.value = v;
+    }
+  }
+  if (fields.quantity_label) {
+    var q = String(fields.quantity_label).trim();
+    var cur = (typeof getVal === 'function' ? getVal('f-desc') : '') || '';
+    if (q && cur.indexOf(q) === -1) {
+      setVal('f-desc', cur ? cur + '\n\nالكمية: ' + q : 'الكمية: ' + q);
+    }
+  }
+  if (Array.isArray(fields.main_category_slugs) && fields.main_category_slugs.length) {
+    var root = document.getElementById('f-maincats-list');
+    if (root) {
+      var esc =
+        typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
+          ? function (s) {
+              return CSS.escape(String(s));
+            }
+          : function (s) {
+              return String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            };
+      fields.main_category_slugs.forEach(function (slug) {
+        var cb = root.querySelector('.maincat-cb[value="' + esc(slug) + '"]');
+        if (cb) cb.checked = true;
+      });
+      if (typeof syncNestedMaincatPanels === 'function') syncNestedMaincatPanels();
+      if (typeof refreshNestedSubcatSummary === 'function') refreshNestedSubcatSummary();
+    }
+  }
+  if (typeof ensureDefaultMainCategoryIfEmpty === 'function') ensureDefaultMainCategoryIfEmpty();
+}
+
+async function tryAutoFillFromPackaging(file) {
+  if (!file || typeof analyzeProductImageForAdmin !== 'function') return;
+  var btn = document.getElementById('btn-packaging-ai-fill');
+  if (btn) btn.disabled = true;
+  showToast('جارٍ استخراج البيانات من صورة العبوة…');
+  try {
+    var dataUrl = await pharmaCompressDataUrlIfLarge(file, 1400000, 1600, 0.82);
+    var res = await analyzeProductImageForAdmin(dataUrl);
+    if (apiIsSuccess(res) && res.data && res.data.fields) {
+      applyPackagingAnalysisToForm(res.data.fields);
+      showToast('تم تعبئة الحقول من الصورة — راجع السعر والأقسام الفرعية ثم احفظ.');
+      if (typeof setProductFormWizardStep === 'function') setProductFormWizardStep(1, { noScroll: true });
+      if (typeof persistAddProductDraftFromForm === 'function') persistAddProductDraftFromForm();
+    } else {
+      showToast(apiErrorMessage(res) || 'تعذّر استخراج البيانات من الصورة', 'error');
+    }
+  } catch (e) {
+    if (typeof pharmaLogWarn === 'function') pharmaLogWarn('[admin] packaging AI', e);
+    showToast('تعذّر تحليل الصورة', 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
 async function processProductImageFile(file) {
   if (!file || !file.size) return;
-  if (file.size > 5 * 1024 * 1024) { showToast('الصورة أكبر من 5MB', 'error'); return; }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('الصورة أكبر من 5MB', 'error');
+    return;
+  }
+  try {
+    window.__lastPackagingImageFile = file;
+  } catch (e) {
+    /* ignore */
+  }
   showToast('جاري رفع الصورة...');
   const r = await uploadImage(file);
   if (apiIsSuccess(r) && r.url) {
@@ -692,6 +834,7 @@ async function processProductImageFile(file) {
     ensureDefaultNewProductPriceIfAdding();
     persistAddProductDraftFromForm();
     showToast('تم رفع الصورة ✓');
+    tryAutoFillFromPackaging(file);
   } else {
     showToast(apiErrorMessage(r) || 'فشل رفع الصورة', 'error');
   }
@@ -717,6 +860,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function clearImg() {
   _uploadedImageUrl = '';
+  try {
+    window.__lastPackagingImageFile = null;
+  } catch (e) {
+    /* ignore */
+  }
   const prev = document.getElementById('imgPreviewImg');
   const prevWrap = document.getElementById('imgPreview');
   if (prev) prev.src = '';
@@ -732,6 +880,7 @@ window.closeEdit = closeEdit;
 window.saveProduct = saveProduct;
 window.clearImg = clearImg;
 window.handleImgUpload = handleImgUpload;
+window.tryAutoFillFromPackaging = tryAutoFillFromPackaging;
 
 /* ---------- product-form-enhance.js ---------- */
 /* product-form-enhance.js — تحسينات نموذج المنتج */
@@ -2459,6 +2608,15 @@ function initCpStaticBindings() {
 
   on('imgFile', 'change', function () {
     if (typeof handleImgUpload === 'function') handleImgUpload(this);
+  });
+
+  on('btn-packaging-ai-fill', 'click', function () {
+    var f = typeof window !== 'undefined' ? window.__lastPackagingImageFile : null;
+    if (f && typeof tryAutoFillFromPackaging === 'function') {
+      tryAutoFillFromPackaging(f);
+    } else {
+      showToast('ارفع صورة المنتج أولاً من المربع أعلاه', 'error');
+    }
   });
 
   on('clearImgBtn', 'click', function () {
