@@ -836,8 +836,9 @@ function applyShopPageFooterFromSettings() {
 async function syncFooterCategoriesFromApi() {
   try {
     const cr = await apiFetch('getCategories', { active: 1 });
-    if (!cr || !apiIsSuccess(cr) || typeof buildFooterCats !== 'function') return;
-    buildFooterCats(apiPick(cr, 'categories', []));
+    const bf = typeof window !== 'undefined' ? window.buildFooterCats : null;
+    if (!cr || !apiIsSuccess(cr) || typeof bf !== 'function') return;
+    bf(apiPick(cr, 'categories', []));
   } catch (e) { /* ignore */ }
 }
 
@@ -2272,7 +2273,7 @@ async function initCategories() {
     allCats = (catRes && apiIsSuccess(catRes) && catRes.data && catRes.data.categories)
       ? catRes.data.categories.filter(c => c.active !== false) : [];
 
-    if (typeof buildFooterCats === 'function') buildFooterCats(allCats);
+    if (typeof window.buildFooterCats === 'function') window.buildFooterCats(allCats);
 
     if (skel) skel.style.display = 'none';
     renderCatsGrid(allCats);

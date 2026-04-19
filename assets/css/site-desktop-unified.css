@@ -69,7 +69,8 @@ body.index-page .pgrid6.pgrid6--home {
     padding-block: 36px 32px;
   }
 
-  body.index-page .p-footer {
+  body.index-page .p-footer,
+  body.pharma-footer .p-footer {
     padding-block: 40px 0;
   }
 
