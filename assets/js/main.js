@@ -1359,9 +1359,7 @@ function categoryViewRenderSubcategorySection(subcatSec, subcats, products) {
       '<div class="subcat-chip__body"><span class="subcat-chip__name">' + nm + '</span><span class="subcat-chip__meta">' + esc(meta) + '</span></div></a></li>';
   }).join('');
   subcatSec.innerHTML =
-    '<section class="subcat-sec" aria-labelledby="subcat-sec-title">' +
-    '<h2 class="subcat-sec__title" id="subcat-sec-title"><span class="subcat-sec__title-ico" aria-hidden="true">📂</span> الأقسام الفرعية</h2>' +
-    '<p class="subcat-sec__hint">اختر قسمًا فرعيًا لتصفّح منتجاته، أو تابع الأسفل لعرض كل منتجات القسم الرئيسي.</p>' +
+    '<section class="subcat-sec" aria-label="الأقسام الفرعية">' +
     '<ul class="subcat-grid" role="list">' + items + '</ul></section>';
   subcatSec.hidden = false;
   if (typeof initScrollReveal === 'function') initScrollReveal();
