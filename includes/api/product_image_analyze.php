@@ -242,23 +242,26 @@ function pharma_gemini_generate_attempt(string $mime, string $binary, string $ap
     $url = 'https://generativelanguage.googleapis.com/' . $ver . '/models/' . rawurlencode($model) . ':generateContent?key=' . rawurlencode($apiKey);
 
     $prompt = <<<'PROMPT'
-You assist a pharmacy admin. Read the product packaging image carefully. Output ONE JSON object only (no markdown).
-Use Arabic for name_ar, desc, usage, dose, frequency, age, storage, warnings, ingredients, contraindications when the packaging is Arabic or bilingual; keep Latin brand names as on pack.
+You assist a pharmacy admin in Iraq. Read the product packaging image carefully. Output ONE JSON object only (no markdown).
+
+Language rule (mandatory): All human-readable text in these keys MUST be in Modern Standard Arabic (فصحى بسيطة واضحة لزبائن الصيدلية). If the pack is only in English or mixed, translate into Arabic. Do not leave English sentences in those fields.
+Exception: keep brand names and international nonproprietary / chemical names as commonly printed (Latin letters OK: e.g. EPA, DHA, mg, µg, IU). Arabic explanations around them are preferred.
+
 Keys (all strings except arrays):
-- name_ar: full product title for the web store
-- brand: brand name or ""
-- desc: 2-4 sentences: what the product is and main benefit
-- usage: indications / what it is used for
-- dose: dosing if visible, else ""
-- frequency: e.g. twice daily, else ""
-- age: age restrictions if any, else ""
-- storage: storage instructions if any, else ""
-- warnings: warnings if any, else ""
-- ingredients: active ingredients / composition summary
-- contraindications: who should not use, else ""
+- name_ar: full product title for the web store (Arabic)
+- brand: brand name as on pack, or ""
+- desc: 2-4 sentences in Arabic: what the product is and main benefit
+- usage: indications in Arabic
+- dose: dosing in Arabic if visible, else ""
+- frequency: in Arabic (e.g. مرتان يومياً), else ""
+- age: age restrictions in Arabic if any, else ""
+- storage: storage instructions in Arabic if any, else ""
+- warnings: warnings in Arabic if any, else ""
+- ingredients: active ingredients / composition in Arabic; keep standard Latin chemical abbreviations where usual
+- contraindications: who should not use, in Arabic, else ""
 - product_type: exactly one of: medicine, cosmetic, device, supplement, other
-- main_category_slugs: array of 1-3 slugs from: medicine, medical, cosmetics, haircare, oralcare, vitamins, kids — pick what fits (e.g. omega supplement -> vitamins; prescription drug -> medicine)
-- quantity_label: e.g. "30 capsules" or "30 كبسولة" if visible, else ""
+- main_category_slugs: array of 1-3 slugs from: medicine, medical, cosmetics, haircare, oralcare, vitamins, kids — pick what fits
+- quantity_label: pack size in Arabic if visible (e.g. 30 كبسولة), else ""
 PROMPT;
 
     $generationConfig = [
@@ -457,7 +460,8 @@ Keys: name_ar, brand, desc, usage, dose, frequency, age, storage, warnings, ingr
 product_type (medicine|cosmetic|device|supplement|other),
 main_category_slugs (array of slugs from: medicine, medical, cosmetics, haircare, oralcare, vitamins, kids),
 quantity_label.
-Use Arabic where appropriate for an Iraqi pharmacy site.
+
+Mandatory: name_ar, desc, usage, dose, frequency, age, storage, warnings, ingredients, contraindications, and quantity_label must be in Modern Standard Arabic (clear for Iraqi pharmacy customers). If text on the pack is English only, translate it into Arabic. Do not output English prose in those fields. Keep brand names and usual Latin chemical names/units (EPA, DHA, mg, µg) as printed.
 PROMPT;
 
     $payload = [
