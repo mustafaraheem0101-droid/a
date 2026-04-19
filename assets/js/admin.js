@@ -727,6 +727,19 @@ function pharmaCompressDataUrlIfLarge(file, maxBytes, maxW, quality) {
   });
 }
 
+function packagingFirstString(obj, keys) {
+  if (!obj || typeof obj !== 'object') return '';
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+    var s = obj[k];
+    if (s == null) continue;
+    s = String(s).trim();
+    if (s !== '') return s;
+  }
+  return '';
+}
+
 function applyPackagingAnalysisToForm(fields) {
   if (!fields || typeof fields !== 'object') return;
   var nm = fields.name_ar ? String(fields.name_ar).trim() : '';
@@ -742,8 +755,10 @@ function applyPackagingAnalysisToForm(fields) {
   if (fields.usage) setVal('f-usage', fields.usage);
   if (fields.dose) setVal('f-dose', fields.dose);
   if (fields.frequency) setVal('f-frequency', fields.frequency);
-  if (fields.age) setVal('f-age', fields.age);
-  if (fields.storage) setVal('f-storage', fields.storage);
+  var ageStr = packagingFirstString(fields, ['age', 'age_group', 'age_range', 'age_restriction']);
+  if (ageStr) setVal('f-age', ageStr);
+  var storageStr = packagingFirstString(fields, ['storage', 'storage_instructions', 'keep', 'keep_conditions']);
+  if (storageStr) setVal('f-storage', storageStr);
   if (fields.warnings) setVal('f-warnings', fields.warnings);
   if (fields.ingredients) setVal('f-ingredients', fields.ingredients);
   if (fields.contraindications) setVal('f-contraindications', fields.contraindications);

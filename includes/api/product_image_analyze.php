@@ -39,6 +39,24 @@ function pharma_api_decode_packaging_image(array $rawBody): array
 }
 
 /**
+ * أول سلسلة غير فارغة من قائمة مفاتيح (لتفادي اختلاف تسميات JSON بين النماذج).
+ */
+function pharma_api_packaging_first_string(array $j, array $keys): string
+{
+    foreach ($keys as $k) {
+        if (!isset($j[$k])) {
+            continue;
+        }
+        $s = trim((string) $j[$k]);
+        if ($s !== '') {
+            return $s;
+        }
+    }
+
+    return '';
+}
+
+/**
  * @return array<string, mixed>
  */
 function pharma_api_normalize_packaging_ai_json(array $j): array
@@ -73,6 +91,27 @@ function pharma_api_normalize_packaging_ai_json(array $j): array
         $slugs = array_values(array_unique($slugs));
     }
 
+    $age = pharma_api_packaging_first_string($j, [
+        'age',
+        'age_group',
+        'age_range',
+        'age_restriction',
+    ]);
+    $storage = pharma_api_packaging_first_string($j, [
+        'storage',
+        'storage_instructions',
+        'keep',
+        'keep_conditions',
+    ]);
+
+    /* إن بقي الحقلان فارغين بعد الاستخراج — جمل عربية قياسية آمنة للواجهة */
+    if ($age === '') {
+        $age = 'راجع النشرة أو العبوة لتحديد الفئة العمرية، أو استشر الصيدلاني.';
+    }
+    if ($storage === '') {
+        $storage = 'يُحفظ في مكان بارد وجاف، بعيداً عن الحرارة المباشرة والرطوبة ومتناول الأطفال.';
+    }
+
     return [
         'name_ar' => isset($j['name_ar']) ? trim((string) $j['name_ar']) : '',
         'brand' => isset($j['brand']) ? trim((string) $j['brand']) : '',
@@ -80,8 +119,8 @@ function pharma_api_normalize_packaging_ai_json(array $j): array
         'usage' => isset($j['usage']) ? trim((string) $j['usage']) : '',
         'dose' => isset($j['dose']) ? trim((string) $j['dose']) : '',
         'frequency' => isset($j['frequency']) ? trim((string) $j['frequency']) : '',
-        'age' => isset($j['age']) ? trim((string) $j['age']) : '',
-        'storage' => isset($j['storage']) ? trim((string) $j['storage']) : '',
+        'age' => $age,
+        'storage' => $storage,
         'warnings' => isset($j['warnings']) ? trim((string) $j['warnings']) : '',
         'ingredients' => isset($j['ingredients']) ? trim((string) $j['ingredients']) : '',
         'contraindications' => isset($j['contraindications']) ? trim((string) $j['contraindications']) : '',
@@ -254,8 +293,8 @@ Keys (all strings except arrays):
 - usage: indications in Arabic
 - dose: dosing in Arabic if visible, else ""
 - frequency: in Arabic (e.g. مرتان يومياً), else ""
-- age: age restrictions in Arabic if any, else ""
-- storage: storage instructions in Arabic if any, else ""
+- age: age group / who may use — Arabic, copied from pack if printed. If not printed, infer one short line from icons or product type (e.g. للبالغين، من 12 سنة فأكثر، للأطفال). Never leave empty.
+- storage: how to store — Arabic, copied from pack if printed. If not printed, give one standard Arabic line (e.g. بارد وجاف، بعيداً عن الشمس والرطوبة ومتناول الأطفال). Never leave empty.
 - warnings: warnings in Arabic if any, else ""
 - ingredients: active ingredients / composition in Arabic; keep standard Latin chemical abbreviations where usual
 - contraindications: who should not use, in Arabic, else ""
@@ -462,6 +501,8 @@ main_category_slugs (array of slugs from: medicine, medical, cosmetics, haircare
 quantity_label.
 
 Mandatory: name_ar, desc, usage, dose, frequency, age, storage, warnings, ingredients, contraindications, and quantity_label must be in Modern Standard Arabic (clear for Iraqi pharmacy customers). If text on the pack is English only, translate it into Arabic. Do not output English prose in those fields. Keep brand names and usual Latin chemical names/units (EPA, DHA, mg, µg) as printed.
+
+For "age" and "storage": always output non-empty Arabic strings. Copy from the pack when visible; otherwise infer a short sensible line (age from icons/audience; storage as standard cool/dry/away from children).
 PROMPT;
 
     $payload = [

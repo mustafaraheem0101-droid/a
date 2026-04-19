@@ -3645,50 +3645,14 @@ function renderHomeExtras(data) {
         size: 'hot'
       });
     }).join('');
-    var reduceMotion = false;
-    try {
-      reduceMotion =
-        typeof window.matchMedia === 'function' &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    } catch (e) { /* ignore */ }
-    var trackHtml;
-    try {
-      window.__homeHotMarqueeChunkHtml = cardsHtml;
-    } catch (e) { /* ignore */ }
-    if (reduceMotion) {
-      trackHtml =
-        '<div class="home-hot-slider__track home-hot-slider__track--static" role="list">' +
-        '<div class="home-hot-slider__segment" role="presentation">' +
-        cardsHtml +
-        '</div></div>';
-      topGrid.classList.add('home-hot-slider__viewport--static');
-    } else {
-      /* شريحتان متطابقتان؛ يُكرَّر المزيد في DOM حتى يملأ عرض الشاشة مرتين (بدون فراغ) */
-      trackHtml =
-        '<div class="home-hot-slider__track" role="list">' +
-        '<div class="home-hot-slider__segment" role="presentation">' +
-        cardsHtml +
-        '</div>' +
-        '<div class="home-hot-slider__segment" aria-hidden="true">' +
-        cardsHtml +
-        '</div></div>';
-      topGrid.classList.remove('home-hot-slider__viewport--static');
-    }
+    /* شبكة ثابتة — بدون ماركي أفقي ولا تمرير يمين/يسار */
+    var trackHtml =
+      '<div class="home-hot-slider__track home-hot-slider__track--static" role="list">' +
+      '<div class="home-hot-slider__segment" role="presentation">' +
+      cardsHtml +
+      '</div></div>';
+    topGrid.classList.add('home-hot-slider__viewport--static');
     replaceChildrenFromHtml(topGrid, trackHtml);
-    if (!reduceMotion) {
-      homeHotMarqueeBindResizeObserver();
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          if (typeof homeHotMarqueeSync === 'function') homeHotMarqueeSync();
-        });
-      });
-      setTimeout(function () {
-        if (typeof homeHotMarqueeSync === 'function') homeHotMarqueeSync();
-      }, 450);
-      setTimeout(function () {
-        if (typeof homeHotMarqueeSync === 'function') homeHotMarqueeSync();
-      }, 1200);
-    }
   }
 
   if (top.length && typeof initScrollReveal === 'function') initScrollReveal();

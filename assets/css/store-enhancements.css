@@ -166,7 +166,7 @@
   flex-wrap: wrap;
 }
 
-/* الأكثر طلباً — سلايدر أفقي تلقائي (صف واحد، حلقة لانهائية) */
+/* الأكثر طلباً — شبكة ثابتة (لف متعدد الأسطر، بدون حركة أفقية) */
 body.index-page .home-hot-slider {
   width: 100%;
   max-width: 1360px;
@@ -185,10 +185,9 @@ body.index-page #homeTopOrderedGrid.home-hot-slider__viewport {
 }
 body.index-page #homeTopOrderedGrid.home-hot-slider__viewport--static {
   direction: rtl;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x proximity;
+  overflow: visible;
+  -webkit-overflow-scrolling: auto;
+  scroll-snap-type: none;
   mask-image: none;
   -webkit-mask-image: none;
 }
@@ -237,6 +236,19 @@ body.index-page .home-hot-slider__track--static {
   animation: none !important;
   gap: 18px;
   padding-inline: 4px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+body.index-page #homeTopOrderedGrid.home-hot-slider__viewport--static .home-hot-slider__segment {
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
 }
 body.index-page .home-hot-slider__segment {
   display: flex;
