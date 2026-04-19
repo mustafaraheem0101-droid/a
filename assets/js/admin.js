@@ -833,8 +833,7 @@ async function processProductImageFile(file) {
     ensureDefaultMainCategoryIfEmpty();
     ensureDefaultNewProductPriceIfAdding();
     persistAddProductDraftFromForm();
-    showToast('تم رفع الصورة ✓');
-    tryAutoFillFromPackaging(file);
+    showToast('تم رفع الصورة ✓ — اضغط زر «استخراج البيانات من الصورة» أدناه عند الرغبة.');
   } else {
     showToast(apiErrorMessage(r) || 'فشل رفع الصورة', 'error');
   }
