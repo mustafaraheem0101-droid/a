@@ -183,9 +183,11 @@ body.index-page #homeTopOrderedGrid.home-hot-slider__viewport {
   -webkit-mask-image: none;
   mask-image: none;
 }
-body.index-page #homeTopOrderedGrid.home-hot-slider__viewport--static {
+/* شبكة ثابتة: إظهار كل الصفوف دون قص — يغلب overflow: hidden أعلاه */
+body.index-page #homeTopOrderedGrid.home-hot-slider__viewport.home-hot-slider__viewport--static {
   direction: rtl;
   overflow: visible;
+  max-height: none;
   -webkit-overflow-scrolling: auto;
   scroll-snap-type: none;
   mask-image: none;
@@ -240,6 +242,7 @@ body.index-page .home-hot-slider__track--static {
   width: 100%;
   max-width: 100%;
   justify-content: center;
+  align-items: flex-start;
   box-sizing: border-box;
 }
 body.index-page #homeTopOrderedGrid.home-hot-slider__viewport--static .home-hot-slider__segment {
@@ -248,6 +251,7 @@ body.index-page #homeTopOrderedGrid.home-hot-slider__viewport--static .home-hot-
   width: 100%;
   max-width: 100%;
   justify-content: center;
+  align-items: flex-start;
   box-sizing: border-box;
 }
 body.index-page .home-hot-slider__segment {
@@ -2048,18 +2052,30 @@ body.index-page #homeTopOrderedGrid .pc {
   flex-direction: column;
   align-items: stretch;
 }
-body.index-page .pgrid6--home .pc-top,
-body.index-page #homeTopOrderedGrid .pc-top {
+body.index-page .pgrid6--home .pc-top {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
 }
-body.index-page .pgrid6--home .pc-link,
-body.index-page #homeTopOrderedGrid .pc-link {
+/* «الأكثر طلباً»: بدون تمدد عمودي — يزيل الفراغ بين السعر والتذييل */
+body.index-page #homeTopOrderedGrid .pc-top {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  min-height: 0;
+}
+body.index-page .pgrid6--home .pc-link {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+}
+body.index-page #homeTopOrderedGrid .pc-link {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
   min-height: 0;
   align-items: stretch;
 }
