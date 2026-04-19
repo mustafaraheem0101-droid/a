@@ -131,6 +131,107 @@ function pharma_gemini_friendly_error(string $googleMessage, int $http): string
 }
 
 /**
+ * جلب معرفات النماذج التي تدعم generateContent من واجهة Google (ListModels) — يحل اختلاف أسماء النماذج بين الحسابات.
+ *
+ * @return list<string>
+ */
+function pharma_gemini_list_generative_model_ids(string $apiKey, string $apiVersion): array
+{
+    $ver = ($apiVersion === 'v1') ? 'v1' : 'v1beta';
+    $found = [];
+    $pageToken = '';
+    for ($guard = 0; $guard < 12; $guard++) {
+        $query = 'pageSize=100&key=' . rawurlencode($apiKey);
+        if ($pageToken !== '') {
+            $query .= '&pageToken=' . rawurlencode($pageToken);
+        }
+        $url = 'https://generativelanguage.googleapis.com/' . $ver . '/models?' . $query;
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPGET => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 25,
+            CURLOPT_CONNECTTIMEOUT => 12,
+        ]);
+        $resp = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($resp === false || $code !== 200) {
+            break;
+        }
+        $j = json_decode((string) $resp, true);
+        if (!is_array($j) || empty($j['models']) || !is_array($j['models'])) {
+            break;
+        }
+        foreach ($j['models'] as $m) {
+            if (!is_array($m)) {
+                continue;
+            }
+            $methods = $m['supportedGenerationMethods'] ?? [];
+            if (!is_array($methods) || !in_array('generateContent', $methods, true)) {
+                continue;
+            }
+            $name = isset($m['name']) ? (string) $m['name'] : '';
+            if ($name === '' || !preg_match('#/([^/]+)$#', $name, $mm)) {
+                continue;
+            }
+            $short = $mm[1];
+            if (stripos($short, 'gemini') === false && stripos($short, 'gemma') === false) {
+                continue;
+            }
+            if (stripos($short, 'embedding') !== false) {
+                continue;
+            }
+            $found[] = $short;
+        }
+        $pageToken = isset($j['nextPageToken']) && is_string($j['nextPageToken']) ? $j['nextPageToken'] : '';
+        if ($pageToken === '') {
+            break;
+        }
+    }
+
+    return array_values(array_unique($found));
+}
+
+/**
+ * ترتيب النماذج: Flash و2.x أولاً (مناسبة للصور والسرعة).
+ *
+ * @param list<string> $ids
+ *
+ * @return list<string>
+ */
+function pharma_gemini_sort_model_candidates(array $ids): array
+{
+    $score = static function (string $id): int {
+        $l = strtolower($id);
+        if (str_contains($l, 'embedding')) {
+            return -999;
+        }
+        $s = 0;
+        if (str_contains($l, 'flash')) {
+            $s += 80;
+        }
+        if (str_contains($l, '2.0') || str_contains($l, '2-0') || str_contains($l, '2.5')) {
+            $s += 60;
+        }
+        if (str_contains($l, '1.5')) {
+            $s += 40;
+        }
+        if (str_contains($l, 'pro') && !str_contains($l, 'flash')) {
+            $s += 15;
+        }
+
+        return $s;
+    };
+    $ids = array_values(array_unique($ids));
+    usort($ids, static function ($a, $b) use ($score) {
+        return $score($b) <=> $score($a);
+    });
+
+    return $ids;
+}
+
+/**
  * طلب واحد إلى Gemini؛ يعيد ['ok'=>bool, 'http'=>int, 'body'=>array, 'curl_err'=>string, 'text_out'=>string]
  *
  * @return array{ok:bool, http:int, body:array, curl_err:string, text_out:string}
@@ -234,11 +335,21 @@ function pharma_gemini_packaging_json(string $mime, string $binary, string $apiK
     }
 
     $envModel = trim((string) env('GEMINI_VISION_MODEL', ''));
+    /* 1) ما يحدده المستخدم  2) نماذج مكتشفة من ListModels (أسماء حقيقية لحسابك)  3) قائمة احتياطية ثابتة */
     $models = [];
     if ($envModel !== '') {
         $models[] = $envModel;
     }
-    /* أسماء محدّثة (2025–2026): النسخة -001 غالباً متاحة في v1 */
+    $discovered = [];
+    foreach (['v1', 'v1beta'] as $listVer) {
+        $discovered = array_merge($discovered, pharma_gemini_list_generative_model_ids($apiKey, $listVer));
+    }
+    $discovered = pharma_gemini_sort_model_candidates($discovered);
+    foreach ($discovered as $mid) {
+        if (!in_array($mid, $models, true)) {
+            $models[] = $mid;
+        }
+    }
     foreach ([
         'gemini-2.0-flash-001',
         'gemini-2.0-flash',
@@ -246,6 +357,7 @@ function pharma_gemini_packaging_json(string $mime, string $binary, string $apiK
         'gemini-1.5-flash-latest',
         'gemini-1.5-flash-8b',
         'gemini-1.5-flash',
+        'gemini-flash-latest',
     ] as $m) {
         if (!in_array($m, $models, true)) {
             $models[] = $m;
@@ -262,6 +374,9 @@ function pharma_gemini_packaging_json(string $mime, string $binary, string $apiK
             $apiVersions[] = $v;
         }
     }
+
+    /* تجنّب مهلة PHP عند وجود عشرات النماذج في الحساب */
+    $models = array_slice($models, 0, 28);
 
     $lastGoogleMsg = '';
     $lastHttp = 0;
