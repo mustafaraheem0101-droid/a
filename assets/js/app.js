@@ -119,7 +119,7 @@
     },
     'empty-go-back': function () {
       if (win.history.length > 1) win.history.back();
-      else win.location.href = 'index.html';
+      else win.location.href = '/';
     },
     'close-cart': function () {
       const shell = getCartShellEls();

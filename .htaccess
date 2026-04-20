@@ -8,6 +8,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# توحيد عنوان الصفحة الرئيسية: /index.html → / (يحافظ على سلسلة الاستعلام)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html[\s?] [NC]
+RewriteRule ^index\.html$ / [L,R=301]
+
 # ── حماية مجلد .git ──────────────────────────────────────────────────
 <IfModule mod_rewrite.c>
   RewriteRule ^\.git(/.*)?$ - [F,L]

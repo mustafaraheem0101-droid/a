@@ -330,7 +330,7 @@ body::after{content:'';position:absolute;width:500px;height:500px;border-radius:
     </button>
   </form>
 
-  <a href="index.html" class="back-link">← العودة إلى الموقع</a>
+  <a href="/" class="back-link">← العودة إلى الموقع</a>
 </div>
 
 <script src="assets/js/login-ui.js?v=1.0.0"></script>

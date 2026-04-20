@@ -776,7 +776,7 @@ function buildEmptyProductsStateHtml(msg, options) {
       <a href="categories.html" class="empty-state__cta-primary">تصفح الأقسام</a>
       <button type="button" class="empty-state__cta-secondary" data-action="empty-go-back">← رجوع</button>
     </div>
-    <a href="index.html" class="empty-state__cta-text">الذهاب إلى الرئيسية</a>
+    <a href="/" class="empty-state__cta-text">الذهاب إلى الرئيسية</a>
   </div>`;
 }
 

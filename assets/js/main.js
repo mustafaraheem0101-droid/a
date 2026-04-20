@@ -577,7 +577,7 @@ try {
 
   function navRingHtml(cat, isHome) {
     var slug = isHome ? '' : (cat.slug != null && String(cat.slug) !== '' ? String(cat.slug) : String(cat.id != null ? cat.id : ''));
-    var href = isHome ? 'index.html' : 'category.html?slug=' + encodeURIComponent(slug);
+    var href = isHome ? '/' : 'category.html?slug=' + encodeURIComponent(slug);
     var name = isHome ? 'الرئيسية' : String(cat.name != null ? cat.name : 'قسم');
     var imgUrl = '';
     if (!isHome && typeof window.resolveHomeCategoryImage === 'function') {
@@ -1231,7 +1231,7 @@ function categoryViewRenderProductGrid() {
   if (!baseLen) {
     const inner = typeof buildEmptyProductsStateHtml === 'function'
       ? buildEmptyProductsStateHtml('لا توجد منتجات حالياً في هذا القسم', { variant: 'default' })
-      : `<div class="empty-state empty-state--rich" style="grid-column:1/-1" role="status"><div class="empty-state__icon">📦</div><p class="empty-state__msg">لا توجد منتجات حالياً في هذا القسم</p><a href="index.html" class="empty-state__back">الرئيسية</a></div>`;
+      : `<div class="empty-state empty-state--rich" style="grid-column:1/-1" role="status"><div class="empty-state__icon">📦</div><p class="empty-state__msg">لا توجد منتجات حالياً في هذا القسم</p><a href="/" class="empty-state__back">الرئيسية</a></div>`;
     window.__categoryProductPage = 1;
     replaceChildrenFromHtml(sec, `<div class="pgrid6">${inner}</div>`);
     return;
@@ -1322,7 +1322,7 @@ function categoryViewRenderHeader(catHdr, cat, productCount) {
     ? `<div class="cat-hdr-media"><img class="cat-hdr-img" src="${esc(heroImg)}" alt="" width="200" height="200" loading="eager" decoding="async"/></div>`
     : `<div class="cat-hdr-ico" aria-hidden="true">${cat.icon || '📁'}</div>`;
   catHdr.innerHTML = `<nav class="p-breadcrumb" aria-label="مسار التنقل">
-      <a href="index.html">الرئيسية</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="/">الرئيسية</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
       <a href="categories.html">الأقسام</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
       <span class="p-breadcrumb__here" aria-current="page">${nm}</span>
     </nav>
@@ -1557,7 +1557,7 @@ function buildProductBreadcrumbHtml(p, primaryCat, primaryCatLabel) {
   const catPart = primaryCat
     ? `<span class="prod-breadcrumb__sep" aria-hidden="true">›</span><a href="category.html?slug=${encodeURIComponent(String(primaryCat))}" class="prod-breadcrumb__link">${escHtml(String(primaryCatLabel || primaryCat))}</a>`
     : '';
-  return `<nav class="prod-breadcrumb" aria-label="مسار التصفح"><a href="index.html" class="prod-breadcrumb__link">الرئيسية</a><span class="prod-breadcrumb__sep" aria-hidden="true">›</span><a href="categories.html" class="prod-breadcrumb__link">الأقسام</a>${catPart}<span class="prod-breadcrumb__sep" aria-hidden="true">›</span><span class="prod-breadcrumb__current">${cur}</span></nav>`;
+  return `<nav class="prod-breadcrumb" aria-label="مسار التصفح"><a href="/" class="prod-breadcrumb__link">الرئيسية</a><span class="prod-breadcrumb__sep" aria-hidden="true">›</span><a href="categories.html" class="prod-breadcrumb__link">الأقسام</a>${catPart}<span class="prod-breadcrumb__sep" aria-hidden="true">›</span><span class="prod-breadcrumb__current">${cur}</span></nav>`;
 }
 
 /** نص فرعي لقسم «منتجات مشابهة» بصياغة عربية سليمة */
@@ -1803,7 +1803,7 @@ function renderProductFetchError(message) {
       <div aria-hidden="true">⚠️</div>
       <p style="font-size:16px;font-weight:800;margin-bottom:8px;">${escHtml(msg)}</p>
       <button type="button" class="prod-page-retry-btn" id="prodPageRetryBtn" style="margin-top:12px;padding:10px 22px;background:#00875a;color:#fff;border:none;border-radius:12px;font-weight:800;cursor:pointer;font-family:inherit;font-size:15px">إعادة المحاولة</button>
-      <a href="index.html" style="color:var(--g);font-weight:800;display:inline-block;margin-top:14px;">← العودة للرئيسية</a>
+      <a href="/" style="color:var(--g);font-weight:800;display:inline-block;margin-top:14px;">← العودة للرئيسية</a>
     </div>`);
   const btn = document.getElementById('prodPageRetryBtn');
   if (btn) {
@@ -1902,7 +1902,7 @@ function renderNotFound() {
     <div class="not-found" role="status">
       <div aria-hidden="true">🔍</div>
       <p style="font-size:16px;font-weight:800;margin-bottom:8px;">المنتج غير موجود</p>
-      <a href="index.html" style="color:var(--g);font-weight:800;">← العودة للرئيسية</a>
+      <a href="/" style="color:var(--g);font-weight:800;">← العودة للرئيسية</a>
     </div>`);
 }
 
@@ -2151,7 +2151,7 @@ function subcategoryViewRenderHeaderFound(headerDiv, subcat) {
     : '';
   headerDiv.innerHTML = `
         <nav class="p-breadcrumb" aria-label="مسار التنقل">
-          <a href="index.html">الرئيسية</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
+          <a href="/">الرئيسية</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
           <a href="categories.html">الأقسام</a><span class="p-breadcrumb__sep" aria-hidden="true">›</span>
           ${parent}
           <span class="p-breadcrumb__here" aria-current="page">${nm}</span>
@@ -2179,7 +2179,7 @@ function subcategoryViewRenderGridEmpty(grid) {
   }
   const inner = typeof buildEmptyProductsStateHtml === 'function'
     ? buildEmptyProductsStateHtml('لا توجد منتجات في هذا القسم الفرعي حالياً', { variant: 'default', extraHtml: extra })
-    : `<div class="empty-state empty-state--rich" role="status"><p class="empty-state__msg">لا توجد منتجات في هذا القسم الفرعي حالياً</p>${extra}<a href="index.html" class="empty-state__back">الرئيسية</a></div>`;
+    : `<div class="empty-state empty-state--rich" role="status"><p class="empty-state__msg">لا توجد منتجات في هذا القسم الفرعي حالياً</p>${extra}<a href="/" class="empty-state__back">الرئيسية</a></div>`;
   replaceChildrenFromHtml(grid, inner);
   grid.setAttribute('aria-busy', 'false');
 }

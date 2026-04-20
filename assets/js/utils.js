@@ -1113,7 +1113,7 @@ function playIndexQrWelcomeChime() {
 
 /**
  * استدعاء من الصفحة الرئيسية فقط: إن وُجدت معلمات دخول QR يُعرض احتفال مرة واحدة لكل جلسة.
- * مثال رابط للطباعة على QR: https://نطاقك/index.html?from=qr
+ * مثال رابط للطباعة على QR: https://نطاقك/?from=qr
  */
 function initIndexQrWelcomeCelebration() {
   if (!isIndexQrWelcomeQuery()) return;
