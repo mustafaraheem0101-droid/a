@@ -200,6 +200,8 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . escHtml($dru
                padding:14px;background:var(--g-bg);border-radius:12px;border:2px solid var(--g-pale);">
             <img src="<?= $currentImg ?>" id="currentImgEl"
                  style="width:80px;height:80px;object-fit:cover;border-radius:10px;border:2px solid var(--g);"
+                 loading="eager"
+                 decoding="async"
                  onerror="this.src='<?= ROOT_DIR_URL ?>/assets/img/placeholder.svg'">
             <div>
               <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:4px;">الصورة الحالية</div>
@@ -221,7 +223,7 @@ $currentImg = !empty($drug['image']) ? ROOT_DIR_URL . '/uploads/' . escHtml($dru
               <div class="upload-sub">JPG • PNG • WEBP — الحد الأقصى 5 ميغابايت</div>
             </div>
             <div id="uploadPreview" style="display:none;">
-              <img id="previewImg" class="preview-img" src="" alt="معاينة">
+              <img id="previewImg" class="preview-img" src="" alt="معاينة" loading="lazy" decoding="async">
               <div id="previewName" style="font-size:13px;color:var(--muted);"></div>
               <button type="button" onclick="clearImage()"
                       style="margin-top:8px;background:none;border:none;color:var(--red);font-size:13px;cursor:pointer;font-weight:700;">

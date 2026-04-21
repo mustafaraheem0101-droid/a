@@ -2,7 +2,9 @@
   "name": "new-pharma-assets",
   "private": true,
   "scripts": {
-    "build:assets": "node tools/build-assets.mjs"
+    "build:assets": "node tools/build-assets.mjs",
+    "build:css": "node tools/build-css.js",
+    "build": "node tools/build-css.js"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",

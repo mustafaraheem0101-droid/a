@@ -12,13 +12,12 @@
 <meta http-equiv="Expires" content="0">
 <title>لوحة الإدارة - صيدلية شهد محمد</title>
 <link rel="icon" href="/brand-logo-20260330.png?v=2" type="image/png">
-<link href="/assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="assets/css/responsive.css?v=2.0.07" rel="stylesheet">
+<!-- CSS unified - build tools/build-css.js -->
+<!-- Base -->
+<link href="/assets/css/dist/base-final.min.css" rel="stylesheet">
+<!-- Admin -->
+<link href="/assets/css/dist/admin-final.min.css" rel="stylesheet">
 <link href="desktop.css?v=20260326-1" rel="stylesheet">
-<link href="assets/css/admin.css?v=20260411-1" rel="stylesheet">
-<link href="assets/css/dashboard.css?v=20260327-1" rel="stylesheet">
-<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════════════
    SHAHAD CP — WORLD-CLASS ADMIN REDESIGN
@@ -1187,7 +1186,6 @@ a { text-decoration: none; color: inherit; }
 @keyframes fadeBg { from{background: rgba(10,22,40,0)} to{background: rgba(10,22,40,.65)} }
 
 </style>
-<link href="assets/css/admin-v2.css?v=1.0.0" rel="stylesheet">
 </head>
 <body>
 <div id="_globalLoader" role="status" aria-label="جارٍ التحميل"><div class="loader-ring"></div></div>
@@ -1197,7 +1195,7 @@ a { text-decoration: none; color: inherit; }
 <!-- ═══════════════ SIDEBAR ═══════════════ -->
 <aside class="sidebar" id="sidebar" aria-label="القائمة الرئيسية">
   <div class="sb-logo">
-    <div class="sb-logo-ico"><img src="brand-logo-20260330.png?v=2" alt="" width="52" height="52" decoding="async" data-fallback="logo"><span class="logo-fb" aria-hidden="true" style="display:none;font-size:30px">💊</span></div>
+    <div class="sb-logo-ico"><img src="brand-logo-20260330.png?v=2" alt="" width="52" height="52" decoding="async" loading="eager" data-fallback="logo"><span class="logo-fb" aria-hidden="true" style="display:none;font-size:30px">💊</span></div>
     <div class="sb-logo-text">
       <strong>لوحة الإدارة</strong>
       <span>صيدلية شهد محمد</span>
@@ -1680,7 +1678,7 @@ a { text-decoration: none; color: inherit; }
                       <div class="pf-img-upload-meta">JPG, PNG, WEBP — بحد أقصى 5MB لكل صورة</div>
                     </div>
                     <div class="img-preview-grid" id="imgPreviewGrid"></div>
-                    <div class="img-preview" id="imgPreview"><img id="imgPreviewImg" src="" alt="معاينة"></div>
+                    <div class="img-preview" id="imgPreview"><img id="imgPreviewImg" src="" alt="معاينة" loading="lazy" decoding="async"></div>
                     <p class="fg-help" style="margin-top:10px;line-height:1.55">
                       بعد رفع صورة واضحة للعبوة، اضغط الزر أدناه لاستخراج (اسم، وصف، مكونات، جرعة…)
                       إذا وُجد <code style="font-size:12px">GEMINI_API_KEY</code> أو <code style="font-size:12px">OPENAI_API_KEY</code> في <code style="font-size:12px">.env</code> على الخادم.
@@ -2102,6 +2100,9 @@ a { text-decoration: none; color: inherit; }
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
 <script src="/assets/js/admin.js?v=3.3.1"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
+<!-- lazy-loading added -->
+<link rel="stylesheet" href="assets/css/lazy-images.css">
+<script src="assets/js/lazy-images.js" defer></script>
 
 </body>
 </html>

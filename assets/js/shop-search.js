@@ -111,6 +111,7 @@
             u &&
             typeof u === 'string' &&
             (u.indexOf('http://') === 0 || u.indexOf('https://') === 0 || u.indexOf('/') === 0);
+          // lazy-loading added (srch-thumb img)
           var imgPart = ok
             ? '<img src="' + esc(u) + '" alt="" class="img-cover srch-thumb" loading="lazy" decoding="async" draggable="false">'
             : '<span class="srch-ico-fallback">' + (p.ico || '📦') + '</span>';

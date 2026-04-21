@@ -172,7 +172,7 @@ ob_start(); ?>
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($recent as $drug):
+        <?php foreach ($recent as $idx => $drug):
           $cat    = $drug['category'];
           $info   = CATEGORY_LABELS[$cat] ?? ['ar'=>$cat,'icon'=>'💊'];
           $imgSrc = !empty($drug['image'])
@@ -181,6 +181,8 @@ ob_start(); ?>
         ?>
         <tr>
           <td><img src="<?= $imgSrc ?>" class="td-img" alt=""
+               loading="<?= $idx === 0 ? 'eager' : 'lazy' ?>"
+               decoding="async"
                onerror="this.src='<?= ROOT_DIR_URL ?>/assets/img/placeholder.svg'"></td>
           <td><span class="td-name"><?= escHtml($drug['name']) ?></span></td>
           <td><span class="td-cat-badge badge-<?= $cat ?>"><?= $info['icon'] ?> <?= $info['ar'] ?></span></td>

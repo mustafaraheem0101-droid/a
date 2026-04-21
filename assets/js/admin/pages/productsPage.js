@@ -242,6 +242,7 @@
                 imgRaw.indexOf('https://') === 0 ||
                 imgRaw.indexOf('/') === 0);
             var thumbSrc = hasRelPath ? resolveCpProductThumbUrl(imgRaw) : '';
+            // lazy-loading added (cp-prod-thumb-img)
             var thumbBlock =
               hasRelPath && thumbSrc
                 ? '<span class="cp-prod-thumb-wrap" data-icon="' +

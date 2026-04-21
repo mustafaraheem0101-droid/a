@@ -397,7 +397,11 @@ function restoreAddProductDraftIfNewProduct() {
       _uploadedImageUrl = d.imageUrl;
       var prev = document.getElementById('imgPreviewImg');
       var prevWrap = document.getElementById('imgPreview');
-      if (prev) prev.src = d.imageUrl;
+      if (prev) {
+        prev.src = d.imageUrl;
+        prev.loading = 'lazy'; // lazy-loading added
+        prev.decoding = 'async'; // lazy-loading added
+      }
       if (prevWrap) prevWrap.style.display = 'block';
     }
     if (d.name != null) setVal('f-name', d.name);
@@ -568,7 +572,11 @@ function openEdit(id) {
 
   const prev = document.getElementById('imgPreviewImg');
   const prevWrap = document.getElementById('imgPreview');
-  if (prev && p.image) { prev.src = (typeof safeImgSrc === 'function' ? safeImgSrc(p.image) : p.image) || ''; }
+  if (prev && p.image) {
+    prev.src = (typeof safeImgSrc === 'function' ? safeImgSrc(p.image) : p.image) || '';
+    prev.loading = 'lazy'; // lazy-loading added
+    prev.decoding = 'async'; // lazy-loading added
+  }
   if (prevWrap) prevWrap.style.display = p.image ? 'block' : 'none';
 
   showPage('add');
@@ -848,7 +856,11 @@ async function processProductImageFile(file) {
       prev && typeof pharmaPublicAssetUrl === 'function' && typeof r.url === 'string' && r.url.startsWith('/')
         ? pharmaPublicAssetUrl(r.url)
         : r.url;
-    if (prev) prev.src = previewSrc;
+    if (prev) {
+      prev.src = previewSrc;
+      prev.loading = 'lazy'; // lazy-loading added
+      prev.decoding = 'async'; // lazy-loading added
+    }
     if (prevWrap) prevWrap.style.display = 'block';
     ensureDefaultMainCategoryIfEmpty();
     ensureDefaultNewProductPriceIfAdding();

@@ -1,0 +1,32 @@
+CSS link inventory (before unification) — reference for Task 1
+================================================================
+
+Per-file <link rel="stylesheet"> usage (approximate, pre-dist):
+
+Store / public:
+- index.html: fonts-tajawal, shop-bundle, swiper-bundle.min, store-enhancements, mobile-ux, premium-ui, icons-inline, [inline], site-desktop-unified
+- product.html: fonts, shop-bundle, product-reviews, store-enhancements, site-desktop-unified, mobile-ux, premium-ui, icons-inline
+- category / subcategory / categories: fonts, shop-bundle, store-enhancements, mobile-ux, premium-ui, icons-inline, [categories: inline], site-desktop-unified
+- privacy / qr-discount / health-tips: fonts, shop/store/mobile/premium variants, [inline], site-desktop-unified
+- drugs.html: mobile-ux, premium-ui, fonts, [inline]
+- discount-offer / shop-products: mobile-ux, premium-ui, [inline]
+
+Admin shells (minimal):
+- reviews / activity-log / reports / login.html: mobile-ux, premium-ui
+
+Admin:
+- control-panel.html: fonts-tajawal, responsive, desktop.css (root), admin, dashboard, mobile-ux, premium-ui, [large inline], admin-v2
+- admin/_layout.php: fonts-tajawal, mobile-ux
+- login.php: bootstrap CDN, fonts, mobile-ux, premium-ui, mobile.css, desktop.css
+
+Kept separate after unification:
+- assets/css/site-desktop-unified.css (linked where needed; after <style> when cascade matters)
+- assets/css/product-reviews.css (product.html only)
+- assets/css/swiper-bundle.min.css (index.html only; not merged)
+- assets/css/lazy-images.css (before </body> where previously added)
+- Root desktop.css / mobile.css on login & control-panel
+
+Unified outputs (run: npm run build:css):
+- assets/css/dist/base-final.min.css — fonts-tajawal, csp-js-shim, premium-ui, mobile-ux
+- assets/css/dist/store-final.min.css — pharma-bundle, shop-bundle, store-enhancements, responsive, icons-inline
+- assets/css/dist/admin-final.min.css — admin, dashboard, responsive, admin-v2

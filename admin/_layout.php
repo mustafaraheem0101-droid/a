@@ -23,8 +23,8 @@ $_page = $activePage ?? '';
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <title><?= escHtml($pageTitle ?? 'لوحة الإدارة') ?> — صيدلية شهد محمد</title>
-<link href="/assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="/assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
+<!-- CSS unified - build tools/build-css.js -->
+<link href="/assets/css/dist/base-final.min.css" rel="stylesheet">
 <style>
 /* ═══════════════════════════════ RESET & BASE ═══════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}

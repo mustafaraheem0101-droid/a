@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
+    <!-- CSS unified - build tools/build-css.js -->
+    <link rel="stylesheet" href="assets/css/dist/base-final.min.css">
 <meta name="theme-color" content="#00875A" />
   <title>عرض خاص</title>
   <style>
@@ -272,5 +272,8 @@
   </div>
 
   <script src="script.js?v=3.0.0"></script>
+  <!-- lazy-loading added -->
+  <link rel="stylesheet" href="assets/css/lazy-images.css">
+  <script src="assets/js/lazy-images.js" defer></script>
 </body>
 </html>

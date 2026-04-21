@@ -14,13 +14,15 @@
 <meta http-equiv="Expires" content="0">
 <title>صيدلية شهد محمد</title>
 <link rel="icon" href="brand-logo-20260330.png?v=2" type="image/png">
-<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="assets/css/shop-bundle.css?v=1.0.67" rel="stylesheet">
+<!-- CSS unified - build tools/build-css.js -->
+<!-- Base -->
+<link rel="stylesheet" href="assets/css/dist/base-final.min.css">
+<!-- Store -->
+<link rel="stylesheet" href="assets/css/dist/store-final.min.css">
+<!-- fix: preload loader CSS to prevent FOUC on refresh -->
+<link href="assets/css/csp-js-shim.css?v=1.0.0" rel="stylesheet">
+<!-- Swiper (library; not merged) -->
 <link href="assets/css/swiper-bundle.min.css?v=11.1.14" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.116" rel="stylesheet">
-<link href="assets/css/mobile-ux.css?v=1.0.2" rel="stylesheet">
-<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/icons-inline.css?v=1.0.5" rel="stylesheet">
 <style>
 :root{
   --g:#00875A;--g-d:#006644;--g-dd:#004d33;--g-l:#00a86e;--g-xl:#00d68a;
@@ -880,7 +882,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
     </div>
     <div class="p-ft-brand-block">
       <a href="/" class="p-ft-logo-link" aria-label="صيدلية شهد محمد">
-        <img class="p-ft-logo" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="80" height="80" decoding="async" loading="lazy"/>
+        <img class="p-ft-logo" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="80" height="80" decoding="async" loading="eager"/>
       </a>
       <div class="p-ft-url">pharma-store.me</div>
       <a href="#" class="p-ft-cta-wa" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، أريد الطلب عبر واتساب">اطلب الآن عبر واتساب</a>
@@ -954,5 +956,8 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
+<!-- lazy-loading added -->
+<link rel="stylesheet" href="assets/css/lazy-images.css">
+<script src="assets/js/lazy-images.js" defer></script>
 </body>
 </html>

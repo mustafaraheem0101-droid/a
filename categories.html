@@ -9,12 +9,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>أقسام الأدوية - صيدلية شهد محمد</title>
-<link href="assets/css/fonts-tajawal.css?v=1.0.0" rel="stylesheet">
-<link href="assets/css/shop-bundle.css?v=1.0.67" rel="stylesheet">
-<link href="assets/css/store-enhancements.css?v=1.0.84" rel="stylesheet">
-<link href="assets/css/mobile-ux.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/premium-ui.css?v=1.0.1" rel="stylesheet">
-<link href="assets/css/icons-inline.css?v=1.0.2" rel="stylesheet">
+<!-- CSS unified - build tools/build-css.js -->
+<link rel="stylesheet" href="assets/css/dist/base-final.min.css">
+<link rel="stylesheet" href="assets/css/dist/store-final.min.css">
 <style>
 /* ═══════════════════════════════════════════════
    CATEGORIES PAGE — Modern Redesign
@@ -304,7 +301,7 @@ img{display:block;max-width:100%;}
     </div>
     <div class="p-ft-brand-block">
       <a href="/" class="p-ft-logo-link" aria-label="صيدلية شهد محمد">
-        <img class="p-ft-logo" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="80" height="80" decoding="async" loading="lazy"/>
+        <img class="p-ft-logo" src="brand-logo-20260330.png?v=2" alt="صيدلية شهد محمد" width="80" height="80" decoding="async" loading="eager"/>
       </a>
       <div class="p-ft-url">pharma-store.me</div>
       <a href="#" class="p-ft-cta-wa" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، أريد الطلب عبر واتساب">اطلب الآن عبر واتساب</a>
@@ -395,5 +392,8 @@ img{display:block;max-width:100%;}
 <script src="assets/js/main.js?v=3.9.12"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
+<!-- lazy-loading added -->
+<link rel="stylesheet" href="assets/css/lazy-images.css">
+<script src="assets/js/lazy-images.js" defer></script>
 </body>
 </html>

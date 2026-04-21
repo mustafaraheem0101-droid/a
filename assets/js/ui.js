@@ -285,6 +285,7 @@ function buildProductCardHtml(p, opts) {
     '" data-default-src="' +
     escHtml(defaultSrc) +
     '">';
+  // lazy-loading added (imgHtml uses loading="lazy" decoding="async")
   const iconHtml = `<div class="pc-ico-fallback" style="display:none" aria-hidden="true">${icon}</div>`;
 
   const outOfStock = p.stock !== undefined && Number(p.stock) === 0;

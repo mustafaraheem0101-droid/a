@@ -113,6 +113,7 @@ function drugCard(d) {
     : '';
   const waMsg   = encodeURIComponent(`أريد الاستفسار عن: ${d.name}`);
 
+  // lazy-loading added (prod-img: loading="lazy" decoding="async")
   return `
   <div class="prod-card">
     <div class="prod-img-wrap">

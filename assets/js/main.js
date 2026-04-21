@@ -1648,7 +1648,7 @@ function buildProductMainHtml(p, similar, bundles) {
   const _safeImg = gallery[0] || '';
   const galleryVideo = getProductPageGalleryVideo(p);
   const thumbsHtml = (!galleryVideo && gallery.length > 1) ? `<div class="prod-gallery-thumbs" role="tablist">${gallery.map((src, i) =>
-    `<button type="button" class="prod-gallery-thumb${i === 0 ? ' is-active' : ''}" data-action="switch-gallery-thumb" data-gallery-idx="${i}" aria-label="صورة ${i + 1}"><img src="${escHtml(src)}" alt="" loading="lazy" decoding="async" class="img-cover"></button>`).join('')}</div>` : '';
+    `<button type="button" class="prod-gallery-thumb${i === 0 ? ' is-active' : ''}" data-action="switch-gallery-thumb" data-gallery-idx="${i}" aria-label="صورة ${i + 1}"><img src="${escHtml(src)}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async" class="img-cover"></button>`).join('')}</div>` : ''; // lazy-loading added
 
   var imgHTML;
   if (galleryVideo && galleryVideo.src) {
@@ -2813,7 +2813,7 @@ window.submitReview = submitReview;
 const imgModal = document.createElement('div');
 imgModal.className = 'img-modal';
 imgModal.id = 'imgModal';
-imgModal.innerHTML = '<img id="imgModalImg" src="" alt="" decoding="async" data-skip-img-fallback="1" class="img-modal__img img-cover"><button class="img-modal-x" data-action="close-img-modal" id="imgModalClose">✕</button>';
+imgModal.innerHTML = '<img id="imgModalImg" src="" alt="" decoding="async" loading="eager" data-skip-img-fallback="1" class="img-modal__img img-cover"><button class="img-modal-x" data-action="close-img-modal" id="imgModalClose">✕</button>'; // lazy-loading added
 document.body.appendChild(imgModal);
 imgModal.addEventListener('click', e => { if(e.target === imgModal) closeImgModal(); });
 
@@ -2824,7 +2824,10 @@ function openImgModal(src){
   if (safeSrc.startsWith('/') && typeof pharmaPublicAssetUrl === 'function') {
     safeSrc = pharmaPublicAssetUrl(safeSrc);
   }
-  document.getElementById('imgModalImg').src = safeSrc;
+  var _imgModalEl = document.getElementById('imgModalImg');
+  _imgModalEl.src = safeSrc;
+  _imgModalEl.loading = 'eager'; // lazy-loading added
+  _imgModalEl.decoding = 'async'; // lazy-loading added
   imgModal.classList.add('open');
   document.body.style.overflow='hidden';
 }

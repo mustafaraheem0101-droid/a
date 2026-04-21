@@ -254,6 +254,8 @@
       const fullBtn = doc.querySelector('.prod-zoom-full');
       if (!main || !urls[idx]) return;
       main.src = urls[idx];
+      main.loading = 'eager'; // lazy-loading added
+      main.decoding = 'async'; // lazy-loading added
       if (wrap) wrap.dataset.src = urls[idx];
       if (fullBtn) fullBtn.dataset.src = urls[idx];
       doc.querySelectorAll('.prod-gallery-thumb').forEach(function (b, i) {

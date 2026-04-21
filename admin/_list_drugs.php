@@ -127,17 +127,22 @@ ob_start();
         </tr>
       </thead>
       <tbody>
+        <?php $listImgIdx = 0; ?>
         <?php foreach ($drugs as $i => $drug):
           $imgSrc = !empty($drug['image'])
             ? '../../uploads/' . escHtml($drug['image'])
             : '../../assets/img/placeholder.svg';
           $rowNum = $offset + $i + 1;
+          $isFirstListImg = ($listImgIdx === 0);
+          $listImgIdx++;
         ?>
         <tr>
           <td style="color:var(--muted);font-size:12px;width:40px;"><?= $rowNum ?></td>
           <td style="width:72px;">
             <img src="<?= $imgSrc ?>" class="td-img"
                  alt="<?= escHtml($drug['name']) ?>"
+                 loading="<?= $isFirstListImg ? 'eager' : 'lazy' ?>"
+                 decoding="async"
                  onerror="this.src='../../assets/img/placeholder.svg'">
           </td>
           <td>

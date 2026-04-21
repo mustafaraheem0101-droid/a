@@ -193,7 +193,7 @@ $btnClass  = ['cosmetics'=>'btn-pink','kids'=>'btn-orange','medical'=>'btn-teal'
               <div class="upload-sub">JPG • PNG • WEBP — الحد الأقصى 5 ميغابايت</div>
             </div>
             <div id="uploadPreview" style="display:none;">
-              <img id="previewImg" class="preview-img" src="" alt="معاينة">
+              <img id="previewImg" class="preview-img" src="" alt="معاينة" loading="lazy" decoding="async">
               <div id="previewName" style="font-size:13px;color:var(--muted);"></div>
               <button type="button" onclick="clearImage()"
                       style="margin-top:8px;background:none;border:none;color:var(--red);font-size:13px;cursor:pointer;font-weight:700;">

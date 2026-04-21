@@ -1,0 +1,9 @@
+img[loading="lazy"] {
+  background: #f3f4f6;
+  min-height: 100px;
+  transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+  background: transparent;
+}
