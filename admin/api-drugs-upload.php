@@ -45,18 +45,6 @@ if (!$pdo) {
     echo json_encode(['status' => 'error', 'message' => 'فشل الاتصال بقاعدة البيانات'], JSON_UNESCAPED_UNICODE);
     exit;
 }
-// إنشاء الجدول تلقائياً
-$pdo->exec("CREATE TABLE IF NOT EXISTS drugs (
-    id          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name        VARCHAR(255)  NOT NULL,
-    price       DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    image       VARCHAR(500)  NOT NULL DEFAULT '',
-    category    ENUM('medicine','beauty','medical','baby','vitamin') NOT NULL,
-    description TEXT,
-    created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    KEY idx_drugs_category (category),
-    KEY idx_drugs_created  (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 

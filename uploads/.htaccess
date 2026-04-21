@@ -1,0 +1,22 @@
+# مجلد الرفع — منع سرد الملفات، منع تنفيذ السكربتات، السماح بعرض الصور فقط (jpg/png/webp/gif)
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # أي ملف حقيقي لا ينتهي بامتداد صورة مسموح → 403
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_URI} !\.(jpe?g|png|webp|gif)$ [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# منع الوصول إلى امتدادات السكربتات والتنفيذ الشائعة
+<IfModule mod_authz_core.c>
+    <FilesMatch "\.(?i)(php|phtml|phps|phar|cgi|pl|py|jsp|asp|aspx|sh|exe|bat|cmd)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>

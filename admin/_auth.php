@@ -44,7 +44,7 @@ if (empty($_SESSION['admin_logged_in'])) {
 // PDO
 require_once ROOT_DIR . '/db.php';
 
-// ── مُهيّئ PDO مع إنشاء جدول drugs ─────────────────────────────────
+// ── مُهيّئ PDO ───────────────────────────────────────────────────────
 function admin_pdo(): PDO {
     static $cachedPdo = null;
     if ($cachedPdo !== null) return $cachedPdo;
@@ -59,19 +59,6 @@ function admin_pdo(): PDO {
             '<p><a href="../login.php">← العودة لتسجيل الدخول</a></p></body></html>'
         );
     }
-    // إنشاء جدول drugs تلقائياً إن لم يوجد
-    $pdo->exec("CREATE TABLE IF NOT EXISTS drugs (
-        id          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        name        VARCHAR(255)  NOT NULL,
-        price       DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        image       VARCHAR(500)  NOT NULL DEFAULT '',
-        category    ENUM('medicine','beauty','medical','baby','vitamin') NOT NULL,
-        description TEXT,
-        created_at  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        KEY idx_drugs_category (category),
-        KEY idx_drugs_created  (created_at),
-        KEY idx_drugs_name     (name(100))
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
     $cachedPdo = $pdo;
     return $pdo;
