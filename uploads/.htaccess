@@ -1,16 +1,15 @@
-# مجلد الرفع — منع سرد الملفات، منع تنفيذ السكربتات، السماح بعرض الصور فقط (jpg/png/webp/gif)
+# مجلد الرفع: منع السرد والسكربتات؛ السماح بعرض صور فقط (بما فيها svg كما طُلب)
+# السبب: منع رفع ملف يُنفَّذ كـ PHP أو سكربت، وتقليل تسريب أسماء الملفات
 
 Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # أي ملف حقيقي لا ينتهي بامتداد صورة مسموح → 403
     RewriteCond %{REQUEST_FILENAME} -f
-    RewriteCond %{REQUEST_URI} !\.(jpe?g|png|webp|gif)$ [NC]
+    RewriteCond %{REQUEST_URI} !\.(jpe?g|png|webp|gif|svg)$ [NC]
     RewriteRule .* - [F,L]
 </IfModule>
 
-# منع الوصول إلى امتدادات السكربتات والتنفيذ الشائعة
 <IfModule mod_authz_core.c>
     <FilesMatch "\.(?i)(php|phtml|phps|phar|cgi|pl|py|jsp|asp|aspx|sh|exe|bat|cmd)$">
         Require all denied

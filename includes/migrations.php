@@ -10,15 +10,16 @@ declare(strict_types=1);
  */
 function pharma_run_migration(PDO $pdo, string $version, string $description, callable $fn): bool
 {
-    // تأكد من وجود جدول migrations
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS pharma_migrations (
-            id         INT UNSIGNED    NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            version    VARCHAR(50)     NOT NULL UNIQUE,
-            description VARCHAR(255)   NOT NULL DEFAULT '',
-            applied_at DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-    ");
+    // جدول pharma_migrations يُنشَأ عبر sql/migrate.php — لا CREATE TABLE هنا حتى لا يُنفَّذ مع كل طلب
+    try {
+        $pdo->query('SELECT 1 FROM pharma_migrations LIMIT 1');
+    } catch (Throwable $e) {
+        throw new RuntimeException(
+            'جدول pharma_migrations غير موجود — نفّذ التثبيت الأول: php sql/migrate.php',
+            0,
+            $e
+        );
+    }
 
     // تحقق إن كان طُبِّق مسبقاً
     $stmt = $pdo->prepare('SELECT id FROM pharma_migrations WHERE version = ?');
