@@ -353,7 +353,7 @@ function buildProductCardHtml(p, opts) {
 
 var HOME_CATEGORY_IMG_DIR = 'assets/img/home-categories/';
 /** تحديث عند تغيير أي صورة في المجلد أعلاه لتفادي كاش المتصفح */
-var HOME_CATEGORY_IMG_VER = '20260413';
+var HOME_CATEGORY_IMG_VER = '20260422';
 
 /**
  * مسار صورة قسم الرئيسية حسب slug/id، أو صورة من الـ API إن وُجدت.
@@ -369,7 +369,16 @@ function resolveHomeCategoryImage(cat) {
     return img;
   }
   var raw = cat.slug != null && String(cat.slug) !== '' ? String(cat.slug) : String(cat.id != null ? cat.id : '');
-  var key = raw.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_');
+  var slugForKey = raw;
+  if (typeof window.resolveCategorySlugAlias === 'function' && String(raw).trim() !== '') {
+    try {
+      var aliased = window.resolveCategorySlugAlias(raw);
+      if (aliased != null && String(aliased).trim() !== '') slugForKey = String(aliased).trim();
+    } catch (e) { /* ignore */ }
+  }
+  var key = slugForKey.toLowerCase().replace(/\s+/g, '_').replace(/-/g, '_');
+  /* بدون api.js: نفس التوحيد حتى لا تختلف صورة «التجميل» بين beauty و cosmetics */
+  if (key === 'beauty' || key === 'cosmetic') key = 'cosmetics';
   var map = {
     medicine: 'medicine.png',
     drug: 'medicine.png',
@@ -379,7 +388,6 @@ function resolveHomeCategoryImage(cat) {
     vitamin: 'vitamin.png',
     vitamins: 'vitamin.png',
     supplements: 'vitamin.png',
-    beauty: 'skincare.png',
     cosmetics: 'makeup.png',
     skincare: 'skincare.png',
     makeup: 'makeup.png',
