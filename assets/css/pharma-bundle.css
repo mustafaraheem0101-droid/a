@@ -6300,9 +6300,15 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
   .p-logo-name { font-size: 15px !important; }
   .p-logo-tag  { display: none; }
 
-  /* شريط أعلى (topbar) أخف على الموبايل */
+  /* شريط أعلى — نفس اتجاه الصف + اللف (بدون عمود) حتى لا يختلف شكل الهيدر جذرياً عن الديسكتوب */
   .p-topbar { font-size: 11.5px; padding-block: 7px; }
-  .p-topbar-line { flex-direction: column; gap: 5px; }
+  .p-topbar-line {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 14px;
+  }
   .p-topbar-pill { padding: 6px 12px; font-size: 12px; }
   .p-topbar-pill strong { font-size: 12.5px; }
 

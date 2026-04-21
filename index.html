@@ -73,7 +73,7 @@ img{display:block;max-width:100%;}
 .p-topbar-meta-sep{opacity:.5;font-weight:400;padding:0 2px;}
 @media(max-width:560px){
   .p-topbar{font-size:12px;padding-block:10px;}
-  .p-topbar-line{flex-direction:column;gap:10px;}
+  .p-topbar-line{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px;}
   .p-topbar-meta{font-size:11.5px;gap:8px;text-align:center;justify-content:center;}
 }
 
@@ -115,7 +115,7 @@ img{display:block;max-width:100%;}
 .p-logo-name{font-size:17px;font-weight:900;color:var(--navy);display:block;line-height:1.2;}
 .p-logo-url{font-size:11px;color:#475569;font-weight:600;}
 body.index-page .p-logo-tagline{display:block;font-size:11px;font-weight:600;color:#64748b;margin-top:3px;max-width:260px;line-height:1.35;}
-@media(max-width:640px){body.index-page .p-logo-tagline{display:none;}}
+@media(max-width:400px){body.index-page .p-logo-tagline{display:none;}}
 .p-srch{flex:1;max-width:720px;position:relative;}
 .p-srch-box{width:100%;height:54px;background:var(--g-bg);border:2px solid var(--g-pale);border-radius:var(--ui-r);padding-block:0;padding-inline-start:20px;padding-inline-end:58px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:600;color:var(--navy);outline:none;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;direction:rtl;}
 .p-srch-box::placeholder{color:#64748b;opacity:1;font-weight:500;}
