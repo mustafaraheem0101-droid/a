@@ -498,14 +498,19 @@ function setProductFormWizardStep(step, opts) {
   var prev = document.getElementById('pf-wizard-prev');
   var next = document.getElementById('pf-wizard-next');
   var hint = document.getElementById('pf-wizard-step-hint');
+  var prevSticky = document.getElementById('pf-sticky-wizard-prev');
+  var nextSticky = document.getElementById('pf-sticky-wizard-next');
+  var hintSticky = document.getElementById('pf-sticky-wizard-step-hint');
+  var hintText =
+    n >= PF_WIZARD_STEPS
+      ? 'الخطوة ' + n + ' من ' + PF_WIZARD_STEPS + ' — جاهز للحفظ من الأسفل'
+      : 'الخطوة ' + n + ' من ' + PF_WIZARD_STEPS;
   if (prev) prev.disabled = n <= 1;
   if (next) next.disabled = n >= PF_WIZARD_STEPS;
-  if (hint) {
-    hint.textContent =
-      n >= PF_WIZARD_STEPS
-        ? 'الخطوة ' + n + ' من ' + PF_WIZARD_STEPS + ' — جاهز للحفظ من الأسفل'
-        : 'الخطوة ' + n + ' من ' + PF_WIZARD_STEPS;
-  }
+  if (prevSticky) prevSticky.disabled = n <= 1;
+  if (nextSticky) nextSticky.disabled = n >= PF_WIZARD_STEPS;
+  if (hint) hint.textContent = hintText;
+  if (hintSticky) hintSticky.textContent = hintText;
   var noScroll = opts && opts.noScroll;
   if (!noScroll) {
     try {
@@ -2474,20 +2479,22 @@ window.logout = logout;
     });
     var prev = document.getElementById('pf-wizard-prev');
     var next = document.getElementById('pf-wizard-next');
-    if (prev) {
-      prev.addEventListener('click', function () {
-        if (typeof setProductFormWizardStep === 'function') {
-          setProductFormWizardStep(curStep() - 1, { focusFirst: true });
-        }
-      });
+    var prevSticky = document.getElementById('pf-sticky-wizard-prev');
+    var nextSticky = document.getElementById('pf-sticky-wizard-next');
+    function goPrev() {
+      if (typeof setProductFormWizardStep === 'function') {
+        setProductFormWizardStep(curStep() - 1, { focusFirst: true });
+      }
     }
-    if (next) {
-      next.addEventListener('click', function () {
-        if (typeof setProductFormWizardStep === 'function') {
-          setProductFormWizardStep(curStep() + 1, { focusFirst: true });
-        }
-      });
+    function goNext() {
+      if (typeof setProductFormWizardStep === 'function') {
+        setProductFormWizardStep(curStep() + 1, { focusFirst: true });
+      }
     }
+    if (prev) prev.addEventListener('click', goPrev);
+    if (next) next.addEventListener('click', goNext);
+    if (prevSticky) prevSticky.addEventListener('click', goPrev);
+    if (nextSticky) nextSticky.addEventListener('click', goNext);
   })();
 
   // Settings tabs

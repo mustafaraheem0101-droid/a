@@ -439,6 +439,23 @@ a { text-decoration: none; color: inherit; }
 }
 .pf-reset-btn:hover { border-color: var(--red); color: var(--red); background: rgba(239,68,68,.06); }
 .pf-draft-status { font-size: 12px; color: var(--muted); margin-inline-start: auto; }
+.pf-sticky-wizard-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-inline-end: auto;
+}
+.pf-sticky-wizard-nav .pf-wizard-step-hint {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pf-sticky-wizard-nav .pf-wizard-navbtn {
+  padding: 10px 16px;
+  font-size: 13px;
+}
 .req { color: var(--red); }
 .opt { color: var(--muted); font-size: 11px; }
 
@@ -1682,9 +1699,9 @@ a { text-decoration: none; color: inherit; }
             </div>
 
             <div class="pf-wizard-bar">
-              <button type="button" class="pf-wizard-navbtn pf-wizard-navbtn--primary" id="pf-wizard-next">التالي</button>
+              <button type="button" class="pf-wizard-navbtn pf-wizard-navbtn--primary" id="pf-wizard-next">تقدّم</button>
               <span class="pf-wizard-step-hint" id="pf-wizard-step-hint">الخطوة 1 من 3</span>
-              <button type="button" class="pf-wizard-navbtn" id="pf-wizard-prev" disabled>السابق</button>
+              <button type="button" class="pf-wizard-navbtn" id="pf-wizard-prev" disabled>رجوع</button>
             </div>
 
             <nav class="pf-wizard-nav pf-wizard-nav--bottom" role="tablist" aria-label="خطوات إضافة المنتج">
@@ -1704,6 +1721,11 @@ a { text-decoration: none; color: inherit; }
           </div>
 
           <div class="pf-sticky-actions">
+            <div class="pf-sticky-wizard-nav" aria-label="التنقل بين خطوات المنتج">
+              <button type="button" class="pf-wizard-navbtn" id="pf-sticky-wizard-prev" disabled>رجوع</button>
+              <span class="pf-wizard-step-hint" id="pf-sticky-wizard-step-hint">الخطوة 1 من 3</span>
+              <button type="button" class="pf-wizard-navbtn pf-wizard-navbtn--primary" id="pf-sticky-wizard-next">تقدّم</button>
+            </div>
             <button class="save-btn" id="saveProductBtn">💾 حفظ وإظهار فوراً في الموقع</button>
             <button id="btn-reset-product-form" class="pf-reset-btn">🔄 إعادة تعيين</button>
             <span class="pf-draft-status" id="pfDraftStatus">—</span>
