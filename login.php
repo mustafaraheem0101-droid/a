@@ -200,7 +200,7 @@ $disabled  = $lockMsg !== '' ? ' disabled' : '';
   <link rel="icon" href="brand-logo-20260330.png?v=2" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" crossorigin="anonymous">
   <!-- CSS unified - build tools/build-css.js -->
-  <link href="assets/css/dist/base-final.min.css" rel="stylesheet">
+  <link href="/assets/css/dist/base-final.min.css" rel="stylesheet">
   <link href="mobile.css?v=20260326-2" rel="stylesheet">
   <link href="desktop.css?v=20260326-1" rel="stylesheet">
   <style>

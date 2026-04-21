@@ -6,7 +6,8 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} -f
-    RewriteCond %{REQUEST_URI} !\.(jpe?g|png|webp|gif|svg)$ [NC]
+    # صور + فيديوهات الواجهة (mp4/webm) — كانت mp4 تُرفض بـ 403
+    RewriteCond %{REQUEST_URI} !\.(jpe?g|png|webp|gif|svg|mp4|webm|mov)$ [NC]
     RewriteRule .* - [F,L]
 </IfModule>
 
