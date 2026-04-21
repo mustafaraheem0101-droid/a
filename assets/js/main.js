@@ -3782,7 +3782,11 @@ function pharmaSpotlightVideoBlockHtml(videoUrl) {
 function renderHomeExtras(data) {
   const s = (data && data.settings) ? data.settings : {};
   const tag = document.getElementById('p-logo-tagline');
-  if (tag && s.tagline) tag.textContent = s.tagline;
+  // نفس القيمة الافتراضية في includes/defaults.php — يحدّث فقط عند وجود نص من الإعدادات لتفادي ومضة نص مختلف قبل/بعد الطلب
+  if (tag) {
+    var t = s.tagline != null ? String(s.tagline).trim() : '';
+    if (t && tag.textContent !== t) tag.textContent = t;
+  }
   const topSec = document.getElementById('home-top-ordered-sec');
   const mediaEl = document.getElementById('homeSpotlightMedia');
   var urls = ['', '', '', ''];
