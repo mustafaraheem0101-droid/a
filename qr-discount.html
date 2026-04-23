@@ -445,6 +445,21 @@
       transform: none;
     }
   }
+
+  /* ── QR grid: product cards — extra polish (GSAP handles entrance; see qr-discount-gsap.js) ── */
+  @media (hover: hover) and (pointer: fine) {
+    body.qr-discount-page #qrProductGrid .pc.pc--product {
+      transition:
+        box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.3s ease;
+    }
+    body.qr-discount-page #qrProductGrid .pc.pc--product:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: var(--qr-sh-hover);
+      border-color: rgba(5, 150, 105, 0.2);
+    }
+  }
 </style>
 <link href="/assets/css/site-desktop-unified.css?v=1.0.12" rel="stylesheet">
 </head>
@@ -571,5 +586,9 @@
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">
 <script src="assets/js/lazy-images.js" defer></script>
+<!-- GSAP: scroll entrance + parallax on product cards (see assets/js/qr-discount-gsap.js) -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="assets/js/qr-discount-gsap.js"></script>
 </body>
 </html>
