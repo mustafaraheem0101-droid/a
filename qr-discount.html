@@ -446,19 +446,32 @@
     }
   }
 
-  /* ── QR grid: product cards — extra polish (GSAP handles entrance; see qr-discount-gsap.js) ── */
+  /* ── QR grid: product cards (fallback if JS 3D layer not added — see qr-discount-gsap.js) ── */
   @media (hover: hover) and (pointer: fine) {
-    body.qr-discount-page #qrProductGrid .pc.pc--product {
+    body.qr-discount-page #qrProductGrid .pc.pc--product:not(.qr-pc--motion) {
       transition:
         box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
         transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
         border-color 0.3s ease;
     }
-    body.qr-discount-page #qrProductGrid .pc.pc--product:hover {
+    body.qr-discount-page #qrProductGrid .pc.pc--product:not(.qr-pc--motion):hover {
       transform: translateY(-6px) scale(1.01);
       box-shadow: var(--qr-sh-hover);
       border-color: rgba(5, 150, 105, 0.2);
     }
+  }
+  /* 3D / magnetic mode — transform + shadow driven by GSAP; smooth opacity for focus */
+  @media (hover: hover) and (pointer: fine) {
+    #qrProductGrid.qr-pc-3d { perspective: 1000px; }
+    #qrProductGrid.qr-pc-3d .pc.qr-pc--motion {
+      transform-style: preserve-3d;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+      transition: border-color 0.25s ease, opacity 0.28s ease;
+    }
+    #qrProductGrid .pc.qr-pc--motion:hover { border-color: rgba(5, 150, 105, 0.2); }
+    #qrProductGrid .pc.qr-pc--active { z-index: 4; position: relative; }
   }
 </style>
 <link href="/assets/css/site-desktop-unified.css?v=1.0.12" rel="stylesheet">

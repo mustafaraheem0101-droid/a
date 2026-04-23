@@ -665,7 +665,13 @@ try {
     replaceChildrenFromHtml(ul, items.map(c => {
       const slug = String(c.slug || c.id || '');
       const href = 'category.html?slug=' + encodeURIComponent(slug);
-      return `<li><a href="${href}">${c.icon || '📦'} ${escHtml(c.name)}</a></li>`;
+      const ico = c.icon != null ? String(c.icon) : '📦';
+      return (
+        '<li class="p-ft-cat-item">' +
+        '<a class="p-ft-cat-link" href="' + href + '">' +
+        '<span class="p-ft-cat-ico" aria-hidden="true">' + ico + '</span>' +
+        '<span class="p-ft-cat-txt">' + escHtml(c.name) + '</span></a></li>'
+      );
     }).join(''));
   }
 
@@ -820,7 +826,9 @@ function applyShopPageFooterFromSettings() {
   const ftAddr = document.getElementById('ft-addr');
   if (ftPhone) {
     ftPhone.href = 'tel:+' + phoneDigits;
-    ftPhone.textContent = '📞 ' + (phoneRaw || '—');
+    var phTxt = ftPhone.querySelector ? ftPhone.querySelector('.p-ft-contact-txt') : null;
+    if (phTxt) phTxt.textContent = phoneRaw || '—';
+    else ftPhone.textContent = phoneRaw || '—';
   }
   if (ftWa) {
     var waMsgFt = (ftWa.dataset && ftWa.dataset.waText != null) ? String(ftWa.dataset.waText) : '';
@@ -828,7 +836,9 @@ function applyShopPageFooterFromSettings() {
   }
   if (ftAddr) {
     ftAddr.href = mapUrl;
-    ftAddr.textContent = '📍 ' + (settings.address || '—');
+    var adTxt = ftAddr.querySelector ? ftAddr.querySelector('.p-ft-contact-txt') : null;
+    if (adTxt) adTxt.textContent = settings.address || '—';
+    else ftAddr.textContent = settings.address || '—';
   }
 }
 
