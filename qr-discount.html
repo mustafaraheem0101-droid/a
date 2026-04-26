@@ -446,32 +446,27 @@
     }
   }
 
-  /* ── QR grid: product cards (fallback if JS 3D layer not added — see qr-discount-gsap.js) ── */
+  /* بطاقات العرض ثابتة — بدون قفز أو ميل أو كشف تدريجي */
+  body.qr-discount-page #qrProductGrid .pc.pc--product,
+  body.qr-discount-page #qrProductGrid .pc.pc--product.reveal,
+  body.qr-discount-page #qrProductGrid .pc.pc--product.reveal.in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  body.qr-discount-page #qrProductGrid .pc.pc--product .pc-img,
+  body.qr-discount-page #qrProductGrid .pc.pc--product .pc-img-el {
+    transform: none !important;
+  }
   @media (hover: hover) and (pointer: fine) {
-    body.qr-discount-page #qrProductGrid .pc.pc--product:not(.qr-pc--motion) {
-      transition:
-        box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color 0.3s ease;
+    body.qr-discount-page #qrProductGrid .pc.pc--product {
+      transition: box-shadow 0.35s ease, border-color 0.3s ease;
     }
-    body.qr-discount-page #qrProductGrid .pc.pc--product:not(.qr-pc--motion):hover {
-      transform: translateY(-6px) scale(1.01);
+    body.qr-discount-page #qrProductGrid .pc.pc--product:hover {
+      transform: none;
       box-shadow: var(--qr-sh-hover);
       border-color: rgba(5, 150, 105, 0.2);
     }
-  }
-  /* 3D / magnetic mode — transform + shadow driven by GSAP; smooth opacity for focus */
-  @media (hover: hover) and (pointer: fine) {
-    #qrProductGrid.qr-pc-3d { perspective: 1000px; }
-    #qrProductGrid.qr-pc-3d .pc.qr-pc--motion {
-      transform-style: preserve-3d;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      will-change: transform, opacity;
-      transition: border-color 0.25s ease, opacity 0.28s ease;
-    }
-    #qrProductGrid .pc.qr-pc--motion:hover { border-color: rgba(5, 150, 105, 0.2); }
-    #qrProductGrid .pc.qr-pc--active { z-index: 4; position: relative; }
   }
 </style>
 <link href="/assets/css/site-desktop-unified.css?v=1.0.12" rel="stylesheet">
@@ -599,9 +594,6 @@
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">
 <script src="assets/js/lazy-images.js" defer></script>
-<!-- GSAP: scroll entrance + parallax on product cards (see assets/js/qr-discount-gsap.js) -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="assets/js/qr-discount-gsap.js"></script>
+<script src="assets/js/qr-discount-gsap.js?v=2.0.0"></script>
 </body>
 </html>
