@@ -1413,6 +1413,30 @@ body.product-page--wa-sticky {
     box-shadow: 0 10px 34px rgba(37, 211, 102, 0.5), 0 2px 10px rgba(0, 0, 0, 0.14);
   }
 }
+/* موبايل: زر واتساب العائم أصغر — يتجاوز #wa-float أعلاه (نفس الـ !important + id.class) */
+@media (max-width: 767px) {
+  #wa-float.p-wa-float {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    bottom: max(10px, calc(env(safe-area-inset-bottom, 0px) + 6px)) !important;
+    left: max(8px, calc(env(safe-area-inset-left, 0px) + 4px)) !important;
+    border-width: 1px !important;
+    box-shadow:
+      0 4px 14px rgba(37, 211, 102, 0.34),
+      0 1px 4px rgba(0, 0, 0, 0.1) !important;
+    animation: none !important;
+  }
+  #wa-float.p-wa-float:hover,
+  #wa-float.p-wa-float:focus-visible {
+    transform: scale(1.04);
+  }
+  #wa-float.p-wa-float svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
 @media (min-width: 900px) {
   #wa-float {
     width: 60px !important;

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#00875A">
-<meta name="asset-version" content="1.0.51">
+<meta name="asset-version" content="1.0.53">
 <meta name="description" content="صيدلية شهد محمد — أدوية أصلية، فيتامينات، وتوصيل في الديالى. اطلب عبر واتساب بسهولة.">
 <meta name="keywords" content="صيدلية,دواء,فيتامينات,توصيل,العراق,الديالى,واتساب">
 <meta property="og:title" content="صيدلية شهد محمد">
@@ -128,7 +128,7 @@ body.index-page .p-logo-tagline{display:block;font-size:11px;font-weight:600;col
 .p-hbtn-wa-label{display:inline;position:relative;z-index:2;}
 .p-hbtn-wa-em{font-weight:900;}
 .p-hdr-cta-pair{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;}
-/* معلومات العنوان/الدوام/الهاتف — تظهر على الموبايل بدل أيقونتي واتساب وإنستغرام في الهيدر */
+/* معلومات العنوان/الدوام/الهاتف — مخفية في الموبايل (موجودة في الفوتر) */
 .p-hdr-meta{display:none;}
 .p-hdr-meta__line{display:block;}
 .p-hdr-meta__tel{color:var(--g);text-decoration:none;}
@@ -491,7 +491,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     flex-direction: column;
   }
   .home-hero-aside-map__preview{
-    min-height: min(200px, 42vw);
+    min-height: min(132px, 34vw);
   }
   .home-hero-slide__aside--hours{
     flex-direction: column;
@@ -524,9 +524,9 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     flex: 1 1 0;
     min-width: 0;
     width: auto;
-    min-height: 46px;
-    padding: 10px 6px;
-    font-size: clamp(11px, 2.9vw, 14px);
+    min-height: 40px;
+    padding: 8px 5px;
+    font-size: clamp(10.5px, 2.75vw, 13px);
     justify-content: center;
     box-sizing: border-box;
     text-align: center;
@@ -534,8 +534,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     white-space: normal;
   }
   .home-hero-btn svg{
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     flex-shrink: 0;
   }
   .home-hero-pagination{
@@ -583,42 +583,10 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     overflow:visible;
   }
   body.index-page .p-logo-tagline{display:none!important;}
-  /* يفك التغليف: صف 1 = شعار + سلة | صف 2 = عنوان/دوام/هاتف بعرض الشاشة | صف 3 = بحث */
+  /* يفك التغليف: صف 1 = شعار + سلة | صف 2 = بحث (صف العنوان/الدوام/الهاتف أُزيل من الموبايل) */
   body.index-page .p-hdr-r{display:contents;}
   body.index-page .p-hdr-cta-pair{display:contents;}
-  body.index-page .p-hdr-meta{
-    display:flex!important;
-    flex-direction:column;
-    justify-content:center;
-    align-items:stretch;
-    gap:3px;
-    order:2;
-    flex:1 1 100%;
-    width:100%;
-    max-width:100%;
-    min-width:0;
-    box-sizing:border-box;
-    padding:2px 4px 4px;
-    margin:0;
-    text-align:center;
-    line-height:1.35;
-    border-bottom:1px solid rgba(226,232,240,.85);
-  }
-  body.index-page .p-hdr-meta__addr,
-  body.index-page .p-hdr-meta__hours{
-    font-size:clamp(10px, 2.9vw, 12px);
-    font-weight:700;
-    color:#64748b;
-    letter-spacing:0.01em;
-  }
-  body.index-page .p-hdr-meta__tel{
-    font-size:clamp(12px, 3.6vw, 14px);
-    font-weight:900;
-    color:var(--g);
-    margin-top:2px;
-    letter-spacing:0.02em;
-  }
-  body.index-page .p-hdr-meta__tel:hover{color:var(--g-d);}
+  body.index-page .p-hdr-meta{display:none!important;}
   body.index-page .p-logo{
     order:1;
     flex:0 1 auto;
@@ -657,7 +625,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .p-logo-url{font-size:clamp(8px, 2.4vw, 10px)!important;}
   :root{--p-hdr-h:auto;}
   body.index-page .p-srch{
-    order:3;
+    order:2;
     flex:1 0 100%;
     width:100%;
     max-width:100%;
@@ -666,7 +634,9 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     position:relative;
     z-index:5;
     isolation:isolate;
-    margin-top:2px;
+    margin-top:4px;
+    padding-top:8px;
+    border-top:1px solid rgba(226,232,240,.85);
   }
   body.index-page .p-srch .srch-suggest{
     left:0;
@@ -717,9 +687,9 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .p-cart-btn svg{width:16px!important;height:16px!important;}
   .p-nav-inner{padding-block:9px;padding-inline:max(10px, env(safe-area-inset-left, 0px)) max(10px, env(safe-area-inset-right, 0px));}
   #navContainer.p-nav-rings{gap:8px;padding-block:2px 0;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));-webkit-mask-image:none;mask-image:none;}
-  .p-nav-ring{width:70px;min-width:64px;max-width:82px;gap:6px;}
-  .p-nav-ring__disc{width:56px;height:56px;}
-  .p-nav-ring__emoji{font-size:26px;}
+  .p-nav-ring{width:64px;min-width:58px;max-width:76px;gap:5px;}
+  .p-nav-ring__disc{width:50px;height:50px;}
+  .p-nav-ring__emoji{font-size:23px;}
   .p-nav-ring__lbl{font-size:11px;}
   body.index-page .p-sec-slider--nav{gap:5px;}
   body.index-page .p-sec-slider--nav .p-sec-slider__btn{width:34px;height:34px;font-size:19px;border-radius:11px;}
@@ -830,13 +800,15 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .index-mobile-rail .to-top:not(.show){
     display:none!important;
   }
-  body.index-page .p-wa-float{
+  /* id + class يتفوّض على #wa-float وحده في store-enhancements */
+  body.index-page #wa-float.p-wa-float{
     bottom:max(10px, env(safe-area-inset-bottom, 0px) + 4px)!important;
-    left:max(10px, env(safe-area-inset-left, 0px))!important;
-    width:48px!important;height:48px!important;
-    min-width:48px!important;min-height:48px!important;
+    left:max(8px, env(safe-area-inset-left, 0px))!important;
+    width:36px!important;height:36px!important;
+    min-width:36px!important;min-height:36px!important;
+    box-shadow:0 3px 12px rgba(37,211,102,.32),0 1px 3px rgba(0,0,0,.08)!important;
   }
-  body.index-page .p-wa-float svg{width:26px!important;height:26px!important;}
+  body.index-page #wa-float.p-wa-float svg{width:18px!important;height:18px!important;}
   body.index-page.pharma-footer .p-footer-inner.p-footer__glass{
     padding:16px 12px 14px;
     border-radius:16px;
