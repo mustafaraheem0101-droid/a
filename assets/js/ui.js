@@ -46,8 +46,17 @@ function applySettings() {
     el.href = waUrl + (text ? '?text=' + encodeURIComponent(text) : '');
   });
 
-  const igUrl =
-    normalizeInstagramUrl(s.instagram) || normalizeInstagramUrl('pharma_store.me');
+  const IG_FALLBACK = 'https://www.instagram.com/pharma_store.me/';
+  let igUrl = '';
+  try {
+    igUrl =
+      (typeof normalizeInstagramUrl === 'function' &&
+        (normalizeInstagramUrl(s.instagram) || normalizeInstagramUrl('pharma_store.me'))) ||
+      IG_FALLBACK;
+  } catch (eIg) {
+    igUrl = IG_FALLBACK;
+  }
+  if (!igUrl) igUrl = IG_FALLBACK;
   document.querySelectorAll('[data-ig-link]').forEach(el => {
     if (igUrl) {
       el.href = igUrl;

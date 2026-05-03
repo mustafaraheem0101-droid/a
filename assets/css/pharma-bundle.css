@@ -6767,9 +6767,9 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
   }
 
   .prod-wa-ig-pair {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    width: 100% !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
     min-width: 0;
   }
   .prod-wa-ig-pair .prod-ig-order-btn {
