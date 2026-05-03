@@ -119,18 +119,6 @@ function applySettings() {
     else ftAddr.textContent = s.address || '';
   }
 
-  const heroChipMap = document.getElementById('homeHeroChipMap');
-  if (heroChipMap) {
-    heroChipMap.href = mapUrl || '#';
-    heroChipMap.setAttribute('title', 'الخريطة — موقع الصيدلية');
-  }
-  const heroChipTel = document.getElementById('homeHeroChipTel');
-  if (heroChipTel) {
-    heroChipTel.href = 'tel:' + phone.replace(/\D/g, '');
-    heroChipTel.setAttribute('title', phone);
-    heroChipTel.setAttribute('aria-label', 'اتصال: ' + phone);
-  }
-
   let open = 15;
   let close = 24;
   let isOpen = false;
