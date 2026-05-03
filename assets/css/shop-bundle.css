@@ -2184,6 +2184,7 @@ footer {
   flex-shrink: 0;
   border-bottom: 1px solid var(--border);
   background: var(--white);
+  overflow: visible;
 }
 
 .cs-hd-inner {
@@ -2191,7 +2192,8 @@ footer {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 18px 20px;
+  padding: max(18px, env(safe-area-inset-top, 0px)) 20px 18px 20px;
+  box-sizing: border-box;
 }
 
 .cs-hd-title {
@@ -2199,6 +2201,7 @@ footer {
   align-items: flex-start;
   gap: 12px;
   min-width: 0;
+  overflow: visible;
 }
 
 .cs-hd-title h3 {

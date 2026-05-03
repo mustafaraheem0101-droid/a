@@ -2180,6 +2180,7 @@ footer {
   flex-shrink: 0;
   border-bottom: 1px solid var(--border);
   background: var(--white);
+  overflow: visible;
 }
 
 .cs-hd-inner {
@@ -2187,7 +2188,8 @@ footer {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 18px 20px;
+  padding: max(18px, env(safe-area-inset-top, 0px)) 20px 18px 20px;
+  box-sizing: border-box;
 }
 
 .cs-hd-title {
@@ -2195,6 +2197,7 @@ footer {
   align-items: flex-start;
   gap: 12px;
   min-width: 0;
+  overflow: visible;
 }
 
 .cs-hd-title h3 {
@@ -5847,11 +5850,6 @@ input[type="radio"] {
     padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 56px));
   }
 
-  /* سلّة جانبية: مساحة تنفس */
-  .cs-hd-inner {
-    padding: 16px 18px !important;
-  }
-
   .mb {
     padding: 22px 18px !important;
   }
@@ -6417,47 +6415,57 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
 
 /* ══ السلة الجانبية ══ */
 @media (max-width: 600px) {
+  /*
+   * لوحة سفلية: تجنّب height: xxvh — قد يتجاوز الارتفاع المرئي (شريط العنوان) فيُقصّ الهيدر.
+   * ربط top + bottom يملأ المسافة الفعلية بين حافة الشاشة والأسفل.
+   */
+  #cs.cs,
   .cs {
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 20px 20px 0 0 !important;
-    top: auto !important;
+    top: max(10px, env(safe-area-inset-top, 0px), 5vmin) !important;
     bottom: 0 !important;
-    /* vh أكبر من الشاشة المرئية مع شريط العنوان — يقصّ أعلى اللوحة (العنوان) */
-    height: 86vh !important;
-    max-height: 86vh !important;
-    height: 86dvh !important;
-    max-height: 86dvh !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   .cs-hd-inner {
-    padding: 14px 18px 12px !important;
+    padding: 12px 16px 10px !important;
+    padding-top: max(12px, env(safe-area-inset-top, 0px)) !important;
     border-bottom: 1px solid var(--border);
     align-items: center !important;
   }
 
+  .cs-hd-title .cs-hd-ico svg {
+    width: 19px !important;
+    height: 19px !important;
+  }
+
   .cs-body {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
     padding-bottom: max(20px, var(--safe-bot)) !important;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
 
   .cs-empty {
-    padding: 18px 14px !important;
+    padding: 12px 12px !important;
   }
 
   .cs-empty-art {
-    max-width: 132px !important;
-    margin-bottom: 10px !important;
+    max-width: 104px !important;
+    margin-bottom: 8px !important;
   }
 
   .cs-empty-title {
-    font-size: 1rem !important;
+    font-size: 0.9375rem !important;
   }
 
   .cs-empty-desc {
-    font-size: 13px !important;
-    margin-bottom: 12px !important;
+    font-size: 12.5px !important;
+    margin-bottom: 10px !important;
   }
 
   /* مقبض السحب */
@@ -6467,7 +6475,7 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     width: 36px; height: 4px;
     background: var(--border);
     border-radius: 99px;
-    margin: 8px auto 2px;
+    margin: 6px auto 0;
     flex-shrink: 0;
   }
 

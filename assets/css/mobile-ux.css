@@ -198,11 +198,6 @@ input[type="radio"] {
     padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 56px));
   }
 
-  /* سلّة جانبية: مساحة تنفس */
-  .cs-hd-inner {
-    padding: 16px 18px !important;
-  }
-
   .mb {
     padding: 22px 18px !important;
   }
