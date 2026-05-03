@@ -119,6 +119,58 @@ body.pharma-footer .p-ft-cta-wa.p-ft-cta-wa--premium::after {
   }
 }
 
+body.pharma-footer .p-ft-cta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 4px;
+}
+
+body.pharma-footer .p-ft-col--brand .p-ft-cta-row {
+  align-self: stretch;
+}
+
+body.pharma-footer .p-ft-cta-ig.p-ft-cta-ig--premium {
+  position: relative;
+  z-index: 0;
+  text-align: center;
+  justify-content: center;
+  padding: 15px 22px;
+  background: linear-gradient(145deg, #f09433 0%, #e6683c 28%, #dc2743 52%, #bc1888 100%) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22) inset,
+    0 2px 0 rgba(0, 0, 0, 0.12) inset,
+    0 8px 32px rgba(225, 48, 108, 0.32),
+    0 0 40px rgba(236, 72, 153, 0.18);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, filter 0.25s ease;
+}
+
+body.pharma-footer .p-ft-cta-ig.p-ft-cta-ig--premium::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 999px;
+  background: linear-gradient(130deg, rgba(251, 113, 133, 0.45), rgba(219, 39, 119, 0.2), rgba(168, 85, 247, 0.22));
+  filter: blur(10px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.pharma-footer .p-ft-cta-ig.p-ft-cta-ig--premium:hover {
+    filter: brightness(1.05);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.28) inset,
+      0 3px 0 rgba(0, 0, 0, 0.1) inset,
+      0 14px 40px rgba(225, 48, 108, 0.42),
+      0 0 52px rgba(244, 114, 182, 0.28);
+  }
+}
+
 /* Section titles */
 body.pharma-footer h4.p-ft-heading {
   font-size: 0.82rem;
@@ -318,7 +370,9 @@ body.pharma-footer .p-footer--gsap-on .p-footer-reveal {
     padding-inline: 0;
   }
   body.pharma-footer .p-ft-cta-wa--premium,
-  body.pharma-footer .p-ft-cta-wa {
+  body.pharma-footer .p-ft-cta-wa,
+  body.pharma-footer .p-ft-cta-ig--premium,
+  body.pharma-footer .p-ft-cta-row {
     max-width: 100%;
   }
   body.pharma-footer .p-ft-tagline {
@@ -348,6 +402,10 @@ body.pharma-footer .p-footer--gsap-on .p-footer-reveal {
   }
   body.pharma-footer .p-ft-soc {
     justify-content: center;
+  }
+  body.pharma-footer .p-ft-cta-row {
+    max-width: 100%;
+    margin-inline: auto;
   }
 }
 

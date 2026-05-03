@@ -1,6 +1,37 @@
 /* ui.js — تطبيق الإعدادات على DOM + رسم البطاقات والـ skeletons */
 'use strict';
 
+/** يحوّل قيمة إنستغرام من لوحة التحكم إلى رابط https صالح */
+function normalizeInstagramUrl(raw) {
+  if (raw == null) return '';
+  var t = String(raw).trim();
+  if (!t) return '';
+  if (/^https?:\/\//i.test(t)) return t;
+  t = t.replace(/^@+/, '');
+  if (/instagram\.com/i.test(t)) {
+    return /^https?:\/\//i.test(t) ? t : 'https://' + t.replace(/^\/+/, '');
+  }
+  var handle = t.replace(/^\/+|\/+$/g, '').replace(/\?.*$/, '');
+  if (!handle) return '';
+  if (/^[a-z0-9._]+$/i.test(handle)) return 'https://www.instagram.com/' + handle + '/';
+  return 'https://www.instagram.com/' + handle + '/';
+}
+
+/** فيسبوك — رابط كامل أو اسم صفحة */
+function normalizeFacebookUrl(raw) {
+  if (raw == null) return '';
+  var t = String(raw).trim();
+  if (!t) return '';
+  if (/^https?:\/\//i.test(t)) return t;
+  t = t.replace(/^@+/, '');
+  if (/^facebook\.com\//i.test(t)) return 'https://www.' + t;
+  if (/^(www\.)?facebook\.com/i.test(t)) return 'https://' + t.replace(/^\/+/, '');
+  return 'https://www.facebook.com/' + t.replace(/^\/+|\/+$/g, '');
+}
+
+window.normalizeInstagramUrl = normalizeInstagramUrl;
+window.normalizeFacebookUrl = normalizeFacebookUrl;
+
 // ══════════════════════════════════════════════
 // تطبيق الإعدادات على الصفحة
 // ══════════════════════════════════════════════
@@ -55,12 +86,35 @@ function applySettings() {
     statusEl.style.color = isOpen ? '#00a86e' : '#ef4444';
   }
 
-  if (s.instagram) {
-    document.querySelectorAll('[data-ig-link]').forEach(el => { el.href = s.instagram; el.style.display = ''; });
-  }
-  if (s.facebook) {
-    document.querySelectorAll('[data-fb-link]').forEach(el => { el.href = s.facebook; el.style.display = ''; });
-  }
+  const igUrl = normalizeInstagramUrl(s.instagram);
+  document.querySelectorAll('[data-ig-link]').forEach(el => {
+    if (igUrl) {
+      el.href = igUrl;
+      el.hidden = false;
+      try {
+        el.removeAttribute('aria-hidden');
+      } catch (e) { /* ignore */ }
+    } else {
+      el.setAttribute('href', '#');
+      el.hidden = true;
+      el.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  const fbUrl = normalizeFacebookUrl(s.facebook);
+  document.querySelectorAll('[data-fb-link]').forEach(el => {
+    if (fbUrl) {
+      el.href = fbUrl;
+      el.hidden = false;
+      try {
+        el.removeAttribute('aria-hidden');
+      } catch (e2) { /* ignore */ }
+    } else {
+      el.setAttribute('href', '#');
+      el.hidden = true;
+      el.setAttribute('aria-hidden', 'true');
+    }
+  });
 }
 
 /** إزالة وضع ليلي قديم من localStorage ومن class pharma-dark على documentElement */

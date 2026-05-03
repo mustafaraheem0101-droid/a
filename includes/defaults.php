@@ -813,6 +813,9 @@ function getDefaultSettings(): array {
         'deliveryTime'                => 'التوصيل خلال 24–48 ساعة حسب المنطقة والتوفر',
         'deliveryAreas'               => 'نخدم الديالى والمحافظات العراقية — للاستفسار عن منطقتك تواصل عبر واتساب',
         'googleMapsEmbedUrl'          => '',
+        'mapUrl'                      => 'https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7',
+        'instagram'                   => '',
+        'facebook'                    => '',
     ];
 }
 
