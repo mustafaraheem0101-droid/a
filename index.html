@@ -50,33 +50,6 @@ img{display:block;max-width:100%;}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:var(--mint);padding:13px 28px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:var(--tr);border:1px solid rgba(0,168,110,.3);box-shadow:var(--sh-lg);white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* TOP BAR — سطر مركزي أوضح، أقل تشتيتاً */
-.p-topbar{background:linear-gradient(90deg,var(--g-dd) 0%,var(--g-d) 45%,var(--g) 100%);color:#fff;font-size:13px;font-weight:600;padding:10px max(18px, env(safe-area-inset-left, 18px));position:relative;overflow:hidden;text-shadow:0 1px 2px rgba(0,0,0,.12);}
-.p-topbar::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(255,255,255,.03) 80px,rgba(255,255,255,.03) 81px);}
-.p-topbar-inner{max-width:1360px;margin:0 auto;position:relative;z-index:1;}
-.p-topbar-line{display:flex;align-items:center;justify-content:center;gap:14px 24px;flex-wrap:wrap;}
-.p-topbar-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 18px;border-radius:999px;
-  background:rgba(255,255,255,.16);color:#fff;font-weight:800;
-  text-decoration:none;border:1px solid rgba(255,255,255,.28);
-  transition:background .2s ease,transform .15s ease,box-shadow .2s ease;
-}
-.p-topbar-pill:hover{background:rgba(255,255,255,.26);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.12);}
-.p-topbar-pill:focus-visible{outline:2px solid var(--mint);outline-offset:2px;}
-.p-topbar-pill strong{font-size:14px;letter-spacing:.02em;font-weight:900;}
-.p-topbar-meta{
-  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
-  margin:0;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.96);
-  line-height:1.45;
-}
-.p-topbar-meta-sep{opacity:.5;font-weight:400;padding:0 2px;}
-@media(max-width:560px){
-  .p-topbar{font-size:12px;padding-block:10px;}
-  .p-topbar-line{flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px;}
-  .p-topbar-meta{font-size:11.5px;gap:8px;text-align:center;justify-content:center;}
-}
-
 /* HEADER — زجاجي خفيف يندمج مع الهيرو */
 /* عمود الهيدر كامل — ثابت عند التمرير (sticky) */
 .p-masthead{
@@ -577,7 +550,6 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 }
 @media(max-width:800px){
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
-  /* شريط .p-topbar يُخفى عبر site-desktop-unified + style لاحق في <head> (عرض ≤1023px) */
   /* هيدر الموبايل (الرئيسية): صف أفقي واحد — شعار مضغوط + بحث يتمدد + واتساب/إنستا/سلة أيقونات */
   body.index-page .p-hdr{
     flex-direction:row;
@@ -868,35 +840,16 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 /* LOGIN page */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,135,90,.15),transparent 60%),linear-gradient(150deg,#0a1628,#0f2744);}
 </style>
-<link href="/assets/css/site-desktop-unified.css?v=1.0.20" rel="stylesheet">
+<link href="/assets/css/site-desktop-unified.css?v=1.0.21" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/pharma-footer-premium.css?v=1.0.0" />
-<style id="index-topbar-mobile-off">
-@media (max-width: 1023px) {
-  body.index-page #siteMasthead > .p-topbar { display: none !important; }
-}
-</style>
 </head>
 <body class="index-page pharma-footer">
 <div id="_globalLoader" role="status" aria-label="جارٍ التحميل"><div class="loader-ring"></div></div>
 
 <div class="toast" id="toast"><span id="toastMsg">✅ تم!</span></div>
 
-<!-- عمود الهيدر: شريط علوي + شريط بحث — ثابت عند التمرير؛ التنقل أسفل الهيرو -->
+<!-- عمود الهيدر — ثابت عند التمرير؛ التنقل أسفل الهيرو -->
 <div class="p-masthead" id="siteMasthead">
-<!-- TOP BAR -->
-<div class="p-topbar">
-  <div class="p-topbar-inner">
-    <div class="p-topbar-line">
-      <a href="tel:07711954040" class="p-topbar-pill" id="topbar-phone" aria-label="اتصال مباشر بالصيدلية"><span aria-hidden="true">📞</span> <strong class="topbar-phone-num">07711954040</strong></a>
-      <p class="p-topbar-meta">
-        <span>🚚 توصيل لكل العراق</span>
-        <span class="p-topbar-meta-sep" aria-hidden="true">·</span>
-        <span>🕒 يومياً 3م – 12م</span>
-      </p>
-    </div>
-  </div>
-</div>
-
 <!-- HEADER -->
 <div class="p-hdr-shell" id="siteHeader">
   <div class="p-hdr">

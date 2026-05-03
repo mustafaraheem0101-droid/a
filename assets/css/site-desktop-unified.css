@@ -128,13 +128,6 @@ footer .p-ft-logo {
   visibility: visible !important;
   opacity: 1 !important;
 }
-/* الشريط الأخضر العلوي (.p-topbar) يُخفى على الموبايل من index + ملف لاحق — لا تُفرض visibility هنا على كل العرض */
-@media (min-width: 1024px) {
-  .p-topbar {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-}
 .p-hdr {
   display: flex !important;
   visibility: visible !important;
@@ -208,12 +201,5 @@ header.header,
   }
   a.prod-ig-order-btn {
     display: inline-flex !important;
-  }
-}
-
-/* الصفحة الرئيسية: إخفاء شريط الهاتف/التوصيل — بعد تحميل بقية الأنماط (عرض ≤1023px يغطي هواتف ولوحيات عريضة) */
-@media (max-width: 1023px) {
-  body.index-page #siteMasthead > .p-topbar {
-    display: none !important;
   }
 }
