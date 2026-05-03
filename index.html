@@ -342,6 +342,12 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   display:block;width:100%;height:clamp(150px,22vw,220px);border:0;
   filter:saturate(1.05);
 }
+.home-hero-aside-map__addr{
+  margin:0;padding:9px 10px 8px;
+  font-size:12.5px;font-weight:800;line-height:1.55;text-align:center;color:#44403c;
+  background:rgba(255,250,240,.98);
+  border-top:1px solid rgba(180,83,9,.14);
+}
 .home-hero-aside-map__link{
   display:block;padding:8px 10px;font-size:12px;font-weight:800;text-align:center;
   color:var(--g-d)!important;background:rgba(240,253,244,.95);
@@ -1035,7 +1041,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
           </div>
           <aside class="home-hero-slide__aside home-hero-slide__aside--map swiper-no-swiping" data-swiper-parallax="-100" aria-label="موقع الصيدلية">
             <div class="home-hero-aside-map">
-              <iframe class="home-hero-aside-map__iframe" title="موقع الصيدلية على الخريطة" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=34.34%2C45.41&amp;z=14&amp;output=embed&amp;hl=ar"></iframe>
+              <iframe class="home-hero-aside-map__iframe" title="موقع الصيدلية على الخريطة" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.openstreetmap.org/export/embed.html?bbox=45.355%2C34.315%2C45.465%2C34.365&amp;layer=mapnik&amp;marker=34.339%2C45.410"></iframe>
+              <p class="home-hero-aside-map__addr" id="homeHeroAsideMapAddr">الديالى - خانقين | مقابل مجمع سوڤار</p>
               <a class="home-hero-aside-map__link" href="https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7" target="_blank" rel="noopener noreferrer">فتح في خرائط جوجل</a>
             </div>
           </aside>
@@ -1404,7 +1411,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
-<script src="assets/js/home-hero-swiper.js?v=1.0.4"></script>
+<script src="assets/js/home-hero-swiper.js?v=1.0.5"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
 <!-- lazy-loading added -->

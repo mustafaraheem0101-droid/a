@@ -34,6 +34,11 @@
         var u = String(s.mapUrl).trim();
         if (u) mapLink.href = u;
       }
+      var mapAddr = document.getElementById('homeHeroAsideMapAddr');
+      if (mapAddr && s && s.address) {
+        var ad = String(s.address).trim();
+        if (ad) mapAddr.textContent = ad;
+      }
     } catch (e) {}
   }
 
