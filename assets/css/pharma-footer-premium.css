@@ -86,7 +86,7 @@ body.pharma-footer .p-ft-tagline {
 body.pharma-footer .p-ft-cta-wa.p-ft-cta-wa--premium {
   position: relative;
   z-index: 0;
-  margin-top: 4px;
+  margin-top: 0;
   padding: 15px 26px;
   background: linear-gradient(145deg, #22c55e 0%, #16a34a 50%, #15803d 100%) !important;
   box-shadow:
@@ -119,13 +119,28 @@ body.pharma-footer .p-ft-cta-wa.p-ft-cta-wa--premium::after {
   }
 }
 
+/* صف الأزرار: ديسكتوب/تابلت = صف أفقي (RTL: واتساب يمين، إنستغرام يسار) | موبايل ≤600px = عمودي */
 body.pharma-footer .p-ft-cta-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
   gap: 10px;
   width: 100%;
-  max-width: 22rem;
-  margin-top: 4px;
+  max-width: min(36rem, 100%);
+  margin-top: 6px;
+  box-sizing: border-box;
+}
+
+body.pharma-footer .p-ft-cta-row > .p-ft-cta-wa,
+body.pharma-footer .p-ft-cta-row > .p-ft-cta-ig {
+  flex: 1 1 calc(50% - 6px);
+  min-width: min(9.5rem, 100%);
+  width: auto;
+  max-width: none;
+  margin-inline: 0;
+  box-sizing: border-box;
 }
 
 body.pharma-footer .p-ft-col--brand .p-ft-cta-row {
@@ -410,7 +425,20 @@ body.pharma-footer .p-footer--gsap-on .p-footer-reveal {
     justify-content: center;
   }
   body.pharma-footer .p-ft-cta-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
     max-width: 100%;
+    width: 100%;
+    margin-inline: auto;
+    gap: 10px;
+  }
+  body.pharma-footer .p-ft-cta-row > .p-ft-cta-wa,
+  body.pharma-footer .p-ft-cta-row > .p-ft-cta-ig {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+    max-width: min(26rem, 100%);
     margin-inline: auto;
   }
 }

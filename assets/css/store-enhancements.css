@@ -3630,12 +3630,6 @@ body.pharma-footer .p-ft-soc #ft-ig svg {
     width: 100%;
     margin-top: 8px;
   }
-  body.pharma-footer .p-ft-cta-wa {
-    width: 100%;
-    max-width: 420px;
-    box-sizing: border-box;
-    margin-inline: auto;
-  }
 }
 
 /* شاشات ضيقة: عمود واحد للأقسام — نص أصغر ومسافة واضحة بين البنود */
