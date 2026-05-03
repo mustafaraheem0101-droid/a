@@ -698,12 +698,14 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     border-radius:10px;
   }
   body.index-page .p-cart-btn svg{width:16px!important;height:16px!important;}
-  .p-nav-inner{padding-block:14px;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
-  #navContainer.p-nav-rings{gap:12px;padding-block:4px 2px;padding-inline:max(18px, env(safe-area-inset-left, 0px)) max(18px, env(safe-area-inset-right, 0px));-webkit-mask-image:none;mask-image:none;}
-  .p-nav-ring{width:88px;min-width:82px;max-width:100px;}
-  .p-nav-ring__disc{width:72px;height:72px;}
-  .p-nav-ring__emoji{font-size:32px;}
-  .p-nav-ring__lbl{font-size:12px;}
+  .p-nav-inner{padding-block:9px;padding-inline:max(10px, env(safe-area-inset-left, 0px)) max(10px, env(safe-area-inset-right, 0px));}
+  #navContainer.p-nav-rings{gap:8px;padding-block:2px 0;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));-webkit-mask-image:none;mask-image:none;}
+  .p-nav-ring{width:70px;min-width:64px;max-width:82px;gap:6px;}
+  .p-nav-ring__disc{width:56px;height:56px;}
+  .p-nav-ring__emoji{font-size:26px;}
+  .p-nav-ring__lbl{font-size:11px;}
+  body.index-page .p-sec-slider--nav{gap:5px;}
+  body.index-page .p-sec-slider--nav .p-sec-slider__btn{width:34px;height:34px;font-size:19px;border-radius:11px;}
   .p-hbtn-ghost{display:none;}
   .p-hero{padding-block:50px 60px;padding-inline:0;}
   .p-hero-inner{padding-inline:max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));max-width:100%;}
@@ -749,11 +751,11 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   }
   .p-cats:not(.p-cats--subcats){grid-template-columns:repeat(3,1fr);gap:9px;}
   .p-tips-grid{grid-template-columns:1fr;}
-  .p-footer-inner{grid-template-columns:1fr;gap:32px;}
+  .p-footer-inner{grid-template-columns:1fr;gap:22px;}
   .p-sec{padding-block:48px;padding-inline:0;}
   .p-sec-inner{max-width:100%;padding-inline:max(8px, env(safe-area-inset-left, 0px)) max(8px, env(safe-area-inset-right, 0px));}
   .p-trust-inner{padding-inline:max(10px, env(safe-area-inset-left, 0px)) max(10px, env(safe-area-inset-right, 0px));}
-  .p-footer{padding-block:56px 0;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
+  .p-footer{padding-block:38px 0;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
   .pgrid6{padding-inline:max(8px, env(safe-area-inset-left, 0px)) max(8px, env(safe-area-inset-right, 0px));}
   .p-wa-float{bottom:max(20px, env(safe-area-inset-bottom, 0px) + 12px);left:max(10px, env(safe-area-inset-left, 10px));}
   body.index-page{padding-bottom:max(76px, calc(env(safe-area-inset-bottom, 0px) + 64px));}
@@ -778,13 +780,13 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 /* ——— موبايل ≤767px: تقليل فراغات، منع التمرير الأفقي، شريط أزرار ثابت ——— */
 @media (max-width:767px){
   html{-webkit-text-size-adjust:100%;}
-  body.index-page{min-height:0;padding-bottom:max(72px, env(safe-area-inset-bottom, 0px) + 56px);}
+  body.index-page{min-height:0;padding-bottom:max(50px, env(safe-area-inset-bottom, 0px) + 38px);}
   body.index-page .p-sec{padding-block:32px 30px;}
   body.index-page .p-tips-premium.p-sec{padding-block:22px 24px;}
   body.index-page .p-tips-grid{gap:12px;}
   body.index-page .p-tip{padding:18px 16px;}
   body.index-page #prod-sec{padding-block:32px 36px!important;}
-  body.pharma-footer .p-footer{padding-block:44px 0;}
+  body.pharma-footer .p-footer{padding-block:26px 0;margin-top:24px;}
   .index-mobile-rail{
     position:fixed;
     z-index:8990;
@@ -801,21 +803,35 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .index-mobile-rail .to-top{
     position:static!important;
     right:auto!important;bottom:auto!important;left:auto!important;
-    width:52px;height:52px;border-radius:14px;font-size:22px;
+    width:46px;height:46px;border-radius:12px;font-size:19px;
     margin:0!important;
     opacity:1!important;
     transform:none!important;
     pointer-events:auto!important;
-    box-shadow:0 6px 18px rgba(0,135,90,.32)!important;
+    box-shadow:0 5px 14px rgba(0,135,90,.28)!important;
   }
   body.index-page .index-mobile-rail .to-top:not(.show){
     display:none!important;
   }
   body.index-page .p-wa-float{
-    bottom:max(14px, env(safe-area-inset-bottom, 0px) + 8px)!important;
-    left:max(12px, env(safe-area-inset-left, 0px))!important;
-    width:56px;height:56px;
+    bottom:max(10px, env(safe-area-inset-bottom, 0px) + 4px)!important;
+    left:max(10px, env(safe-area-inset-left, 0px))!important;
+    width:48px!important;height:48px!important;
+    min-width:48px!important;min-height:48px!important;
   }
+  body.index-page .p-wa-float svg{width:26px!important;height:26px!important;}
+  body.index-page.pharma-footer .p-footer-inner.p-footer__glass{
+    padding:16px 12px 14px;
+    border-radius:16px;
+    gap:clamp(14px,3.5vw,20px);
+    box-shadow:0 14px 44px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.07);
+  }
+  body.index-page.pharma-footer .p-ft-heading{font-size:14px;margin-bottom:11px;}
+  body.index-page.pharma-footer footer .p-ft-logo{
+    width:64px!important;height:64px!important;max-width:64px!important;
+  }
+  body.index-page.pharma-footer .p-ft-contact-link,
+  body.index-page.pharma-footer .p-ft-cat-link{font-size:13px;}
 }
 @media (min-width:768px){
   .index-mobile-rail{
@@ -866,7 +882,10 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     padding-inline: max(14px, env(safe-area-inset-left, 0px)) max(14px, env(safe-area-inset-right, 0px));
   }
   body.pharma-footer .p-ft-meta {
-    padding-bottom: max(28px, env(safe-area-inset-bottom, 0px) + 20px);
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px) + 14px);
+  }
+  body.index-page.pharma-footer .p-ft-meta {
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 0px) + 10px);
   }
 }
 
