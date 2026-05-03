@@ -86,6 +86,63 @@
 .prod-wa-order-btn:active {
   transform: translateY(1px) scale(0.985);
 }
+.prod-wa-ig-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  flex: 1 1 100%;
+  width: 100%;
+  align-items: stretch;
+}
+.prod-wa-ig-pair .prod-wa-order-btn {
+  flex: unset;
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+}
+.prod-ig-order-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f09433 0%, #e1306c 45%, #bc1888 92%);
+  color: #fff !important;
+  font-weight: 900;
+  font-size: clamp(14px, 3.6vw, 16px);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 10px 32px rgba(225, 48, 108, 0.38),
+    0 2px 0 rgba(255, 255, 255, 0.18) inset;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 58px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.2s ease;
+}
+.prod-ig-order-btn:hover {
+  filter: brightness(1.07);
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 40px rgba(225, 48, 108, 0.48),
+    0 2px 0 rgba(255, 255, 255, 0.22) inset;
+}
+.prod-ig-order-btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+.prod-ig-order-btn svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+@media (max-width: 360px) {
+  .prod-wa-ig-pair {
+    grid-template-columns: 1fr;
+  }
+}
 .prod-ask-rx-btn {
   flex: 0 0 auto;
   padding: 12px 16px;

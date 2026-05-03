@@ -286,6 +286,9 @@ body.pharma-footer .p-ft-contact-ico--fill svg {
   width: 18px;
   height: 18px;
 }
+body.pharma-footer .p-ft-ig-chip .p-ft-contact-ico {
+  color: rgba(244, 114, 182, 0.95);
+}
 body.pharma-footer .p-ft-contact-txt { flex: 1; min-width: 0; }
 body.pharma-footer .p-ft-row--static {
   display: flex;
@@ -306,6 +309,9 @@ body.pharma-footer .p-ft-row--static .p-ft-contact-ico { margin-top: 1px; }
   body.pharma-footer .p-ft-contact-link:hover .p-ft-contact-ico {
     transform: scale(1.08);
     color: #5eead4;
+  }
+  body.pharma-footer .p-ft-contact-link.p-ft-ig-chip:hover .p-ft-contact-ico {
+    color: #fbcfe8;
   }
 }
 

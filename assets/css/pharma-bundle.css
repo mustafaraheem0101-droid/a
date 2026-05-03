@@ -590,6 +590,29 @@ button { cursor: pointer; font-family: inherit; }
   transform: none;
   box-shadow: none;
 }
+a.pc-ig-fab {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  padding: 0;
+  background: linear-gradient(145deg, #f09433, #e1306c 50%, #bc1888);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(225, 48, 108, 0.42);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+a.pc-ig-fab:hover {
+  transform: scale(1.06);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 18px rgba(225, 48, 108, 0.52);
+}
+a.pc-ig-fab:active {
+  transform: scale(0.97);
+}
 .pc-footer__rating {
   display: flex;
   align-items: center;
@@ -6695,6 +6718,11 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
 
   .prod-wa-order-btn {
     font-size: 16px !important;
+    min-height: 54px !important;
+    border-radius: 16px !important;
+  }
+  .prod-ig-order-btn {
+    font-size: 15px !important;
     min-height: 54px !important;
     border-radius: 16px !important;
   }

@@ -814,7 +814,7 @@ function getDefaultSettings(): array {
         'deliveryAreas'               => 'نخدم الديالى والمحافظات العراقية — للاستفسار عن منطقتك تواصل عبر واتساب',
         'googleMapsEmbedUrl'          => '',
         'mapUrl'                      => 'https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7',
-        'instagram'                   => '',
+        'instagram'                   => 'pharma_store.me',
         'facebook'                    => '',
     ];
 }

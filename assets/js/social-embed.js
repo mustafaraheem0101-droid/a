@@ -25,7 +25,9 @@
       })
       .then(function (j) {
         if (!j || j.status !== 'success' || !j.data || !j.data.settings) return;
-        var url = normalizeInstagramUrl(j.data.settings.instagram);
+        var url =
+          normalizeInstagramUrl(j.data.settings.instagram) ||
+          normalizeInstagramUrl('pharma_store.me');
         if (!url) return;
         document.querySelectorAll('[data-ig-link]').forEach(function (el) {
           el.href = url;
