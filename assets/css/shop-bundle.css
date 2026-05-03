@@ -1096,8 +1096,31 @@ img.img-cover {
   outline-offset: 2px;
 }
 
-.cs-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+.cs-empty { text-align: center; padding: clamp(22px, 5vw, 48px) 18px; color: var(--muted); }
 .cs-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.cs-empty-art {
+  margin: 0 auto 12px;
+  max-width: 168px;
+}
+.cs-empty-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 200 / 160;
+}
+.cs-empty-title {
+  font-size: 1.0625rem;
+  font-weight: 900;
+  margin: 0 0 8px;
+  color: var(--navy, #0f172a);
+  line-height: 1.45;
+}
+.cs-empty-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 auto 14px;
+  max-width: 260px;
+}
 
 /* ─── Modal ─────────────────────────────────────────────────────── */
 .mb-ov {
@@ -2183,6 +2206,7 @@ footer {
   font-size: 16px;
   font-weight: 900;
   color: var(--navy);
+  line-height: 1.45;
 }
 
 .cs-hd-sub {

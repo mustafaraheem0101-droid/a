@@ -1092,8 +1092,31 @@ img.img-cover {
   outline-offset: 2px;
 }
 
-.cs-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+.cs-empty { text-align: center; padding: clamp(22px, 5vw, 48px) 18px; color: var(--muted); }
 .cs-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.cs-empty-art {
+  margin: 0 auto 12px;
+  max-width: 168px;
+}
+.cs-empty-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 200 / 160;
+}
+.cs-empty-title {
+  font-size: 1.0625rem;
+  font-weight: 900;
+  margin: 0 0 8px;
+  color: var(--navy, #0f172a);
+  line-height: 1.45;
+}
+.cs-empty-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 auto 14px;
+  max-width: 260px;
+}
 
 /* ─── Modal ─────────────────────────────────────────────────────── */
 .mb-ov {
@@ -2179,6 +2202,7 @@ footer {
   font-size: 16px;
   font-weight: 900;
   color: var(--navy);
+  line-height: 1.45;
 }
 
 .cs-hd-sub {
@@ -6399,19 +6423,41 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     border-radius: 20px 20px 0 0 !important;
     top: auto !important;
     bottom: 0 !important;
-    height: 92vh !important;
-    max-height: 92vh !important;
+    /* vh أكبر من الشاشة المرئية مع شريط العنوان — يقصّ أعلى اللوحة (العنوان) */
+    height: 86vh !important;
+    max-height: 86vh !important;
+    height: 86dvh !important;
+    max-height: 86dvh !important;
   }
 
   .cs-hd-inner {
-    padding: 18px 18px 12px !important;
+    padding: 14px 18px 12px !important;
     border-bottom: 1px solid var(--border);
+    align-items: center !important;
   }
 
   .cs-body {
     padding-bottom: max(20px, var(--safe-bot)) !important;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+  }
+
+  .cs-empty {
+    padding: 18px 14px !important;
+  }
+
+  .cs-empty-art {
+    max-width: 132px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .cs-empty-title {
+    font-size: 1rem !important;
+  }
+
+  .cs-empty-desc {
+    font-size: 13px !important;
+    margin-bottom: 12px !important;
   }
 
   /* مقبض السحب */
@@ -6421,7 +6467,8 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     width: 36px; height: 4px;
     background: var(--border);
     border-radius: 99px;
-    margin: 10px auto 0;
+    margin: 8px auto 2px;
+    flex-shrink: 0;
   }
 
   .cs-ft { padding-bottom: max(16px, var(--safe-bot)) !important; }
