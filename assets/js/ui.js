@@ -92,12 +92,6 @@ function applySettings() {
     else ftPhone.textContent = phone;
   }
 
-  const heroChipTel = document.getElementById('homeHeroChipTel');
-  if (heroChipTel) {
-    heroChipTel.href = 'tel:' + phone.replace(/\D/g, '');
-    heroChipTel.textContent = phone;
-  }
-
   const mapUrl = s.mapUrl || MAP_URL;
   const ftAddr = document.getElementById('ft-addr');
   if (ftAddr) {
@@ -105,6 +99,18 @@ function applySettings() {
     var adNode = ftAddr.querySelector && ftAddr.querySelector('.p-ft-contact-txt');
     if (adNode) adNode.textContent = s.address || '';
     else ftAddr.textContent = s.address || '';
+  }
+
+  const heroChipMap = document.getElementById('homeHeroChipMap');
+  if (heroChipMap) {
+    heroChipMap.href = mapUrl || '#';
+    heroChipMap.setAttribute('title', 'الخريطة — موقع الصيدلية');
+  }
+  const heroChipTel = document.getElementById('homeHeroChipTel');
+  if (heroChipTel) {
+    heroChipTel.href = 'tel:' + phone.replace(/\D/g, '');
+    heroChipTel.setAttribute('title', phone);
+    heroChipTel.setAttribute('aria-label', 'اتصال: ' + phone);
   }
 
   let open = 15;
