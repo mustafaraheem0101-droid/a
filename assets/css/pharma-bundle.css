@@ -6534,27 +6534,35 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
   input[type="checkbox"], input[type="radio"] {
     min-height: unset; width: 22px; height: 22px;
   }
+  /* الصفحة الرئيسية: أزرار البحث/السلة مضغوطة — يُكمّلها index.html */
+  body.index-page .p-hdr .p-srch-btn,
+  body.index-page .p-hdr .p-cart-btn {
+    min-height: unset;
+    min-width: unset;
+  }
 }
 
-/* ══ HEADER على الموبايل ══ */
+/* ══ HEADER على الموبايل (صفحات المتجر — ليس index: الهيدر يُعرَّف في index.html) ══ */
 @media (max-width: 767px) {
   :root { --p-hdr-h: 64px; }
 
-  .p-hdr {
+  body:not(.index-page) .p-hdr {
     padding: 0 14px;
     height: var(--p-hdr-h);
     gap: 10px;
   }
 
-  .p-logo-mark {
+  body:not(.index-page) .p-logo-mark {
     width: 46px !important; height: 46px !important;
     border-radius: 14px !important;
   }
-  .p-logo-name { font-size: 15px !important; }
-  .p-logo-tag  { display: none; }
+  body:not(.index-page) .p-logo-name { font-size: 15px !important; }
+  body:not(.index-page) .p-logo-tag  { display: none; }
 
   /* أيقونات الهيدر */
-  .p-cart-btn, .p-srch-btn, .p-nav-mob {
+  body:not(.index-page) .p-cart-btn,
+  body:not(.index-page) .p-srch-btn,
+  body:not(.index-page) .p-nav-mob {
     min-width: 48px; min-height: 48px;
     padding: 10px;
   }
