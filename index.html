@@ -483,20 +483,33 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  /* أزرار الهيرو أفقية مثل الديسكتوب (بدون تكديس عمودي) */
   .home-hero-slide__cta{
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: stretch;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 6px;
     width: 100%;
     max-width: 100%;
   }
   .home-hero-btn{
-    width: 100%;
-    min-height: 50px;
-    padding: 14px 18px;
-    font-size: 15px;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    min-height: 46px;
+    padding: 10px 6px;
+    font-size: clamp(11px, 2.9vw, 14px);
     justify-content: center;
     box-sizing: border-box;
+    text-align: center;
+    line-height: 1.2;
+    white-space: normal;
+  }
+  .home-hero-btn svg{
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
   .home-hero-pagination{
     bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
