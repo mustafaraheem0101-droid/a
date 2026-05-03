@@ -577,8 +577,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 }
 @media(max-width:800px){
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
-  /* إخفاء شريط الهاتف/التوصيل على الموبايل لتوفير ارتفاع الشاشة */
-  body.index-page .p-topbar{display:none!important;}
+  /* شريط .p-topbar يُخفى عبر site-desktop-unified + style لاحق في <head> (عرض ≤1023px) */
   /* هيدر الموبايل (الرئيسية): صف أفقي واحد — شعار مضغوط + بحث يتمدد + واتساب/إنستا/سلة أيقونات */
   body.index-page .p-hdr{
     flex-direction:row;
@@ -869,8 +868,13 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 /* LOGIN page */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(0,135,90,.15),transparent 60%),linear-gradient(150deg,#0a1628,#0f2744);}
 </style>
-<link href="/assets/css/site-desktop-unified.css?v=1.0.19" rel="stylesheet">
+<link href="/assets/css/site-desktop-unified.css?v=1.0.20" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/pharma-footer-premium.css?v=1.0.0" />
+<style id="index-topbar-mobile-off">
+@media (max-width: 1023px) {
+  body.index-page #siteMasthead > .p-topbar { display: none !important; }
+}
+</style>
 </head>
 <body class="index-page pharma-footer">
 <div id="_globalLoader" role="status" aria-label="جارٍ التحميل"><div class="loader-ring"></div></div>
