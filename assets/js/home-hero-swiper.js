@@ -7,6 +7,36 @@
   var inst = null;
   var resizeTimer = null;
 
+  /** عرض ساعة (0–24) كنص عربي تقريبي للهيرو */
+  function formatHeroHourAr(hour) {
+    var n = Math.floor(Number(hour));
+    if (!isFinite(n) || n < 0 || n > 24) return '';
+    if (n === 0 || n === 24) return '12:00 منتصف الليل';
+    if (n === 12) return '12:00 ظهراً';
+    if (n > 12) return n - 12 + ':00 مساءً';
+    return n + ':00 صباحاً';
+  }
+
+  /** يحدّث نص الدوام في الشريحة الثالثة ورابط «فتح في خرائط جوجل» من window.settings */
+  function updateHomeHeroAsidePanels() {
+    try {
+      var s = typeof window.settings !== 'undefined' && window.settings ? window.settings : null;
+      var el = document.getElementById('homeHeroAsideHours');
+      if (el && s) {
+        var o = s.openHour != null ? Number(s.openHour) : 15;
+        var c = s.closeHour != null ? Number(s.closeHour) : 24;
+        var a = formatHeroHourAr(o);
+        var b = formatHeroHourAr(c);
+        if (a && b) el.textContent = 'يومياً: من ' + a + ' — إلى ' + b;
+      }
+      var mapLink = document.querySelector('.home-hero-aside-map__link');
+      if (mapLink && s && s.mapUrl) {
+        var u = String(s.mapUrl).trim();
+        if (u) mapLink.href = u;
+      }
+    } catch (e) {}
+  }
+
   function debounceResize(fn, ms) {
     return function () {
       if (resizeTimer) clearTimeout(resizeTimer);
@@ -116,9 +146,13 @@
           inst.update();
           if (inst.autoplay && typeof inst.autoplay.start === 'function') inst.autoplay.start();
         } catch (e2) {}
+        updateHomeHeroAsidePanels();
       },
       { once: true }
     );
+    updateHomeHeroAsidePanels();
+    setTimeout(updateHomeHeroAsidePanels, 500);
+    setTimeout(updateHomeHeroAsidePanels, 2200);
     return true;
   }
 
