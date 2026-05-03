@@ -129,7 +129,17 @@ function applySettings() {
     isOpen = h.isOpen;
   } catch (errHours) { /* ignore — روابط التواصل طُبّقت أعلاه */ }
 
-  const fmt12 = h => h === 24 ? '12 منتصف الليل' : h === 12 ? '12 ظهراً' : h > 12 ? (h - 12) + ' مساءً' : h + ' صباحاً';
+  /* 13–15 = 1–3 ظهراً؛ من 16 فما فوق → مساءً */
+  const fmt12 = h =>
+    h === 24
+      ? '12 منتصف الليل'
+      : h === 12
+        ? '12 ظهراً'
+        : h > 12 && h <= 15
+          ? h - 12 + ' ظهراً'
+          : h > 12
+            ? h - 12 + ' مساءً'
+            : h + ' صباحاً';
   const ftHours = document.getElementById('ft-hours');
   if (ftHours) {
     var hrsLine = fmt12(open) + ' – ' + fmt12(close);

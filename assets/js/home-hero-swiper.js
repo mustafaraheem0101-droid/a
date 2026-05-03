@@ -13,6 +13,7 @@
     if (!isFinite(n) || n < 0 || n > 24) return '';
     if (n === 0 || n === 24) return '12:00 منتصف الليل';
     if (n === 12) return '12:00 ظهراً';
+    if (n > 12 && n <= 15) return n - 12 + ':00 ظهراً';
     if (n > 12) return n - 12 + ':00 مساءً';
     return n + ':00 صباحاً';
   }
