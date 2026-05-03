@@ -1950,7 +1950,7 @@ function mountProductWaStickyBar(p) {
     typeof window.normalizeInstagramUrl === 'function'
       ? window.normalizeInstagramUrl(settings && settings.instagram) ||
         window.normalizeInstagramUrl('pharma_store.me')
-      : '';
+      : 'https://www.instagram.com/pharma_store.me/';
   inner.className = 'prod-wa-sticky__inner' + (igHref ? ' prod-wa-sticky__inner--split' : '');
   const a = document.createElement('a');
   a.className = 'prod-wa-sticky__btn';

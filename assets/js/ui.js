@@ -70,6 +70,15 @@ function applySettings() {
       el.setAttribute('aria-hidden', 'true');
     }
   });
+  /* بطاقات المنتج + صفحة المنتج: لا يُخفى زر إنستغرام بسبب تعارض سمة hidden */
+  document.querySelectorAll('a.pc-ig-fab, a.prod-ig-order-btn').forEach(function (el) {
+    if (!igUrl) return;
+    el.href = igUrl;
+    el.hidden = false;
+    try {
+      el.removeAttribute('aria-hidden');
+    } catch (eIg2) { /* ignore */ }
+  });
 
   const fbUrl = normalizeFacebookUrl(s.facebook);
   document.querySelectorAll('[data-fb-link]').forEach(el => {

@@ -614,12 +614,19 @@ a.pc-ig-fab:active {
   transform: scale(0.97);
 }
 
-/* موبايل: لا يُضغَط صف واتساب+إنستغرام بسبب التقييم */
+/* موبايل: واتساب + إنستغرام لا يُقصّان (body overflow-x) — السماح باللف عند الضيق */
 @media (max-width: 767px) {
+  .pc-footer {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+  }
   .pc-footer__tags {
     flex-shrink: 0;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 6px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   a.pc-ig-fab {
     flex-shrink: 0;
@@ -627,7 +634,8 @@ a.pc-ig-fab:active {
   .pc-footer__rating {
     flex-shrink: 1;
     min-width: 0;
-    max-width: 48%;
+    max-width: 100%;
+    justify-content: flex-end;
   }
 }
 .pc-footer__rating {

@@ -187,15 +187,20 @@ header.header,
     min-height: calc(1.5em * 3);
   }
 
-  /* إنستغرام: يظهر دائماً في الهيدر وبطاقات المنتج على الموبايل */
+  /* إنستغرام: يظهر دائماً في الهيدر وبطاقات المنتج وصفحة المنتج على الموبايل */
   #hdr-ig.p-hbtn-ig,
   a.hdr-ig-primary#hdr-ig,
-  a.pc-ig-fab {
+  a.pc-ig-fab,
+  a.prod-ig-order-btn,
+  .prod-wa-sticky__btn-ig {
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
   }
   a.pc-ig-fab {
     display: flex !important;
+  }
+  a.prod-ig-order-btn {
+    display: inline-flex !important;
   }
 }
