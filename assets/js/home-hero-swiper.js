@@ -33,7 +33,9 @@
       watchOverflow: true,
       /* روابط الهيرو (واتساب / إنستغرام) — لا يمنع المتصفح النقر */
       touchStartPreventDefault: false,
-      parallax: !reduce,
+      /* موبايل: ارتفاع حسب المحتوى (بدون فراغ كبير تحت الأزرار) */
+      autoHeight: true,
+      parallax: false,
       watchSlidesProgress: true,
       slidesPerView: 1,
       spaceBetween: 0,
@@ -42,7 +44,9 @@
       longSwipesRatio: 0.32,
       breakpoints: {
         601: {
-          speed: reduce ? 350 : 700
+          speed: reduce ? 350 : 700,
+          autoHeight: false,
+          parallax: !reduce
         }
       },
       autoplay: reduce
@@ -68,12 +72,27 @@
         init: function () {
           try {
             this.update();
+            if (this.params.autoHeight && typeof this.updateAutoHeight === 'function') {
+              var sw = this;
+              setTimeout(function () {
+                try {
+                  sw.updateAutoHeight(0);
+                } catch (e0) {}
+              }, 80);
+            }
           } catch (e) {}
         },
         resize: function () {
           try {
             this.update();
           } catch (e3) {}
+        },
+        slideChangeTransitionEnd: function () {
+          if (this.params.autoHeight && typeof this.updateAutoHeight === 'function') {
+            try {
+              this.updateAutoHeight(200);
+            } catch (e5) {}
+          }
         }
       }
     });
