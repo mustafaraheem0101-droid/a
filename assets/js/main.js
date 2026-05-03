@@ -1937,6 +1937,8 @@ function removeProductWaStickyBar() {
 function mountProductWaStickyBar(p) {
   removeProductWaStickyBar();
   if (!p || p.id == null) return;
+  /* لا شريطاً ثابتاً أسفل الشاشة على الموبايل — أزرار الطلب تبقى في المحتوى */
+  if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
   document.body.classList.add('product-page--wa-sticky');
   const waText = typeof buildProductWaOrderText === 'function' ? buildProductWaOrderText(p) : '';
   const href = typeof buildWaUrl === 'function' ? buildWaUrl(waText) : '#';

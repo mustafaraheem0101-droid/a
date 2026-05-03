@@ -1066,7 +1066,13 @@ body.product-page--wa-sticky {
 }
 @media (max-width: 768px) {
   .prod-wa-sticky {
-    display: block;
+    display: none !important;
+  }
+  body.product-page--wa-sticky {
+    padding-bottom: 0 !important;
+  }
+  body.product-detail-page #wa-float.p-wa-float {
+    display: none !important;
   }
 }
 .prod-wa-sticky__inner {

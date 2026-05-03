@@ -3522,7 +3522,13 @@ body.product-page--wa-sticky {
 }
 @media (max-width: 768px) {
   .prod-wa-sticky {
-    display: block;
+    display: none !important;
+  }
+  body.product-page--wa-sticky {
+    padding-bottom: 0 !important;
+  }
+  body.product-detail-page #wa-float.p-wa-float {
+    display: none !important;
   }
 }
 .prod-wa-sticky__inner {
@@ -6813,33 +6819,7 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     border-radius: 12px !important;
   }
 
-  /* شريط واتساب/إنستغرام الثابت أسفل الشاشة */
-  body.product-page--wa-sticky {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
-  }
-  .prod-wa-sticky {
-    padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-  }
-  .prod-wa-sticky__btn {
-    min-height: 44px !important;
-    padding: 8px 10px !important;
-    font-size: 12px !important;
-    gap: 5px !important;
-    border-radius: 12px !important;
-  }
-  .prod-wa-sticky__btn-ig {
-    padding: 8px 8px !important;
-    font-size: 12px !important;
-  }
-  .prod-wa-sticky__inner--split .prod-wa-sticky__txt,
-  .prod-wa-sticky__btn-ig .prod-wa-sticky__txt {
-    font-size: 12px !important;
-    line-height: 1.2 !important;
-  }
-  .prod-wa-sticky__ico svg {
-    width: 17px !important;
-    height: 17px !important;
-  }
+  /* الشريط الثابت أسفل الشاشة معطّل على الموبايل — انظر قاعدة .prod-wa-sticky أعلاه */
 
   /* هيدر المتجر الداخلي */
   .hdr-wa-primary,
