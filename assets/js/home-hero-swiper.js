@@ -1,6 +1,6 @@
 /**
- * سلايدر الهيرو الرئيسي — Swiper فقط عند وجود أكثر من شريحة واحدة.
- * شريحة واحدة: وضع ثابت (بدون أسهم/نقاط/أوتوبلاي).
+ * سلايدر الهيرو الرئيسي (3 شرائح) — Swiper + parallax خفيف، متوافق مع CSP.
+ * الموبايل: تمرير أسهل (threshold / longSwipesRatio)، تحديث بعد resize / visualViewport.
  */
 (function () {
   'use strict';
@@ -18,11 +18,6 @@
     if (inst) return true;
     var root = document.querySelector('.home-hero-swiper');
     if (!root || typeof Swiper === 'undefined') return false;
-    var slideCount = root.querySelectorAll('.swiper-slide').length;
-    if (slideCount <= 1) {
-      root.classList.add('home-hero-swiper--static');
-      return true;
-    }
     var pag = root.querySelector('.home-hero-pagination');
     var nextEl = root.querySelector('.home-hero-next');
     var prevEl = root.querySelector('.home-hero-prev');
