@@ -1074,6 +1074,10 @@ body.product-page--wa-sticky {
   body.product-detail-page #wa-float.p-wa-float {
     display: none !important;
   }
+  /* صفحة المنتج: إخفاء زري واتساب/إنستغرام تحت البحث (مكرران مع أزرار الصفحة/الفوتر) */
+  body.product-detail-page .hdr-cta-pair {
+    display: none !important;
+  }
 }
 .prod-wa-sticky__inner {
   pointer-events: auto;
