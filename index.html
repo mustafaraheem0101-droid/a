@@ -550,13 +550,16 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 }
 @media(max-width:800px){
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
-  /* هيدر الموبايل (الرئيسية): صف أفقي — بدون تداخل (شعار محصور + بحث + أيقونات) */
+  body.index-page .p-masthead,
+  body.index-page .p-hdr-shell{overflow:visible;}
+  /* هيدر الموبايل: صف 1 = شعار + أيقونات | صف 2 = بحث بعرض كامل (اقتراحات واسعة) */
   body.index-page .p-hdr{
     flex-direction:row;
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
     align-items:center;
+    align-content:center;
     column-gap:10px;
-    row-gap:0;
+    row-gap:8px;
     height:auto!important;
     min-height:0;
     padding-block:8px 10px;
@@ -566,9 +569,9 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .p-logo-tagline{display:none!important;}
   body.index-page .p-logo{
     order:1;
-    flex:0 1 auto;
+    flex:1 1 auto;
     width:auto;
-    max-width:min(132px, 36vw);
+    max-width:min(200px, 58vw);
     min-width:0;
     gap:6px;
     padding-block:0;
@@ -602,38 +605,46 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   body.index-page .p-logo-url{font-size:7.5px!important;}
   :root{--p-hdr-h:auto;}
   body.index-page .p-srch{
-    order:2;
-    flex:1 1 0;
-    width:auto;
-    max-width:none;
-    min-width:0;
+    order:3;
+    flex:1 0 100%;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
     position:relative;
-    z-index:1;
+    z-index:5;
     isolation:isolate;
   }
+  body.index-page .p-srch .srch-suggest{
+    left:0;
+    right:0;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    z-index:6000;
+  }
   body.index-page .p-srch-box{
-    height:40px!important;
-    min-height:40px!important;
-    font-size:13px!important;
+    height:46px!important;
+    min-height:46px!important;
+    font-size:15px!important;
     border-radius:11px;
     padding-block:0;
     padding-inline-start:10px;
-    padding-inline-end:44px;
+    padding-inline-end:50px;
     box-sizing:border-box;
   }
   body.index-page .p-srch-btn{
-    width:30px!important;
-    height:30px!important;
-    min-width:30px!important;
-    min-height:30px!important;
+    width:36px!important;
+    height:36px!important;
+    min-width:36px!important;
+    min-height:36px!important;
     padding:0!important;
-    inset-inline-end:5px;
+    inset-inline-end:6px;
     border-radius:9px;
     box-sizing:border-box;
   }
-  body.index-page .p-srch-btn svg{width:14px!important;height:14px!important;}
+  body.index-page .p-srch-btn svg{width:16px!important;height:16px!important;}
   body.index-page .p-hdr-r{
-    order:3;
+    order:2;
     width:auto;
     flex-shrink:0;
     margin-inline-start:auto!important;
