@@ -18,6 +18,8 @@
       speed: reduce ? 350 : 720,
       rtl: true,
       grabCursor: true,
+      /* روابط الهيرو (واتساب / إنستغرام) — لا يمنع المتصفح النقر */
+      touchStartPreventDefault: false,
       parallax: !reduce,
       watchSlidesProgress: true,
       slidesPerView: 1,
