@@ -202,8 +202,11 @@ body.index-page .p-logo-tagline{display:block;font-size:11px;font-weight:600;col
   overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
   scroll-snap-type:x proximity;scrollbar-width:thin;
   padding-block:8px 6px;
+  /* حواف واضحة بدل mask-image حتى لا يُقصّ أول/آخر قسم بصرياً */
+  padding-inline:max(22px, env(safe-area-inset-left, 0px)) max(22px, env(safe-area-inset-right, 0px));
   touch-action:pan-x;
-  mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);
+  -webkit-mask-image:none;
+  mask-image:none;
 }
 #navContainer.p-nav-rings::-webkit-scrollbar{height:5px;}
 #navContainer.p-nav-rings::-webkit-scrollbar-thumb{background:linear-gradient(90deg,rgba(0,135,90,.35),rgba(0,168,110,.45));border-radius:99px;}
@@ -635,7 +638,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   .p-hbtn-wa svg{width:20px;height:20px;}
   .p-cart-btn svg{width:20px;height:20px;}
   .p-nav-inner{padding-block:14px;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
-  #navContainer.p-nav-rings{gap:12px;padding-block:4px 2px;}
+  #navContainer.p-nav-rings{gap:12px;padding-block:4px 2px;padding-inline:max(18px, env(safe-area-inset-left, 0px)) max(18px, env(safe-area-inset-right, 0px));-webkit-mask-image:none;mask-image:none;}
   .p-nav-ring{width:88px;min-width:82px;max-width:100px;}
   .p-nav-ring__disc{width:72px;height:72px;}
   .p-nav-ring__emoji{font-size:32px;}
@@ -700,6 +703,11 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   .p-hero-btns{flex-direction:column;}
   .p-cta{justify-content:center;text-align:center;}
   .p-sec-inner{padding-inline:max(10px, env(safe-area-inset-left, 0px)) max(10px, env(safe-area-inset-right, 0px));}
+}
+/* بحث أضيق: إخفاء placeholder على الشاشات الصغيرة — أيقونة الزر + aria-label تكفي */
+@media(max-width:479px){
+  .p-srch-box::placeholder{color:transparent;opacity:0;}
+  .p-srch-box:focus::placeholder{color:#64748b;opacity:1;font-weight:500;}
 }
 
 /* ——— موبايل ≤767px: تقليل فراغات، منع التمرير الأفقي، شريط أزرار ثابت ——— */
@@ -1318,7 +1326,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 <script src="assets/js/utils.js?v=3.5.14"></script>
   <script src="assets/js/ui.js?v=3.5.9"></script>
   <script src="assets/js/api.js?v=3.1.10"></script>
-  <script src="assets/js/main.js?v=3.9.12"></script>
+  <script src="assets/js/main.js?v=3.9.13"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>

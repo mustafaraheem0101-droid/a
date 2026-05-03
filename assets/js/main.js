@@ -3756,6 +3756,69 @@ function pharmaSpotlightVimeoId(url) {
   return '';
 }
 
+/** فيديو ملف (mp4/webm) في بلوك الـ spotlight — لا يُحمّل الملف حتى يقترب من الشاشة */
+function pharmaSpotlightVideoActivateLazy(video, opts) {
+  opts = opts || {};
+  if (!video || video.nodeName !== 'VIDEO') return;
+  var srcEl = video.querySelector('source[data-hv-src]');
+  if (srcEl) {
+    var ds = srcEl.getAttribute('data-hv-src');
+    if (ds && !srcEl.getAttribute('src')) {
+      srcEl.setAttribute('src', ds);
+      try {
+        video.load();
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }
+  if (opts.autoplay === false) return;
+  var pr = video.play();
+  if (pr && typeof pr.catch === 'function') pr.catch(function () {});
+}
+
+function initHomeSpotlightVideosLazy() {
+  var root = document.getElementById('homeSpotlightMedia');
+  if (!root) return;
+  var vids = root.querySelectorAll('video.home-top-video__el[data-spotlight-lazy]');
+  if (!vids.length) return;
+  var reduce =
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    vids.forEach(function (v) {
+      try {
+        v.setAttribute('controls', 'controls');
+      } catch (e0) {
+        /* ignore */
+      }
+    });
+  }
+  if (typeof IntersectionObserver === 'undefined') {
+    vids.forEach(function (v) {
+      pharmaSpotlightVideoActivateLazy(v, { autoplay: !reduce });
+    });
+    return;
+  }
+  var obs = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var v = en.target;
+        try {
+          obs.unobserve(v);
+        } catch (e1) {
+          /* ignore */
+        }
+        pharmaSpotlightVideoActivateLazy(v, { autoplay: !reduce });
+      });
+    },
+    { root: null, rootMargin: '160px 0px 100px', threshold: 0.02 }
+  );
+  vids.forEach(function (v) {
+    obs.observe(v);
+  });
+}
+
 function pharmaSpotlightVideoBlockHtml(videoUrl) {
   var esc = typeof escHtml === 'function' ? escHtml : escHtmlR;
   var u = String(videoUrl || '').trim();
@@ -3792,8 +3855,8 @@ function pharmaSpotlightVideoBlockHtml(videoUrl) {
   var mimeHint = /\.webm$/i.test(String(u || '')) ? 'video/webm' : 'video/mp4';
   return (
     '<div class="home-top-video home-top-video--file home-top-video--spotlight" role="region" aria-label="فيديو">' +
-    '<video class="home-top-video__el" loop muted playsinline autoplay preload="metadata" title="فيديو" aria-label="فيديو">' +
-    '<source src="' +
+    '<video class="home-top-video__el" loop muted playsinline preload="none" data-spotlight-lazy="1" title="فيديو" aria-label="فيديو">' +
+    '<source data-hv-src="' +
     su +
     '" type="' +
     mimeHint +
@@ -3840,6 +3903,7 @@ function renderHomeExtras(data) {
         .join('') +
       '</div>';
     replaceChildrenFromHtml(mediaEl, gridHtml);
+    initHomeSpotlightVideosLazy();
   } else if (topSec) {
     topSec.hidden = true;
     if (mediaEl && typeof replaceChildrenFromHtml === 'function') replaceChildrenFromHtml(mediaEl, '');

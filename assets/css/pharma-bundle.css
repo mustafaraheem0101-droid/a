@@ -1938,6 +1938,17 @@ img[loading="lazy"] {
   box-shadow: 0 0 0 4px rgba(0, 168, 110, 0.12);
 }
 
+@media (max-width: 479px) {
+  .srch-bar::placeholder {
+    color: transparent;
+    opacity: 0;
+  }
+  .srch-bar:focus::placeholder {
+    color: #64748b;
+    opacity: 1;
+  }
+}
+
 .srch-btn {
   position: absolute;
   inset-inline-end: 8px;
