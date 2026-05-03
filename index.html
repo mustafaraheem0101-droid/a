@@ -577,7 +577,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 }
 @media(max-width:800px){
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
-  .p-topbar{padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
+  /* إخفاء شريط الهاتف/التوصيل على الموبايل لتوفير ارتفاع الشاشة */
+  body.index-page .p-topbar{display:none!important;}
   /* هيدر الموبايل (الرئيسية): صف أفقي واحد — شعار مضغوط + بحث يتمدد + واتساب/إنستا/سلة أيقونات */
   body.index-page .p-hdr{
     flex-direction:row;
