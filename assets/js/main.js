@@ -1762,21 +1762,25 @@ function buildProductMainHtml(p, similar, bundles) {
     <div class="product-page">
     ${breadcrumbHtml}
     <article class="prod-card">
-      <div class="img-sec">
-        ${badgeHTML}
-        ${imgHTML}
+      <div class="prod-card__hero">
+        <div class="img-sec">
+          ${badgeHTML}
+          ${imgHTML}
+        </div>
+        <div class="prod-info-head">
+          <div>
+            <span class="prod-cat">${primaryCatLabel}${catsExtra}</span>
+            <h1 class="prod-name">${p.name}</h1>
+            <div class="prod-rating-summary" id="prodRatingSummary" aria-live="polite"><span class="prod-rating-summary__muted">جاري تحميل التقييمات…</span></div>
+          </div>
+          <div class="price-row">
+            ${shelf.active
+              ? `<span class="price-now">${formatPrice(shelf.final)}</span><span class="price-old">${formatPrice(shelf.list)}</span><span class="discount-tag">خصم ${shelf.promoPct}%</span>`
+              : `<span class="price-now">${formatPrice(p.price)}</span>${qrOffer && catElig && p.old ? `<span class="price-old">${formatPrice(p.old)}</span>` : ''}${disc ? `<span class="discount-tag">خصم ${disc}</span>` : ''}`}
+          </div>
+        </div>
       </div>
       <div class="info-sec">
-        <div>
-          <span class="prod-cat">${primaryCatLabel}${catsExtra}</span>
-          <h1 class="prod-name">${p.name}</h1>
-          <div class="prod-rating-summary" id="prodRatingSummary" aria-live="polite"><span class="prod-rating-summary__muted">جاري تحميل التقييمات…</span></div>
-        </div>
-        <div class="price-row">
-          ${shelf.active
-            ? `<span class="price-now">${formatPrice(shelf.final)}</span><span class="price-old">${formatPrice(shelf.list)}</span><span class="discount-tag">خصم ${shelf.promoPct}%</span>`
-            : `<span class="price-now">${formatPrice(p.price)}</span>${qrOffer && catElig && p.old ? `<span class="price-old">${formatPrice(p.old)}</span>` : ''}${disc ? `<span class="discount-tag">خصم ${disc}</span>` : ''}`}
-        </div>
         <ul class="prod-trust-strip" aria-label="ضمانات الخدمة">
           <li class="prod-trust-strip__item"><span class="prod-trust-strip__ico" aria-hidden="true">🚚</span><span>توصيل سريع خلال 24 ساعة</span></li>
           <li class="prod-trust-strip__item"><span class="prod-trust-strip__ico" aria-hidden="true">✅</span><span>منتجات أصلية 100٪</span></li>

@@ -3946,22 +3946,84 @@ body.product-page--wa-sticky {
   gap: clamp(16px, 3vw, 22px);
   align-items: start;
 }
+.product-page .prod-info-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.product-page .prod-info-head > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 @media (min-width: 900px) {
   .product-page .prod-card {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+    grid-template-rows: auto auto;
     column-gap: clamp(20px, 3vw, 36px);
     row-gap: 20px;
+  }
+  .product-page .prod-card__hero {
+    display: contents;
+  }
+  .product-page .img-sec {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+  .product-page .prod-info-head {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .product-page .info-sec {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+  }
+}
+@media (max-width: 899px) {
+  .product-page .prod-card__hero {
+    display: grid;
+    grid-template-columns: minmax(104px, 42vw) minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: start;
+  }
+  .product-page .prod-card__hero .img-sec {
+    min-width: 0;
+    border-radius: 14px;
+  }
+  .product-page .prod-card__hero .prod-main-img,
+  .product-page .prod-card__hero .img-zoom-wrap {
+    min-height: 0 !important;
+  }
+  .product-page .prod-card__hero .img-zoom-wrap {
+    max-height: min(44vh, 300px);
+  }
+  .product-page .prod-card__hero .prod-name {
+    font-size: clamp(1.02rem, 3.6vw, 1.32rem);
+    line-height: 1.28;
+  }
+  .product-page .prod-card__hero .prod-cat {
+    font-size: 12.5px;
+  }
+  .product-page .prod-card__hero .price-now {
+    font-size: clamp(1.15rem, 4vw, 1.55rem);
+  }
+  .product-page .prod-card__hero .price-row {
+    margin: 0;
+    gap: 8px;
+  }
+  .product-page .prod-card__hero .prod-rating-summary {
+    font-size: 12px;
   }
 }
 .product-page .info-sec {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-.product-page .info-sec > div:first-child {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 .product-page .prod-cat {
   font-size: 14.5px;
@@ -4062,12 +4124,6 @@ body.product-page--wa-sticky {
   }
   .product-page .prod-trust-strip__ico {
     font-size: 1.35em;
-  }
-}
-@media (min-width: 900px) {
-  .product-page .img-sec {
-    max-width: 460px;
-    margin-inline: auto;
   }
 }
 /* معرض + مكبّر جانبي (سطح مكتب) */
