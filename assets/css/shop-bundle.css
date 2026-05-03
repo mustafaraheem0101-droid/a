@@ -550,6 +550,9 @@ button { cursor: pointer; font-family: inherit; }
   border-top: 1px solid #f1f5f9;
   background: #fff;
 }
+.pc-footer--no-social {
+  justify-content: center;
+}
 .pc-footer__tags {
   display: flex;
   align-items: center;

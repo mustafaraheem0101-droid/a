@@ -29,11 +29,12 @@
         var b = formatHeroHourAr(c);
         if (a && b) el.textContent = 'يومياً: من ' + a + ' — إلى ' + b;
       }
+      var mapUrlStr = '';
+      if (s && s.mapUrl) mapUrlStr = String(s.mapUrl).trim();
+      var mapCard = document.getElementById('homeHeroAsideMapCard');
+      if (mapCard && mapUrlStr) mapCard.href = mapUrlStr;
       var mapLink = document.querySelector('.home-hero-aside-map__link');
-      if (mapLink && s && s.mapUrl) {
-        var u = String(s.mapUrl).trim();
-        if (u) mapLink.href = u;
-      }
+      if (mapLink && mapUrlStr) mapLink.href = mapUrlStr;
       var mapAddr = document.getElementById('homeHeroAsideMapAddr');
       if (mapAddr && s && s.address) {
         var ad = String(s.address).trim();

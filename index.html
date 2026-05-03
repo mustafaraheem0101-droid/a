@@ -321,9 +321,26 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   border:2px solid rgba(15,23,42,.1);
   box-shadow:0 8px 28px rgba(15,23,42,.1);
 }
-.home-hero-aside-map__iframe{
-  display:block;width:100%;height:clamp(150px,22vw,220px);border:0;
-  filter:saturate(1.05);
+/* بدل iframe OSM (نص الإسناد الإنجليزي لا يُحذف من داخل الإطار): معاينة + رابط لخرائط جوجل */
+.home-hero-aside-map__card{
+  display:block;text-decoration:none;color:inherit;
+}
+.home-hero-aside-map__card:focus-visible{outline:2px solid var(--g);outline-offset:2px;}
+.home-hero-aside-map__preview{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:clamp(150px,22vw,220px);
+  padding:16px 12px;
+  background:
+    linear-gradient(165deg,rgba(234,236,240,.96) 0%,rgba(210,214,222,.9) 40%,rgba(226,232,240,.94) 100%),
+    repeating-linear-gradient(-15deg,transparent,transparent 11px,rgba(255,255,255,.14) 11px,rgba(255,255,255,.14) 12px);
+}
+.home-hero-aside-map__card:hover .home-hero-aside-map__preview{ filter:brightness(1.03); }
+.home-hero-aside-map__pin{
+  flex-shrink:0;margin-bottom:8px;
+  filter:drop-shadow(0 4px 12px rgba(0,135,90,.38));
+}
+.home-hero-aside-map__tap{
+  font-size:11.5px;font-weight:900;color:#475569;letter-spacing:.02em;text-align:center;
 }
 .home-hero-aside-map__addr{
   margin:0;padding:9px 10px 8px;
@@ -473,8 +490,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   .home-hero-slide__aside--map{
     flex-direction: column;
   }
-  .home-hero-aside-map__iframe{
-    height: min(200px, 42vw);
+  .home-hero-aside-map__preview{
+    min-height: min(200px, 42vw);
   }
   .home-hero-slide__aside--hours{
     flex-direction: column;
@@ -1029,7 +1046,15 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
           </div>
           <aside class="home-hero-slide__aside home-hero-slide__aside--map swiper-no-swiping" data-swiper-parallax="-100" aria-label="موقع الصيدلية">
             <div class="home-hero-aside-map">
-              <iframe class="home-hero-aside-map__iframe" title="موقع الصيدلية على الخريطة" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.openstreetmap.org/export/embed.html?bbox=45.355%2C34.315%2C45.465%2C34.365&amp;layer=mapnik&amp;marker=34.339%2C45.410"></iframe>
+              <a id="homeHeroAsideMapCard" class="home-hero-aside-map__card" href="https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7" target="_blank" rel="noopener noreferrer" aria-label="عرض موقع الصيدلية على خرائط جوجل">
+                <div class="home-hero-aside-map__preview">
+                  <svg class="home-hero-aside-map__pin" width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 21s7-4.35 7-10a7 7 0 1 0-14 0c0 5.65 7 10 7 10z" fill="#00875A" stroke="rgba(255,255,255,.85)" stroke-width="1.2"/>
+                    <circle cx="12" cy="11" r="2.2" fill="#fff"/>
+                  </svg>
+                  <span class="home-hero-aside-map__tap">اضغط لعرض الخريطة</span>
+                </div>
+              </a>
               <p class="home-hero-aside-map__addr" id="homeHeroAsideMapAddr">الديالى - خانقين | مقابل مجمع سوڤار</p>
               <a class="home-hero-aside-map__link" href="https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7" target="_blank" rel="noopener noreferrer">فتح في خرائط جوجل</a>
             </div>
@@ -1393,13 +1418,13 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 
 <!-- ═══ JS — ترتيب التحميل مهم ═══ -->
 <script src="assets/js/utils.js?v=3.5.14"></script>
-  <script src="assets/js/ui.js?v=3.5.10"></script>
+  <script src="assets/js/ui.js?v=3.5.11"></script>
   <script src="assets/js/api.js?v=3.1.10"></script>
   <script src="assets/js/main.js?v=3.9.14"></script>
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
-<script src="assets/js/home-hero-swiper.js?v=1.0.5"></script>
+<script src="assets/js/home-hero-swiper.js?v=1.0.6"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
 <!-- lazy-loading added -->
