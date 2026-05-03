@@ -6774,20 +6774,28 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
   .prod-gallery { width: 100% !important; }
   .prod-gallery-main img { border-radius: 16px !important; max-height: 300px !important; object-fit: contain !important; }
 
-  .prod-wa-order-btn {
-    font-size: 16px !important;
-    min-height: 54px !important;
-    border-radius: 16px !important;
-  }
+  /* واتساب + إنستغرام (المحتوى): أيقونات وأزرار أصغر على الموبايل */
+  .prod-wa-order-btn,
   .prod-ig-order-btn {
-    font-size: 15px !important;
-    min-height: 54px !important;
-    border-radius: 16px !important;
+    gap: 6px !important;
+    padding: 10px 12px !important;
+    min-height: 46px !important;
+    font-size: 13px !important;
+    border-radius: 12px !important;
+  }
+  .prod-wa-ig-pair .prod-wa-order-btn {
+    min-height: 46px !important;
+  }
+  .prod-wa-order-btn svg,
+  .prod-ig-order-btn svg {
+    width: 16px !important;
+    height: 16px !important;
   }
 
   .prod-wa-ig-pair {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
     width: 100%;
     min-width: 0;
   }
@@ -6795,6 +6803,61 @@ html { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+  }
+
+  .prod-ask-rx-btn {
+    padding: 9px 14px !important;
+    font-size: 13px !important;
+    min-height: 0 !important;
+  }
+  .product-page .prod-add-cart {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    border-radius: 12px !important;
+  }
+
+  /* شريط واتساب/إنستغرام الثابت أسفل الشاشة */
+  body.product-page--wa-sticky {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+  .prod-wa-sticky {
+    padding: 6px 10px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .prod-wa-sticky__btn {
+    min-height: 44px !important;
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    gap: 5px !important;
+    border-radius: 12px !important;
+  }
+  .prod-wa-sticky__btn-ig {
+    padding: 8px 8px !important;
+    font-size: 12px !important;
+  }
+  .prod-wa-sticky__inner--split .prod-wa-sticky__txt,
+  .prod-wa-sticky__btn-ig .prod-wa-sticky__txt {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+  .prod-wa-sticky__ico svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  /* هيدر المتجر الداخلي */
+  .hdr-wa-primary,
+  .hdr-ig-primary {
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    gap: 6px !important;
+    border-radius: 12px !important;
+  }
+  .hdr-wa-primary svg,
+  .hdr-ig-primary svg {
+    width: 15px !important;
+    height: 15px !important;
   }
 
   .prod-details-tabs .tab-btn { font-size: 13px !important; padding: 10px 14px !important; }
