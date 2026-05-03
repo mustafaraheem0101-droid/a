@@ -70,8 +70,8 @@
       watchOverflow: true,
       /* روابط الهيرو (واتساب / إنستغرام) — لا يمنع المتصفح النقر */
       touchStartPreventDefault: false,
-      /* موبايل: ارتفاع حسب المحتوى (بدون فراغ كبير تحت الأزرار) */
-      autoHeight: true,
+      /* ارتفاع موحّد من CSS — يمنع تضخّم شريحة الخريطة على الموبايل */
+      autoHeight: false,
       parallax: false,
       watchSlidesProgress: true,
       slidesPerView: 1,
@@ -82,7 +82,6 @@
       breakpoints: {
         601: {
           speed: reduce ? 350 : 700,
-          autoHeight: false,
           parallax: !reduce
         }
       },
