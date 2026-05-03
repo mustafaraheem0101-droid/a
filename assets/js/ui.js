@@ -92,6 +92,12 @@ function applySettings() {
     else ftPhone.textContent = phone;
   }
 
+  const heroChipTel = document.getElementById('homeHeroChipTel');
+  if (heroChipTel) {
+    heroChipTel.href = 'tel:' + phone.replace(/\D/g, '');
+    heroChipTel.textContent = phone;
+  }
+
   const mapUrl = s.mapUrl || MAP_URL;
   const ftAddr = document.getElementById('ft-addr');
   if (ftAddr) {
