@@ -556,13 +556,13 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
   body.index-page .p-masthead,
   body.index-page .p-hdr-shell{overflow:visible;}
-  /* هيدر موبايل: صفّان دائماً (شعار + أيقونات | بحث كامل) — مضغوط */
+  /* هيدر موبايل: صف شعار+سلة | صف معلومات التواصل | صف بحث */
   body.index-page .p-hdr{
     flex-direction:row;
     flex-wrap:wrap;
     align-items:center;
     column-gap:8px;
-    row-gap:5px;
+    row-gap:7px;
     height:auto!important;
     min-height:0;
     padding-block:6px 7px;
@@ -570,38 +570,47 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     overflow:visible;
   }
   body.index-page .p-logo-tagline{display:none!important;}
+  /* يفك التغليف: صف 1 = شعار + سلة | صف 2 = عنوان/دوام/هاتف بعرض الشاشة | صف 3 = بحث */
+  body.index-page .p-hdr-r{display:contents;}
+  body.index-page .p-hdr-cta-pair{display:contents;}
   body.index-page .p-hdr-meta{
     display:flex!important;
     flex-direction:column;
     justify-content:center;
-    align-items:flex-end;
-    gap:1px;
+    align-items:stretch;
+    gap:3px;
+    order:2;
+    flex:1 1 100%;
+    width:100%;
+    max-width:100%;
     min-width:0;
-    flex:1 1 auto;
-    max-width:min(52vw, 210px);
-    text-align:right;
-    line-height:1.22;
+    box-sizing:border-box;
+    padding:2px 4px 4px;
+    margin:0;
+    text-align:center;
+    line-height:1.35;
+    border-bottom:1px solid rgba(226,232,240,.85);
   }
   body.index-page .p-hdr-meta__addr,
   body.index-page .p-hdr-meta__hours{
-    font-size:clamp(8px, 2.5vw, 9.5px);
+    font-size:clamp(10px, 2.9vw, 12px);
     font-weight:700;
     color:#64748b;
     letter-spacing:0.01em;
   }
   body.index-page .p-hdr-meta__tel{
-    font-size:clamp(10px, 3.1vw, 12px);
+    font-size:clamp(12px, 3.6vw, 14px);
     font-weight:900;
     color:var(--g);
-    margin-top:1px;
+    margin-top:2px;
     letter-spacing:0.02em;
   }
   body.index-page .p-hdr-meta__tel:hover{color:var(--g-d);}
   body.index-page .p-logo{
     order:1;
-    flex:1 1 auto;
+    flex:0 1 auto;
     width:auto;
-    max-width:min(128px, 38vw);
+    max-width:min(220px, 72vw);
     min-width:0;
     gap:6px;
     padding-block:0;
@@ -631,8 +640,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     border-radius:10px!important;
     flex-shrink:0;
   }
-  body.index-page .p-logo-name{font-size:10px!important;line-height:1.15!important;}
-  body.index-page .p-logo-url{font-size:7px!important;}
+  body.index-page .p-logo-name{font-size:clamp(10px, 3.1vw, 12px)!important;line-height:1.2!important;}
+  body.index-page .p-logo-url{font-size:clamp(8px, 2.4vw, 10px)!important;}
   :root{--p-hdr-h:auto;}
   body.index-page .p-srch{
     order:3;
@@ -644,6 +653,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     position:relative;
     z-index:5;
     isolation:isolate;
+    margin-top:2px;
   }
   body.index-page .p-srch .srch-suggest{
     left:0;
@@ -674,27 +684,15 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
     box-sizing:border-box;
   }
   body.index-page .p-srch-btn svg{width:14px!important;height:14px!important;}
-  body.index-page .p-hdr-r{
-    order:2;
-    width:auto;
-    flex-shrink:0;
-    margin-inline-start:auto!important;
+  body.index-page .p-cart-wrap{
+    order:1;
+    flex:0 0 auto;
     display:flex;
-    flex-direction:row;
     align-items:center;
-    justify-content:flex-end;
-    gap:4px;
+    margin-inline-start:auto;
     position:relative;
     z-index:2;
   }
-  body.index-page .p-hdr-cta-pair{
-    flex:1 1 auto;
-    min-width:0;
-    gap:6px;
-    align-items:center;
-    justify-content:flex-end;
-  }
-  body.index-page .p-cart-wrap{flex:0 0 auto;display:flex;align-items:center;}
   body.index-page .p-cart-btn{
     width:36px!important;
     height:36px!important;
