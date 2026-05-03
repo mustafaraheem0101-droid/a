@@ -46,46 +46,6 @@ function applySettings() {
     el.href = waUrl + (text ? '?text=' + encodeURIComponent(text) : '');
   });
 
-  ['ft-wa', 'wa-float'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && !el.hasAttribute('data-wa-link')) el.href = waUrl;
-  });
-  const ftWa2 = document.getElementById('ft-wa2');
-  if (ftWa2) ftWa2.setAttribute('data-href', waUrl);
-
-  const ftPhone = document.getElementById('ft-phone');
-  if (ftPhone) {
-    ftPhone.href = 'tel:' + phone.replace(/\D/g, '');
-    var phNode = ftPhone.querySelector && ftPhone.querySelector('.p-ft-contact-txt');
-    if (phNode) phNode.textContent = phone;
-    else ftPhone.textContent = phone;
-  }
-
-  const mapUrl = s.mapUrl || MAP_URL;
-  const ftAddr = document.getElementById('ft-addr');
-  if (ftAddr) {
-    ftAddr.href = mapUrl;
-    var adNode = ftAddr.querySelector && ftAddr.querySelector('.p-ft-contact-txt');
-    if (adNode) adNode.textContent = s.address || '';
-    else ftAddr.textContent = s.address || '';
-  }
-
-  const { open, close, isOpen } = getHours();
-  const fmt12 = h => h === 24 ? '12 منتصف الليل' : h === 12 ? '12 ظهراً' : h > 12 ? (h - 12) + ' مساءً' : h + ' صباحاً';
-  const ftHours = document.getElementById('ft-hours');
-  if (ftHours) {
-    var hrsLine = fmt12(open) + ' – ' + fmt12(close);
-    var hrsNode = ftHours.querySelector && ftHours.querySelector('.p-ft-contact-txt');
-    if (hrsNode) hrsNode.textContent = hrsLine;
-    else ftHours.textContent = '🕒 ' + hrsLine;
-  }
-
-  const statusEl = document.getElementById('shopStatus');
-  if (statusEl) {
-    statusEl.textContent = isOpen ? '🟢 مفتوح الآن' : '🔴 مغلق';
-    statusEl.style.color = isOpen ? '#00a86e' : '#ef4444';
-  }
-
   const igUrl =
     normalizeInstagramUrl(s.instagram) || normalizeInstagramUrl('pharma_store.me');
   document.querySelectorAll('[data-ig-link]').forEach(el => {
@@ -116,6 +76,55 @@ function applySettings() {
       el.setAttribute('aria-hidden', 'true');
     }
   });
+
+  ['ft-wa', 'wa-float'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.hasAttribute('data-wa-link')) el.href = waUrl;
+  });
+  const ftWa2 = document.getElementById('ft-wa2');
+  if (ftWa2) ftWa2.setAttribute('data-href', waUrl);
+
+  const ftPhone = document.getElementById('ft-phone');
+  if (ftPhone) {
+    ftPhone.href = 'tel:' + phone.replace(/\D/g, '');
+    var phNode = ftPhone.querySelector && ftPhone.querySelector('.p-ft-contact-txt');
+    if (phNode) phNode.textContent = phone;
+    else ftPhone.textContent = phone;
+  }
+
+  const mapUrl = s.mapUrl || MAP_URL;
+  const ftAddr = document.getElementById('ft-addr');
+  if (ftAddr) {
+    ftAddr.href = mapUrl;
+    var adNode = ftAddr.querySelector && ftAddr.querySelector('.p-ft-contact-txt');
+    if (adNode) adNode.textContent = s.address || '';
+    else ftAddr.textContent = s.address || '';
+  }
+
+  let open = 15;
+  let close = 24;
+  let isOpen = false;
+  try {
+    const h = getHours();
+    open = h.open;
+    close = h.close;
+    isOpen = h.isOpen;
+  } catch (errHours) { /* ignore — روابط التواصل طُبّقت أعلاه */ }
+
+  const fmt12 = h => h === 24 ? '12 منتصف الليل' : h === 12 ? '12 ظهراً' : h > 12 ? (h - 12) + ' مساءً' : h + ' صباحاً';
+  const ftHours = document.getElementById('ft-hours');
+  if (ftHours) {
+    var hrsLine = fmt12(open) + ' – ' + fmt12(close);
+    var hrsNode = ftHours.querySelector && ftHours.querySelector('.p-ft-contact-txt');
+    if (hrsNode) hrsNode.textContent = hrsLine;
+    else ftHours.textContent = '🕒 ' + hrsLine;
+  }
+
+  const statusEl = document.getElementById('shopStatus');
+  if (statusEl) {
+    statusEl.textContent = isOpen ? '🟢 مفتوح الآن' : '🔴 مغلق';
+    statusEl.style.color = isOpen ? '#00a86e' : '#ef4444';
+  }
 }
 
 /** إزالة وضع ليلي قديم من localStorage ومن class pharma-dark على documentElement */

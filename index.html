@@ -253,79 +253,164 @@ body.index-page .p-logo-tagline{display:block;font-size:11px;font-weight:600;col
 .p-nav-ring--home .p-nav-ring__disc{
   background:linear-gradient(160deg,rgba(0,168,110,.12) 0%,#fff 55%);
 }
-/* دوائر التنقل مباشرة تحت بانر الفيديو (بدون فراغ) */
-body.index-page .home-hero-video{margin-bottom:0;}
-body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index:41;}
+/* دوائر التنقل تحت سلايدر الهيرو */
+body.index-page .home-hero-premium{margin-bottom:0;}
+body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-index:41;}
 
-/* ══════════════════════════════════════════════
-   HOME — بانر فيديو في أعلى الصفحة
-   ══════════════════════════════════════════════ */
-.home-hero-video{
+/* ═══ HOME — سلايدر هيرو طبي (3 شرائح، 16:9) ═══ */
+.home-hero-premium{
+  position:relative;width:100%;overflow:hidden;
+  background:#ecfdf5;
+  box-shadow:0 8px 40px rgba(0,135,90,.12),0 1px 0 rgba(255,255,255,.9) inset;
+  isolation:isolate;
+}
+.home-hero-swiper{
   position:relative;
   width:100%;
-  overflow:hidden;
-  background:linear-gradient(180deg,#fafbfc 0%,#0b1220 100%);
-  --home-hero-h: clamp(300px, min(48vw, 52vh), 600px);
-  height: var(--home-hero-h);
-  min-height:0;
-  isolation:isolate;
-  border-top:none;
-  box-shadow:0 1px 0 rgba(15,23,42,.06);
+  height:clamp(260px,56.25vw,580px);
+  max-height:min(72vh,640px);
+  margin:0 auto;
 }
-.home-hero-video__media{
-  position:absolute;
-  inset:0;
+.home-hero-swiper .swiper-wrapper,
+.home-hero-swiper .swiper-slide{height:100%;}
+.home-hero-slide{
+  position:relative;height:100%;display:flex;align-items:center;justify-content:flex-start;
+  padding:clamp(18px,3.5vw,44px) clamp(16px,4vw,56px);
+  overflow:hidden;
+}
+.home-hero-slide__bg{
+  position:absolute;inset:-12%;
   z-index:0;
-  pointer-events:none;
-  overflow:hidden;
+  background-size:cover;background-position:center;
+  transform:scale(1.06);
+  transition:transform 1.2s ease-out;
 }
-.home-hero-video__media video,
-#homeHeroVideo{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  min-height:0;
-  object-fit:cover;
-  object-position:center center;
-  display:block;
-  background:#0b1220;
+.home-hero-swiper .swiper-slide-active .home-hero-slide__bg{transform:scale(1.02);}
+.home-hero-slide__veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(105deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.55) 42%,rgba(240,253,244,.25) 100%);
 }
-.home-hero-video__overlay{
-  position:absolute;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-  background:
-    linear-gradient(to top,rgba(255,255,255,.82) 0%,rgba(255,255,255,.12) 32%,transparent 58%),
-    linear-gradient(118deg,rgba(10,22,40,.48) 0%,rgba(10,22,40,.14) 48%,rgba(219,39,119,.2) 74%,rgba(190,24,93,.28) 100%),
-    linear-gradient(180deg,rgba(8,14,26,.38) 0%,rgba(10,22,40,.12) 100%);
+.home-hero-slide--vitamins .home-hero-slide__veil{
+  background:linear-gradient(118deg,rgba(255,251,235,.95) 0%,rgba(254,243,199,.5) 45%,rgba(255,255,255,.2) 100%);
 }
-@media (max-width:768px){
-  .home-hero-video{
-    height:auto;
-    aspect-ratio:16 / 9;
-  }
-  .home-hero-video__media{
-    position:absolute;
-    inset:0;
-  }
-  .home-hero-video__media video,
-  #homeHeroVideo{
-    height:100%;
-    object-fit:cover;
-  }
+.home-hero-slide--skincare .home-hero-slide__veil{
+  background:linear-gradient(125deg,rgba(255,255,255,.94) 0%,rgba(252,231,243,.45) 50%,rgba(236,253,245,.35) 100%);
+}
+.home-hero-slide--delivery .home-hero-slide__bg{
+  background-image:
+    linear-gradient(125deg,rgba(0,135,90,.78) 0%,rgba(255,255,255,.35) 48%,rgba(236,253,245,.88) 100%),
+    url("https://images.unsplash.com/photo-1576608143420-f346dbb7b5b7?auto=format&fit=crop&w=1600&q=78");
+  filter:blur(11px) saturate(1.08);
+}
+.home-hero-slide--vitamins .home-hero-slide__bg{
+  background-image:
+    linear-gradient(135deg,rgba(254,243,199,.55) 0%,rgba(255,255,255,.5) 50%,rgba(16,185,129,.2) 100%),
+    url("https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1600&q=78");
+  filter:blur(10px) saturate(1.05);
+}
+.home-hero-slide--skincare .home-hero-slide__bg{
+  background-image:
+    linear-gradient(130deg,rgba(252,231,243,.5) 0%,rgba(255,255,255,.55) 45%,rgba(167,243,208,.35) 100%),
+    url("https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=1600&q=78");
+  filter:blur(10px) saturate(1.06);
+}
+.home-hero-slide__glow{
+  position:absolute;inset:auto -20% -30% -20%;height:55%;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 70% 80% at 50% 100%,rgba(0,168,110,.22),transparent 70%);
+  opacity:.85;
+}
+.home-hero-slide--vitamins .home-hero-slide__glow{
+  background:radial-gradient(ellipse 65% 75% at 70% 100%,rgba(251,191,36,.28),transparent 72%);
+}
+.home-hero-slide--skincare .home-hero-slide__glow{
+  background:radial-gradient(ellipse 60% 70% at 30% 100%,rgba(244,114,182,.22),transparent 70%);
+}
+.home-hero-slide__content{
+  position:relative;z-index:4;max-width:min(560px,92%);
+  text-align:right;direction:rtl;
+}
+.home-hero-slide__title{
+  margin:0 0 12px;font-size:clamp(1.35rem,3.8vw,2.35rem);font-weight:900;line-height:1.25;
+  color:#042f1f;letter-spacing:-.02em;
+  text-shadow:0 2px 24px rgba(255,255,255,.75);
+}
+.home-hero-slide__sub{
+  margin:0 0 22px;font-size:clamp(.95rem,2.1vw,1.15rem);font-weight:700;line-height:1.65;
+  color:#14532d;max-width:34em;
+}
+.home-hero-slide--vitamins .home-hero-slide__title{color:#713f12;}
+.home-hero-slide--vitamins .home-hero-slide__sub{color:#57534e;}
+.home-hero-slide--skincare .home-hero-slide__title{color:#831843;}
+.home-hero-slide--skincare .home-hero-slide__sub{color:#4c0519;}
+.home-hero-slide__cta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.home-hero-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:999px;font-family:inherit;font-weight:900;font-size:15px;
+  text-decoration:none;border:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+}
+.home-hero-btn--wa{
+  background:linear-gradient(135deg,#16a34a 0%,#059669 50%,#0d9488 100%);
+  color:#fff!important;border:2px solid rgba(255,255,255,.4);
+  box-shadow:0 10px 36px rgba(16,185,129,.45),0 2px 0 rgba(255,255,255,.2) inset;
+}
+.home-hero-btn--wa:hover{transform:translateY(-2px);filter:brightness(1.05);}
+.home-hero-btn--ig{
+  background:linear-gradient(135deg,#f09433,#e1306c 55%,#bc1888);
+  color:#fff!important;border:2px solid rgba(255,255,255,.38);
+  box-shadow:0 8px 28px rgba(225,48,108,.35);
+}
+.home-hero-btn--ig:hover{transform:translateY(-2px);filter:brightness(1.06);}
+.home-hero-btn--ghost{
+  background:rgba(255,255,255,.88);color:var(--g-d)!important;border:2px solid rgba(0,135,90,.28);
+  font-weight:800;box-shadow:0 4px 18px rgba(15,23,42,.06);
+}
+.home-hero-btn--ghost:hover{background:#fff;border-color:var(--g);transform:translateY(-1px);}
+.home-hero-btn--sea{
+  background:linear-gradient(135deg,#0d9488,#059669,#16a34a)!important;
+  box-shadow:0 10px 32px rgba(13,148,136,.4),0 2px 0 rgba(255,255,255,.2) inset!important;
+}
+.home-hero-btn--mint{
+  background:linear-gradient(135deg,#059669,#10b981,#34d399)!important;
+  box-shadow:0 10px 32px rgba(5,150,105,.42),0 2px 0 rgba(255,255,255,.2) inset!important;
+}
+.home-hero-btn svg{flex-shrink:0;width:20px;height:20px;}
+.home-hero-pagination{
+  bottom:14px!important;left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+}
+.home-hero-pagination .swiper-pagination-bullet{
+  width:9px;height:9px;background:rgba(15,23,42,.22);opacity:1;
+  transition:transform .2s ease,background .2s ease;
+}
+.home-hero-pagination .swiper-pagination-bullet-active{
+  background:var(--g);transform:scale(1.25);
+  box-shadow:0 0 0 3px rgba(0,168,110,.22);
+}
+.home-hero-nav{
+  position:absolute;top:50%;z-index:10;width:44px;height:44px;margin-top:-22px;
+  border:1px solid rgba(15,23,42,.1);border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.94);color:var(--g-d);
+  box-shadow:0 6px 24px rgba(15,23,42,.1);transition:transform .2s ease,background .2s ease,border-color .2s ease;
+}
+.home-hero-nav:hover{transform:scale(1.06);background:#fff;border-color:rgba(0,135,90,.22);}
+.home-hero-nav:focus-visible{outline:2px solid var(--g);outline-offset:2px;}
+.home-hero-nav::after{
+  display:block;font-family:inherit;font-size:17px;font-weight:800;color:#334155;
+  line-height:42px;text-align:center;
+}
+.home-hero-prev{right:clamp(8px,1.4vw,14px);left:auto;}
+.home-hero-prev::after{content:"›";}
+.home-hero-next{left:clamp(8px,1.4vw,14px);right:auto;}
+.home-hero-next::after{content:"‹";}
+@media (max-width:600px){
+  .home-hero-nav{display:none;}
+  .home-hero-swiper{height:clamp(300px,118vw,480px);max-height:none;}
 }
 @media (prefers-reduced-motion:reduce){
-  .home-hero-video__media video{display:none;}
-  .home-hero-video{
-    background:linear-gradient(145deg,#0a1628 0%,#1e0a24 42%,#0f2744 78%,#0c2e20 100%);
-  }
-  .home-hero-video__overlay{
-    background:
-      linear-gradient(to top,rgba(255,255,255,.55) 0%,transparent 45%),
-      linear-gradient(118deg,transparent 52%,rgba(219,39,119,.35) 100%);
-  }
+  .home-hero-slide__bg{filter:none!important;transform:none!important;}
+  .home-hero-swiper .swiper-slide-active .home-hero-slide__bg{transform:none;}
 }
 
 /* RESPONSIVE */
@@ -646,7 +731,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         <span class="p-hbtn-wa-label"><span class="p-hbtn-wa-em">طلب</span> عبر واتساب</span>
       </a>
-      <a href="#" id="hdr-ig" class="p-hbtn p-hbtn-ig" hidden data-ig-link target="_blank" rel="noopener noreferrer" aria-label="إنستغرام صيدلية شهد محمد"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.45a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"/></svg><span class="p-hbtn-ig-label"><span class="p-hbtn-ig-em">إنستا</span></span></a>
+      <a href="https://www.instagram.com/pharma_store.me/" id="hdr-ig" class="p-hbtn p-hbtn-ig" data-ig-link target="_blank" rel="noopener noreferrer" aria-label="إنستغرام صيدلية شهد محمد — @pharma_store.me"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.45a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"/></svg><span class="p-hbtn-ig-label"><span class="p-hbtn-ig-em">إنستا</span></span></a>
       </div>
       <div class="p-cart-wrap">
         <button type="button" class="p-cart-btn" id="main-cart-btn" data-action="toggle-cart" aria-label="السلة">
@@ -664,14 +749,68 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
   <div class="nav-dd-inner" id="navMegaInner"></div>
 </div>
 
-<!-- بانر فيديو — ضع ملف MP4 مضغوطاً (~10ث H.264) في assets/videos/hero-home.mp4 -->
-<section class="home-hero-video" id="homeHeroBanner" dir="ltr" lang="ar" aria-label="ترحيب">
-  <div class="home-hero-video__media" aria-hidden="true">
-    <video id="homeHeroVideo" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback>
-      <source src="assets/videos/hero-home.mp4" type="video/mp4" />
-    </video>
+<!-- سلايدر هيرو — 3 شرائح طبية (Swiper) -->
+<section class="home-hero-premium" id="homeHeroBanner" aria-label="عروض الصيدلية">
+  <div class="swiper home-hero-swiper" dir="rtl">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="home-hero-slide home-hero-slide--delivery">
+          <div class="home-hero-slide__bg" data-swiper-parallax="-18%" aria-hidden="true"></div>
+          <div class="home-hero-slide__veil" aria-hidden="true"></div>
+          <div class="home-hero-slide__glow" aria-hidden="true"></div>
+          <div class="home-hero-slide__content">
+            <h2 class="home-hero-slide__title" data-swiper-parallax="-200">توصيل لجميع العراق</h2>
+            <p class="home-hero-slide__sub" data-swiper-parallax="-120">اطلب أدويتك بسهولة عبر الموقع أو واتساب — خدمة موثوقة ومنتجات أصلية.</p>
+            <div class="home-hero-slide__cta" data-swiper-parallax="-60">
+              <a href="#" class="home-hero-btn home-hero-btn--wa" data-wa-link data-wa-text="مرحباً صيدلية شهد محمد، أريد الطلب عبر واتساب" target="_blank" rel="noopener noreferrer" aria-label="اطلب الآن عبر واتساب">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                اطلب الآن
+              </a>
+              <a href="https://www.instagram.com/pharma_store.me/" class="home-hero-btn home-hero-btn--ig" data-ig-link target="_blank" rel="noopener noreferrer" aria-label="إنستغرام صيدلية شهد محمد">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.45a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z"/></svg>
+                إنستغرام
+              </a>
+              <a href="categories.html" class="home-hero-btn home-hero-btn--ghost">تصفح المنتجات</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="home-hero-slide home-hero-slide--vitamins">
+          <div class="home-hero-slide__bg" data-swiper-parallax="-18%" aria-hidden="true"></div>
+          <div class="home-hero-slide__veil" aria-hidden="true"></div>
+          <div class="home-hero-slide__glow" aria-hidden="true"></div>
+          <div class="home-hero-slide__content">
+            <h2 class="home-hero-slide__title" data-swiper-parallax="-200">أفضل الفيتامينات والمكملات</h2>
+            <p class="home-hero-slide__sub" data-swiper-parallax="-120">منتجات أصلية من أشهر الماركات — جرعات آمنة واستشارة صيدلانية عند الحاجة.</p>
+            <div class="home-hero-slide__cta" data-swiper-parallax="-60">
+              <a href="category.html?slug=vitamins" class="home-hero-btn home-hero-btn--wa home-hero-btn--sea">تسوّق الفيتامينات</a>
+              <a href="https://www.instagram.com/pharma_store.me/" class="home-hero-btn home-hero-btn--ig" data-ig-link target="_blank" rel="noopener noreferrer">إنستغرام</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="home-hero-slide home-hero-slide--skincare">
+          <div class="home-hero-slide__bg" data-swiper-parallax="-18%" aria-hidden="true"></div>
+          <div class="home-hero-slide__veil" aria-hidden="true"></div>
+          <div class="home-hero-slide__glow" aria-hidden="true"></div>
+          <div class="home-hero-slide__content">
+            <h2 class="home-hero-slide__title" data-swiper-parallax="-200">العناية بالبشرة والجمال</h2>
+            <p class="home-hero-slide__sub" data-swiper-parallax="-120">كل ما تحتاجه لبشرة صحية — تركيبات موثوقة وتصنيف واضح للاستخدام اليومي.</p>
+            <div class="home-hero-slide__cta" data-swiper-parallax="-60">
+              <a href="category.html?slug=cosmetics" class="home-hero-btn home-hero-btn--wa home-hero-btn--mint">قسم التجميل</a>
+              <a href="https://www.instagram.com/pharma_store.me/" class="home-hero-btn home-hero-btn--ig" data-ig-link target="_blank" rel="noopener noreferrer">إنستغرام</a>
+              <a href="#" class="home-hero-btn home-hero-btn--ghost" data-wa-link data-wa-text="مرحباً، أريد استشارة بخصوص منتجات العناية بالبشرة" target="_blank" rel="noopener noreferrer">استشارة واتساب</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination home-hero-pagination"></div>
+    <button type="button" class="home-hero-nav home-hero-prev" aria-label="الشريحة السابقة"></button>
+    <button type="button" class="home-hero-nav home-hero-next" aria-label="الشريحة التالية"></button>
   </div>
-  <div class="home-hero-video__overlay" aria-hidden="true"></div>
 </section>
 
 <nav class="p-nav" id="mainNavbar" aria-label="تصفح الأقسام">
@@ -1021,6 +1160,7 @@ body.index-page .home-hero-video + .p-nav{margin-top:0;position:relative;z-index
 <script src="assets/js/shop-search.js?v=1.0.6"></script>
 <script src="assets/js/app.js?v=3.3.3"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
+<script src="assets/js/home-hero-swiper.js?v=1.0.0"></script>
 <script src="assets/js/home-promo-swiper.js?v=1.0.5"></script>
 <script src="assets/js/brand-showcase-swiper.js?v=1.0.5"></script>
 <!-- lazy-loading added -->

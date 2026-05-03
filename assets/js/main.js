@@ -3257,19 +3257,6 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeImgModal()
   window.addEventListener('load', function(){ setTimeout(loadAdminSlides, 400); });
 })();
 
-/* بانر فيديو الرئيسية — منطق التشغيل هنا ليتوافق مع CSP (بدون سكربت مضمّن في index.html) */
-(function () {
-  var v = document.getElementById('homeHeroVideo');
-  if (!v) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    v.removeAttribute('autoplay');
-    try { v.pause(); } catch (e) {}
-    return;
-  }
-  var p = v.play();
-  if (p && typeof p.catch === 'function') p.catch(function () {});
-})();
-
 window.closeHomeCatSubpanel = function () {};
 
 /* ---------- main.js ---------- */
