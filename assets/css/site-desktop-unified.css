@@ -76,7 +76,8 @@ body.index-page .pgrid6.pgrid6--home {
 
   /* أبعاد زر واتساب في الهيدر تُعرّف في index.html (موبايل ≤800px) — لا تُصفّر هنا */
 
-  body.index-page .p-hbtn:not(.p-hbtn-wa) {
+  /* لا يُطبَّق على زر إنستغرام — وإلا يضمحل أو يختفي على الموبايل */
+  body.index-page .p-hbtn:not(.p-hbtn-wa):not(.p-hbtn-ig) {
     min-height: 0;
     padding: 9px 14px;
   }
@@ -184,5 +185,17 @@ header.header,
     -webkit-line-clamp: 3;
     line-clamp: 3;
     min-height: calc(1.5em * 3);
+  }
+
+  /* إنستغرام: يظهر دائماً في الهيدر وبطاقات المنتج على الموبايل */
+  #hdr-ig.p-hbtn-ig,
+  a.hdr-ig-primary#hdr-ig,
+  a.pc-ig-fab {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  a.pc-ig-fab {
+    display: flex !important;
   }
 }

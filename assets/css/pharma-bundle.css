@@ -613,6 +613,23 @@ a.pc-ig-fab:hover {
 a.pc-ig-fab:active {
   transform: scale(0.97);
 }
+
+/* موبايل: لا يُضغَط صف واتساب+إنستغرام بسبب التقييم */
+@media (max-width: 767px) {
+  .pc-footer__tags {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  a.pc-ig-fab {
+    flex-shrink: 0;
+  }
+  .pc-footer__rating {
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 48%;
+  }
+}
 .pc-footer__rating {
   display: flex;
   align-items: center;
@@ -5949,6 +5966,7 @@ input[type="radio"] {
   /* أزرار بطاقات المنتجات */
   .pc-fab-cart,
   .pc-wa-fab,
+  .pc-ig-fab,
   .pc-like {
     min-width: 44px;
     min-height: 44px;
@@ -6173,6 +6191,7 @@ body.index-page .p-sec + .p-sec::before {
   .to-top,
   #toTopBtn,
   .pc-wa-fab,
+  .pc-ig-fab,
   .pc-fab-cart,
   .p-srch-btn,
   .srch-btn,
@@ -6194,6 +6213,7 @@ body.index-page .p-sec + .p-sec::before {
   .to-top:active,
   #toTopBtn:active,
   .pc-wa-fab:active,
+  .pc-ig-fab:active,
   .pc-fab-cart:active,
   .p-srch-btn:active,
   .srch-btn:active,
