@@ -578,65 +578,87 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 @media(max-width:800px){
   /* لا overflow-x:hidden على html — يمنع التمرير الأفقي لعرض الديسكتوب (~1100px) ويسبب شعور «زوم» */
   .p-topbar{padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
-  /* هيدر الموبايل: عمود واضح — شعار كامل الصف → صف أزرار (واتساب يتمدد + سلة) → بحث */
-  .p-hdr{
-    flex-direction:column;
+  /* هيدر الموبايل (الرئيسية): صف أفقي واحد — شعار مضغوط + بحث يتمدد + واتساب/إنستا/سلة أيقونات */
+  body.index-page .p-hdr{
+    flex-direction:row;
     flex-wrap:nowrap;
-    align-items:stretch;
-    row-gap:12px;
-    column-gap:0;
+    align-items:center;
+    column-gap:8px;
+    row-gap:0;
     height:auto;
     min-height:0;
-    padding-block:12px 14px;
-    padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));
+    padding-block:8px 10px;
+    padding-inline:max(10px, env(safe-area-inset-left, 0px)) max(10px, env(safe-area-inset-right, 0px));
   }
-  .p-logo{order:1;flex:0 0 auto;width:100%;max-width:none;min-width:0;}
+  body.index-page .p-logo{
+    order:1;
+    flex:0 1 auto;
+    width:auto;
+    max-width:min(118px, 30vw);
+    min-width:0;
+    gap:8px;
+    padding-block:2px;
+  }
+  body.index-page .p-logo-mark{width:44px;height:44px;border-radius:14px;}
+  body.index-page .p-logo-name{font-size:11px;line-height:1.15;}
+  body.index-page .p-logo-url{font-size:8px;}
   :root{--p-hdr-h:auto;}
-  .p-logo-mark{width:56px;height:56px;border-radius:16px;}
-  .p-logo-name{font-size:14px;}
-  .p-logo-url{font-size:10px;}
-  .p-hdr-r{
+  body.index-page .p-srch{
     order:2;
-    width:100%;
+    flex:1 1 0;
+    width:auto;
+    max-width:none;
+    min-width:0;
+  }
+  body.index-page .p-srch-box{
+    height:44px;
+    font-size:14px;
+    border-radius:12px;
+    padding-block:0;
+    padding-inline-start:12px;
+    padding-inline-end:48px;
+  }
+  body.index-page .p-srch-btn{width:34px;height:34px;inset-inline-end:6px;border-radius:10px;}
+  body.index-page .p-srch-btn svg{width:15px;height:15px;}
+  body.index-page .p-hdr-r{
+    order:3;
+    width:auto;
     flex-shrink:0;
-    margin-inline-start:0!important;
+    margin-inline-start:auto!important;
     display:flex;
     flex-direction:row;
-    align-items:stretch;
-    justify-content:flex-start;
-    gap:10px;
+    align-items:center;
+    justify-content:flex-end;
+    gap:6px;
   }
-  .p-hdr-cta-pair{flex:1 1 auto;min-width:0;gap:8px;}
-  .p-hbtn-wa{
-    flex:1 1 auto;
-    min-width:0;
-    justify-content:center;
-    border-radius:999px;
-    padding:12px 16px;
-    font-size:14px;
-    gap:8px;
-    min-height:52px;
-    box-shadow:0 4px 18px rgba(16,185,129,.28);
-  }
-  .p-hbtn-ig{
+  body.index-page .p-hdr-cta-pair{flex:0 0 auto;min-width:0;gap:6px;}
+  body.index-page .p-hbtn-wa-label,
+  body.index-page .p-hbtn-ig-label{display:none!important;}
+  body.index-page .p-hbtn-wa,
+  body.index-page .p-hbtn-ig{
     flex:0 0 auto;
-    padding:12px 14px;
-    font-size:13px;
-    min-height:52px;
-    border-radius:999px;
-    box-shadow:0 4px 18px rgba(225,48,108,.28);
+    width:44px;
+    min-width:44px;
+    height:44px;
+    min-height:44px;
+    padding:0;
+    justify-content:center;
+    gap:0;
+    border-radius:12px!important;
+    font-size:0;
+  }
+  body.index-page .p-hbtn-wa{box-shadow:0 3px 14px rgba(16,185,129,.22);}
+  body.index-page .p-hbtn-ig{
+    box-shadow:0 3px 14px rgba(225,48,108,.22);
     display:inline-flex!important;
     visibility:visible!important;
     opacity:1!important;
   }
-  .p-cart-wrap{flex:0 0 auto;display:flex;align-items:center;}
-  .p-cart-btn{width:52px;height:52px;min-width:52px;border-radius:14px;}
-  .p-srch{order:3;flex:0 0 auto;width:100%;max-width:100%;min-width:0;}
-  .p-srch-box{height:50px;font-size:16px;border-radius:var(--ui-r);padding:0 54px 0 16px;}
-  .p-srch-btn{width:40px;height:40px;inset-inline-end:8px;border-radius:var(--ui-r);}
-  .p-hbtn-wa-label{display:inline;position:relative;z-index:2;}
-  .p-hbtn-wa svg{width:20px;height:20px;}
-  .p-cart-btn svg{width:20px;height:20px;}
+  body.index-page .p-hbtn-wa svg,
+  body.index-page .p-hbtn-ig svg{width:20px;height:20px;}
+  body.index-page .p-cart-wrap{flex:0 0 auto;display:flex;align-items:center;}
+  body.index-page .p-cart-btn{width:44px;height:44px;min-width:44px;border-radius:12px;}
+  body.index-page .p-cart-btn svg{width:19px;height:19px;}
   .p-nav-inner{padding-block:14px;padding-inline:max(12px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-right, 0px));}
   #navContainer.p-nav-rings{gap:12px;padding-block:4px 2px;padding-inline:max(18px, env(safe-area-inset-left, 0px)) max(18px, env(safe-area-inset-right, 0px));-webkit-mask-image:none;mask-image:none;}
   .p-nav-ring{width:88px;min-width:82px;max-width:100px;}
@@ -708,6 +730,10 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 @media(max-width:479px){
   .p-srch-box::placeholder{color:transparent;opacity:0;}
   .p-srch-box:focus::placeholder{color:#64748b;opacity:1;font-weight:500;}
+}
+@media(max-width:360px){
+  body.index-page .p-logo > div:last-child{display:none;}
+  body.index-page .p-logo{max-width:none;}
 }
 
 /* ——— موبايل ≤767px: تقليل فراغات، منع التمرير الأفقي، شريط أزرار ثابت ——— */
