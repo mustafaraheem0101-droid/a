@@ -851,6 +851,14 @@ async function adminSaveProduct(data) {
   return await adminFetch(action, data);
 }
 
+/** مسح بيانات المواد/المكوّنات من كل المنتجات؛ واختيارياً تصفير السعر المعروض والسعر القديم */
+async function adminClearProductMaterialData(opts) {
+  const o = opts && typeof opts === 'object' ? opts : {};
+  return await adminFetch('clear_product_material_data', {
+    zero_selling_prices: !!o.zeroSellingPrices
+  });
+}
+
 async function adminDeleteProduct(id) {
   return await adminFetch('deleteProduct', { id: id });
 }
@@ -939,6 +947,7 @@ async function adminGetCustomers() {
 
 window.adminLoadAll = adminLoadAll;
 window.adminSaveProduct = adminSaveProduct;
+window.adminClearProductMaterialData = adminClearProductMaterialData;
 window.adminDeleteProduct = adminDeleteProduct;
 window.adminToggleProduct = adminToggleProduct;
 window.adminSaveCategory = adminSaveCategory;

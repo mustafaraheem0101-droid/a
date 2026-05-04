@@ -461,10 +461,8 @@ body.pharma-footer .p-footer--gsap-on .p-footer-reveal {
   }
 }
 
-/* موبايل ≤767px: الفوتر الموحّد يظهر فقط في الصفحة الرئيسية (body.index-page) */
-@media (max-width: 767px) {
-  body.pharma-footer:not(.index-page) #footer.p-footer,
-  body.pharma-footer:not(.index-page) footer#footer {
-    display: none !important;
-  }
+/* الفوتر الموحّد (#footer) يظهر فقط في الصفحة الرئيسية — إخفاؤه في صفحات المتجر وجميع أحجام الشاشات */
+body.pharma-footer:not(.index-page) #footer.p-footer,
+body.pharma-footer:not(.index-page) footer#footer {
+  display: none !important;
 }

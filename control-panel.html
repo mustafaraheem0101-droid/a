@@ -1589,7 +1589,7 @@ a { text-decoration: none; color: inherit; }
                     <datalist id="product-name-suggest"></datalist>
                     <small class="fg-help">اكتب أول حروف الاسم لتظهر اقتراحات من منتجاتك السابقة.</small>
                   </div>
-                  <div class="fg"><label>💰 السعر (دينار عراقي)</label><input type="text" id="f-price" inputmode="numeric" placeholder="اختياري"></div>
+                  <div class="fg"><label>💰 السعر — دينار عراقي (اختياري)</label><input type="text" id="f-price" inputmode="numeric" placeholder="اتركه فارغاً أو 0 إن لم يُحدَّد بعد"></div>
                   <div class="fg"><label>🏷️ السعر القديم (للخصم)</label><input type="text" id="f-old" inputmode="numeric" placeholder="اتركه فارغاً لو ما في خصم"></div>
                   <div class="fg"><label>📦 المخزون</label><input type="text" id="f-stock" inputmode="numeric" placeholder="مثال: 20" autocomplete="off" data-lpignore="true" data-form-type="other"></div>
                   <div class="fg full">
@@ -1637,7 +1637,7 @@ a { text-decoration: none; color: inherit; }
                   <div class="fg"><label>👤 الفئة العمرية</label><input type="text" id="f-age" placeholder="مثال: من 12 سنة فأكثر"></div>
                   <div class="fg"><label>🌡️ التخزين</label><input type="text" id="f-storage" placeholder="مثال: يحفظ في مكان بارد وجاف"></div>
                   <div class="fg full"><label>⚠️ التحذيرات</label><textarea id="f-warnings" placeholder="مثال: لا يُستخدم مع أمراض الكبد..." style="min-height:65px;"></textarea></div>
-                  <div class="fg full"><label>🧪 المكونات الفعالة</label><input type="text" id="f-ingredients" placeholder="مثال: باراسيتامول 500mg"></div>
+                  <div class="fg full"><label>🧪 المواد / المكوّنات الفعالة (اختياري)</label><input type="text" id="f-ingredients" placeholder="مثال: باراسيتامول 500mg — اتركه فارغاً إن لم تُذكر"></div>
                   <div class="fg full"><label>🚫 موانع الاستخدام</label><textarea id="f-contraindications" placeholder="من يجب ألا يستخدم المنتج..." style="min-height:55px"></textarea></div>
                   <div class="fg"><label>🏷️ نوع المنتج (للفلترة)</label>
                     <select id="f-product-type">
@@ -1971,7 +1971,7 @@ a { text-decoration: none; color: inherit; }
     <div class="form-grid">
       <input type="hidden" id="em-id">
       <div class="fg full"><label>اسم المنتج *</label><input type="text" id="em-name"></div>
-      <div class="fg"><label>السعر</label><input type="number" id="em-price" placeholder="اختياري"></div>
+      <div class="fg"><label>السعر (اختياري)</label><input type="number" id="em-price" placeholder="فارغ أو 0"></div>
       <div class="fg"><label>السعر القديم</label><input type="number" id="em-old"></div>
       <div class="fg"><label>المخزون</label><input type="number" id="em-stock" placeholder="مثال: 20"></div>
       <div class="fg full"><label>🗂️ الأقسام الرئيسية والفرعية *</label><div id="em-maincats-list" class="maincats-nested-root" style="display:flex;flex-direction:column;gap:10px;padding:10px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);min-height:52px;"></div><small class="fg-help" style="display:block;margin-top:8px;">فعّل قسمًا رئيسيًا لتظهر فرعياته فقط تحته.</small></div>
@@ -1982,7 +1982,7 @@ a { text-decoration: none; color: inherit; }
       <div class="fg"><label>👤 الفئة العمرية</label><input type="text" id="em-age"></div>
       <div class="fg"><label>🌡️ التخزين</label><input type="text" id="em-storage"></div>
       <div class="fg full"><label>⚠️ التحذيرات</label><textarea id="em-warnings" style="min-height:60px;"></textarea></div>
-      <div class="fg full"><label>🧪 المكونات</label><input type="text" id="em-ingredients"></div>
+      <div class="fg full"><label>🧪 المواد / المكوّنات (اختياري)</label><input type="text" id="em-ingredients" placeholder="اتركه فارغاً إن لم تُذكر"></div>
     </div>
     <div class="modal-actions">
       <button class="save-btn" id="btn-save-edit">💾 حفظ التعديلات</button>
@@ -2098,7 +2098,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.3.1"></script>
+<script src="/assets/js/admin.js?v=3.3.2"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">

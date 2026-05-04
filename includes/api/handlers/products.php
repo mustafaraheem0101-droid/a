@@ -43,6 +43,33 @@ function pharma_assert_managed_product_image_file_exists(array $prod): void
     );
 }
 
+/**
+ * مسح بيانات «المواد/المكوّنات» وأي مفاتيح JSON شائعة لسعر/تكلفة مواد؛ واختيارياً تصفير سعر البيع والخصم.
+ *
+ * @param array<string,mixed> $p
+ * @return array<string,mixed>
+ */
+function pharma_product_clear_material_pricing_fields(array $p, bool $zeroSellingPrices): array
+{
+    $stripKeys = [
+        'material_price', 'materialPrice', 'material_prices', 'materialPrices',
+        'cost_price', 'costPrice', 'purchase_price', 'purchasePrice',
+        'wholesale_price', 'wholesalePrice', 'supplier_price', 'supplierPrice',
+        'raw_cost', 'rawCost', 'سعر_المواد', 'سعرالمواد',
+    ];
+    foreach ($stripKeys as $k) {
+        unset($p[$k]);
+    }
+    $p['ingredients'] = '';
+    if ($zeroSellingPrices) {
+        $p['price'] = 0;
+        unset($p['oldPrice'], $p['old']);
+    }
+    $p['updated_at'] = date('Y-m-d H:i:s');
+
+    return $p;
+}
+
 function handle_products(string $action, array $body, array $rawBody, string $clientIP, string $method, mixed $db): void
 {
     switch ($action) {
@@ -140,7 +167,14 @@ function handle_products(string $action, array $body, array $rawBody, string $cl
         case 'add_product':
             checkAuth($clientIP);
             $prod = normalize_product_payload($body);
-            if (empty($prod['name']) || !isset($prod['price'])) { jsonError('اسم المنتج والسعر مطلوبان'); }
+            if (empty(trim((string) ($prod['name'] ?? '')))) {
+                jsonError('اسم المنتج مطلوب');
+            }
+            if (!array_key_exists('price', $prod) || $prod['price'] === '' || $prod['price'] === null) {
+                $prod['price'] = 0.0;
+            } else {
+                $prod['price'] = (float) $prod['price'];
+            }
             $prod['id']        = $prod['id'] ?? (time() * 1000 + random_int(0, 999));
             $prod['active']    = $prod['active'] ?? true;
             $prod['isCustom']  = true;
@@ -261,6 +295,34 @@ function handle_products(string $action, array $body, array $rawBody, string $cl
             });
             logActivity('CLEAR_ALL_PRODUCTS', "تم حذف جميع المنتجات ($n)", $clientIP);
             jsonSuccess(['cleared' => $n], '');
+            break;
+
+        /* ══════════════ مسح بيانات المواد / أسعار المواد (جميع المنتجات) ══════════════ */
+        case 'clear_product_material_data':
+            checkAuth($clientIP);
+            if ($method !== 'POST') {
+                jsonError('POST فقط', [], 405);
+            }
+            $zeroSelling = filter_var($body['zero_selling_prices'] ?? false, FILTER_VALIDATE_BOOLEAN);
+            $updated     = 0;
+            db_update_field_callback('products', static function (array $products) use ($zeroSelling, &$updated): array {
+                $out = [];
+                foreach ($products as $p) {
+                    if (!is_array($p)) {
+                        continue;
+                    }
+                    $out[] = pharma_product_clear_material_pricing_fields($p, $zeroSelling);
+                    $updated++;
+                }
+
+                return $out;
+            });
+            logActivity(
+                'CLEAR_MATERIAL_PRICING',
+                'مسح مواد/مكوّنات المنتجات؛ تصفير أسعار البيع=' . ($zeroSelling ? '1' : '0') . " — عدد السجلات: $updated",
+                $clientIP
+            );
+            jsonSuccess(['updated' => $updated, 'zero_selling_prices' => $zeroSelling], '');
             break;
 
         case 'toggle_product':

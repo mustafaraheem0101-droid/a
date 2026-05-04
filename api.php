@@ -262,7 +262,8 @@ try {
         'get_products_by_category','get_products_by_subcat',
         'search','search_products','search_suggest',
         'addProduct','add_product','updateProduct','update_product',
-        'deleteProduct','delete_product','clear_all_products','toggle_product',
+        'deleteProduct','delete_product','clear_all_products','clear_product_material_data',
+        'toggle_product',
         'analyzeProductImage','analyze_product_image',
     ];
     $categoryActions = [

@@ -230,11 +230,16 @@ async function saveBulkProductEdit() {
     .filter(function (n) {
       return !isNaN(n);
     });
-  var priceStr = getVal('em-price');
+  var priceStr = (getVal('em-price') || '').trim();
+  var priceParsed = priceStr !== '' ? Number(priceStr) : 0;
+  if (priceStr !== '' && (!Number.isFinite(priceParsed) || priceParsed < 0)) {
+    showToast('السعر غير صالح', 'error');
+    return;
+  }
   var data = Object.assign({}, p, {
     id: p.id,
     name: name,
-    price: priceStr !== '' ? Number(priceStr) : p.price,
+    price: priceParsed,
     oldPrice: getVal('em-old') ? Number(getVal('em-old')) : undefined,
     stock: getVal('em-stock') !== '' ? Number(getVal('em-stock')) : undefined,
     desc: getVal('em-desc'),
@@ -381,7 +386,7 @@ function clearAddProductDraft() {
 function restoreAddProductDraftIfNewProduct() {
   if (_editingProductId != null) return;
   var priceTrim = (getVal('f-price') || '').trim();
-  var priceBlocksDraft = priceTrim !== '' && priceTrim !== '1';
+    var priceBlocksDraft = priceTrim !== '';
   var hasLocal =
     (_uploadedImageUrl || '').trim() ||
     (getVal('f-name') || '').trim() ||
@@ -407,22 +412,15 @@ function restoreAddProductDraftIfNewProduct() {
     if (d.name != null) setVal('f-name', d.name);
     if (d.price != null) setVal('f-price', d.price);
     if (d.old != null) setVal('f-old', d.old);
-    if ((getVal('f-price') || '').trim() === '') setVal('f-price', '1');
   } catch (e) {}
 }
 
-/** سعر افتراضي لمنتج جديد — المخزون لا يُعبأ تلقائياً. */
-function ensureDefaultNewProductPriceIfAdding() {
-  if (_editingProductId != null) return;
-  if ((getVal('f-price') || '').trim() === '') setVal('f-price', '1');
-}
 
 function resetForm() {
   _editingProductId = null;
   _uploadedImageUrl = '';
   ['f-name','f-price','f-old','f-stock','f-badge','f-desc','f-dose','f-frequency',
    'f-age','f-storage','f-warnings','f-usage','f-ingredients','f-contraindications','f-slug','f-bundle-ids','f-product-type'].forEach(id => setVal(id, ''));
-  setVal('f-price', '1');
   setChecked('f-prescription', false);
   setChecked('f-hide-from-home', false);
   const prev = document.getElementById('imgPreviewImg');
@@ -596,12 +594,16 @@ async function saveProduct() {
     focusProductAddField(document.getElementById('f-name'));
     return;
   }
-  const price = getVal('f-price');
-  if (!price) {
-    showToast('السعر مطلوب', 'error');
-    if (typeof setProductFormWizardStep === 'function') setProductFormWizardStep(1, { noScroll: true });
-    focusProductAddField(document.getElementById('f-price'));
-    return;
+  const priceTrim = (getVal('f-price') || '').trim();
+  let priceNum = 0;
+  if (priceTrim !== '') {
+    priceNum = Number(priceTrim);
+    if (!Number.isFinite(priceNum) || priceNum < 0) {
+      showToast('السعر غير صالح', 'error');
+      if (typeof setProductFormWizardStep === 'function') setProductFormWizardStep(1, { noScroll: true });
+      focusProductAddField(document.getElementById('f-price'));
+      return;
+    }
   }
 
   const cats = [...document.querySelectorAll('#f-maincats-list .maincat-cb:checked')].map(cb => cb.value);
@@ -629,7 +631,7 @@ async function saveProduct() {
   const data = {
     id: _editingProductId || undefined,
     name,
-    price: Number(price),
+    price: priceNum,
     oldPrice: getVal('f-old') ? Number(getVal('f-old')) : undefined,
     stock: getVal('f-stock') !== '' ? Number(getVal('f-stock')) : undefined,
     badge: getVal('f-badge'),
@@ -863,7 +865,6 @@ async function processProductImageFile(file) {
     }
     if (prevWrap) prevWrap.style.display = 'block';
     ensureDefaultMainCategoryIfEmpty();
-    ensureDefaultNewProductPriceIfAdding();
     persistAddProductDraftFromForm();
     showToast('تم رفع الصورة ✓ — اضغط زر «استخراج البيانات من الصورة» أدناه عند الرغبة.');
   } else {
@@ -1467,7 +1468,6 @@ function populateCategoryCheckboxes() {
     ensureDefaultMainCategoryIfEmpty();
     restoreAddProductDraftIfNewProduct();
     ensureDefaultMainCategoryIfEmpty();
-    ensureDefaultNewProductPriceIfAdding();
   }
 
   const filterCat = document.getElementById('filter-cat');

@@ -93,12 +93,34 @@
     }
   }
 
+  async function clearMaterialPricingData(opts) {
+    const d = getDeps();
+    const o = opts && typeof opts === 'object' ? opts : {};
+    try {
+      const fn = global.adminClearProductMaterialData;
+      const r =
+        typeof fn === 'function'
+          ? await fn({ zeroSellingPrices: !!o.zeroSellingPrices })
+          : await global.adminFetch('clear_product_material_data', {
+              zero_selling_prices: !!o.zeroSellingPrices
+            });
+      return {
+        ok: d.apiIsSuccess(r),
+        res: r,
+        message: d.apiIsSuccess(r) ? '' : d.apiErrorMessage(r)
+      };
+    } catch (e) {
+      return { ok: false, message: e && e.message ? e.message : String(e) };
+    }
+  }
+
   global.AdminServices = global.AdminServices || {};
   global.AdminServices.productService = {
     fetchAllAdmin: fetchAllAdmin,
     syncToStore: syncToStore,
     deleteProduct: deleteProduct,
     toggleProduct: toggleProduct,
-    clearAllProducts: clearAllProducts
+    clearAllProducts: clearAllProducts,
+    clearMaterialPricingData: clearMaterialPricingData
   };
 })(typeof window !== 'undefined' ? window : global);
