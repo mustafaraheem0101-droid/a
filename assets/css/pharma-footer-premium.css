@@ -341,6 +341,10 @@ body.pharma-footer .p-ft-soc .p-soc {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 body.pharma-footer .p-ft-soc {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   margin-top: 6px;
   gap: 8px !important;
 }
@@ -454,5 +458,13 @@ body.pharma-footer .p-footer--gsap-on .p-footer-reveal {
   body.pharma-footer .p-ft-contact-link,
   body.pharma-footer .p-ft-soc .p-soc {
     transition: none;
+  }
+}
+
+/* موبايل ≤767px: الفوتر الموحّد يظهر فقط في الصفحة الرئيسية (body.index-page) */
+@media (max-width: 767px) {
+  body.pharma-footer:not(.index-page) #footer.p-footer,
+  body.pharma-footer:not(.index-page) footer#footer {
+    display: none !important;
   }
 }
