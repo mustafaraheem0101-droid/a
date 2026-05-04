@@ -124,6 +124,33 @@
   align-items: center;
   gap: 10px;
 }
+.reviews-toolbar__actions--compact {
+  gap: 8px;
+  max-width: 100%;
+}
+.reviews-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+.reviews-filter-label__txt {
+  white-space: nowrap;
+}
+.reviews-star-filter-select {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-family: "Tajawal", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1628;
+  cursor: pointer;
+  min-width: 6.5rem;
+}
 .reviews-sort-select {
   padding: 8px 12px;
   border-radius: 10px;

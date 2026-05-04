@@ -241,12 +241,6 @@ function addToCart(id, fallback) {
   updateCartBadge();
   renderCartBody();
   showToast('تمت الإضافة إلى السلة ✓');
-  try {
-    const rw = document.getElementById('prodReviewsWrap');
-    if (rw && String(rw.getAttribute('data-product-id') || '') === String(id)) {
-      sessionStorage.setItem('pharma_review_nudge_' + String(id), '1');
-    }
-  } catch (e) { /* ignore */ }
 }
 
 function removeFromCart(id) {
@@ -465,11 +459,6 @@ function sendWA() {
     return { id: i.id, name: i.name, price: i.price, qty: i.qty || 1 };
   });
   if (typeof logWhatsappCartIntent === 'function') logWhatsappCartIntent(cartSnap);
-  try {
-    cartSnap.forEach(function (i) {
-      if (i && i.id != null) sessionStorage.setItem('pharma_review_nudge_' + String(i.id), '1');
-    });
-  } catch (e) { /* ignore */ }
   (function openWaSafe(href) {
     var a = document.createElement('a');
     a.href = href;
@@ -2507,8 +2496,14 @@ function renderProductReviewsCards() {
   if (!st || !wrap) return;
   const sortEl = document.getElementById('reviewSortSelect');
   const sort = sortEl && sortEl.value ? sortEl.value : 'newest';
-  const activeF = document.querySelector('.review-star-filter.is-active');
-  const starFilter = activeF && activeF.dataset.stars != null ? parseInt(activeF.dataset.stars, 10) : 0;
+  let starFilter = 0;
+  const starSel = document.getElementById('reviewStarFilterSelect');
+  if (starSel && starSel.value !== '') {
+    starFilter = parseInt(starSel.value, 10) || 0;
+  } else {
+    const activeF = document.querySelector('.review-star-filter.is-active');
+    starFilter = activeF && activeF.dataset.stars != null ? parseInt(activeF.dataset.stars, 10) : 0;
+  }
   const filtered = reviewsFilteredSorted(st.reviews, sort, starFilter);
   const featIdx = pickFeaturedReviewIndex(filtered);
 
@@ -2613,10 +2608,16 @@ function scrollToReviewForm() {
   }
 }
 
-function wireProductReviewsUi(productId) {
+function wireProductReviewsUi() {
   const sortEl = document.getElementById('reviewSortSelect');
   if (sortEl) {
     sortEl.addEventListener('change', function () {
+      renderProductReviewsCards();
+    });
+  }
+  const starSel = document.getElementById('reviewStarFilterSelect');
+  if (starSel) {
+    starSel.addEventListener('change', function () {
       renderProductReviewsCards();
     });
   }
@@ -2631,25 +2632,6 @@ function wireProductReviewsUi(productId) {
       renderProductReviewsCards();
     });
   }
-  const addBtn = document.getElementById('btnAddYourReview');
-  if (addBtn) addBtn.addEventListener('click', scrollToReviewForm);
-  const nudgeCta = document.getElementById('reviewNudgeToForm');
-  if (nudgeCta) nudgeCta.addEventListener('click', scrollToReviewForm);
-  const nudgeDismiss = document.getElementById('reviewNudgeDismiss');
-  const banner = document.getElementById('reviewNudgeBanner');
-  if (nudgeDismiss && banner) {
-    nudgeDismiss.addEventListener('click', function () {
-      banner.hidden = true;
-      try {
-        sessionStorage.removeItem('pharma_review_nudge_' + String(productId));
-      } catch (err) { /* ignore */ }
-    });
-  }
-  try {
-    if (banner && sessionStorage.getItem('pharma_review_nudge_' + String(productId)) === '1') {
-      banner.hidden = false;
-    }
-  } catch (e2) { /* ignore */ }
 }
 
 /** هيكل قسم المراجعات + نموذج الإرسال */
@@ -2675,37 +2657,32 @@ function buildProductReviewsSectionHtml(productId, reviews, avg, stats) {
     '<div class="reviews-section" data-product-id="' +
     escHtmlR(productId) +
     '">' +
-    '<div id="reviewNudgeBanner" class="review-nudge-banner" hidden>' +
-    '<p class="review-nudge-banner__text">يسعدنا سماع تجربتك ✨ رأيك القصير يمنح الآخرين ثقةً عند اختيار ما يناسبهم.</p>' +
-    '<button type="button" class="review-nudge-banner__cta" id="reviewNudgeToForm">أضف تقييمك</button>' +
-    '<button type="button" class="review-nudge-banner__dismiss" id="reviewNudgeDismiss" aria-label="إغلاق">✕</button>' +
-    '</div>' +
     '<div class="reviews-toolbar">' +
     '<div class="reviews-toolbar__title-wrap">' +
     '<h3 class="reviews-title">تقييمات العملاء</h3>' +
     headerStats +
     '</div>' +
-    '<div class="reviews-toolbar__actions">' +
+    '<div class="reviews-toolbar__actions reviews-toolbar__actions--compact">' +
     '<label class="reviews-sort-label"><span class="sr-only">ترتيب التقييمات</span>' +
     '<select id="reviewSortSelect" class="reviews-sort-select">' +
-    '<option value="newest">الأحدث أولاً</option>' +
+    '<option value="newest">الأحدث</option>' +
     '<option value="highest">الأعلى تقييماً</option>' +
     '</select></label>' +
-    '<div class="reviews-star-filters" id="reviewStarFilters" role="group" aria-label="فلترة حسب النجوم">' +
-    '<button type="button" class="review-star-filter is-active" data-stars="0">الكل</button>' +
-    '<button type="button" class="review-star-filter" data-stars="5">5★</button>' +
-    '<button type="button" class="review-star-filter" data-stars="4">4★</button>' +
-    '<button type="button" class="review-star-filter" data-stars="3">3★</button>' +
-    '<button type="button" class="review-star-filter" data-stars="2">2★</button>' +
-    '<button type="button" class="review-star-filter" data-stars="1">1★</button>' +
-    '</div>' +
-    '<button type="button" class="review-add-cta" id="btnAddYourReview">أضف تقييمك</button>' +
+    '<label class="reviews-filter-label"><span class="reviews-filter-label__txt">النجوم</span>' +
+    '<select id="reviewStarFilterSelect" class="reviews-star-filter-select" aria-label="فلترة حسب النجوم">' +
+    '<option value="0" selected>الكل</option>' +
+    '<option value="5">5 ★</option>' +
+    '<option value="4">4 ★</option>' +
+    '<option value="3">3 ★</option>' +
+    '<option value="2">2 ★</option>' +
+    '<option value="1">1 ★</option>' +
+    '</select></label>' +
     '</div></div>' +
     '<div id="reviewsCardsWrap" class="reviews-cards-wrap"></div>' +
     '<p id="reviewsEmptyState" class="reviews-empty-state" hidden></p>' +
     '<div class="review-form" id="reviewFormWrap">' +
     '<h4 class="review-form__title">أضف تقييمك</h4>' +
-    '<p class="review-form__hint">تقييم قصير وواضح (حتى 500 حرف) — الاسم والمدينة تزيد الثقة.</p>' +
+    '<p class="review-form__hint">اختر النجوم ثم الاسم (والمدينة اختياري) والتعليق إن أحببت.</p>' +
     '<div class="review-stars-input" id="starInput" role="group" aria-label="اختر عدد النجوم">' +
     [1, 2, 3, 4, 5]
       .map(function (n) {
@@ -2763,7 +2740,7 @@ async function initProductReviews(productId, opts) {
     } else {
       wrap.innerHTML = buildProductReviewsSectionHtml(productId, reviews, avg, stats);
       renderProductReviewsCards();
-      wireProductReviewsUi(productId);
+      wireProductReviewsUi();
       setReviewStar(_rvStar);
     }
     const msgEl = document.getElementById('rv-msg');

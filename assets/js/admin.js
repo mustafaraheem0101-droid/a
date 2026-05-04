@@ -342,6 +342,59 @@ window.bulkChangeSelectedCategory = bulkChangeSelectedCategory;
 window.bulkChangeSelectedPrice = bulkChangeSelectedPrice;
 window.resetProducts = resetProducts;
 window.clearAllProductsAdmin = clearAllProductsAdmin;
+
+/** مسح نص المواد/المكوّنات من كل المنتجات + تصفير السعر والسعر القديم (طلب المستخدم: حذف أسعار المواد) */
+async function clearAllMaterialPricesAdmin() {
+  if (
+    !confirm(
+      'سيتم لجميع المنتجات:\n' +
+        '• مسح حقل «المواد / المكوّنات الفعالة»\n' +
+        '• حذف أي حقول JSON إضافية لسعر/تكلفة مواد إن وُجدت\n' +
+        '• جعل السعر المعروض = 0 وحذف السعر القديم (خصم)\n\n' +
+        'لا يمكن التراجع. متابعة؟'
+    )
+  ) {
+    return;
+  }
+  const svc = window.AdminServices && window.AdminServices.productService;
+  const storeApi = window.__adminStoreApi;
+  var run = null;
+  if (svc && typeof svc.clearMaterialPricingData === 'function') {
+    run = function () {
+      return svc.clearMaterialPricingData({ zeroSellingPrices: true });
+    };
+  } else if (typeof adminClearProductMaterialData === 'function') {
+    run = function () {
+      return adminClearProductMaterialData({ zeroSellingPrices: true }).then(function (r) {
+        return { ok: apiIsSuccess(r), res: r, message: apiIsSuccess(r) ? '' : apiErrorMessage(r) };
+      });
+    };
+  }
+  if (!run) {
+    showToast('الدالة غير متاحة — حدّث الصفحة', 'error');
+    return;
+  }
+  try {
+    var res = await run();
+    if (res && res.ok) {
+      showToast('تم مسح بيانات المواد وتصفير الأسعار لجميع المنتجات');
+      if (svc && storeApi && typeof svc.syncToStore === 'function') {
+        try {
+          await svc.syncToStore(storeApi);
+        } catch (e) {
+          /* ignore */
+        }
+      }
+      if (typeof refreshProductsView === 'function') refreshProductsView();
+      if (typeof renderDashboard === 'function') renderDashboard();
+    } else {
+      showToast((res && res.message) || 'خطأ', 'error');
+    }
+  } catch (e) {
+    showToast(e && e.message ? e.message : String(e), 'error');
+  }
+}
+window.clearAllMaterialPricesAdmin = clearAllMaterialPricesAdmin;
 window.openBulkProductEditModal = openBulkProductEditModal;
 window.closeBulkProductEditModal = closeBulkProductEditModal;
 window.saveBulkProductEdit = saveBulkProductEdit;
@@ -2708,6 +2761,9 @@ function initCpStaticBindings() {
 
   on('btn-clear-all-products', 'click', function () {
     if (typeof clearAllProductsAdmin === 'function') clearAllProductsAdmin();
+  });
+  on('btn-clear-material-prices', 'click', function () {
+    if (typeof clearAllMaterialPricesAdmin === 'function') clearAllMaterialPricesAdmin();
   });
 
   // أزرار الجملة (Bulk)

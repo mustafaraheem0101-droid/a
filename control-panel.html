@@ -1489,6 +1489,7 @@ a { text-decoration: none; color: inherit; }
             </label>
             <input id="prod-search" class="quick-search prod-search-main" type="search" placeholder="بحث سريع بالاسم أو الوصف…" aria-label="بحث المنتجات">
             <button type="button" class="btn-primary-action" id="btn-go-add-product">➕ إضافة منتج</button>
+            <button type="button" class="del-btn" id="btn-clear-material-prices" title="مسح نص المواد/المكوّنات من كل المنتجات وتصفير السعر والسعر القديم">🧹 مسح أسعار المواد</button>
             <button type="button" class="del-btn" id="btn-clear-all-products" title="حذف كل المنتجات دفعة واحدة">🗑️ حذف الكل</button>
           </div>
         </div>
@@ -2074,11 +2075,11 @@ a { text-decoration: none; color: inherit; }
 <script src="/assets/js/utils.js?v=3.5.10"></script>
 
 <!-- API لازم يكون قبل الكل -->
-<script src="/assets/js/api.js?v=3.2.0"></script>
+<script src="/assets/js/api.js?v=3.2.1"></script>
 
 <!-- طبقة البنية: متجر + خدمات + صفحات + موجّه (قبل admin.js) -->
 <script src="/assets/js/admin/store/adminStore.js?v=3.1.1"></script>
-<script src="/assets/js/admin/services/productService.js?v=3.1.0"></script>
+<script src="/assets/js/admin/services/productService.js?v=3.1.1"></script>
 <script src="/assets/js/admin/services/categoryService.js?v=3.1.0"></script>
 <script src="/assets/js/admin/services/orderService.js?v=3.1.0"></script>
 <script src="/assets/js/admin/services/reviewService.js?v=3.1.0"></script>
@@ -2098,7 +2099,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.3.2"></script>
+<script src="/assets/js/admin.js?v=3.3.3"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">
