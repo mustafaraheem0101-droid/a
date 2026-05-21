@@ -157,12 +157,17 @@
       finishMaybeAsync(goPage(Number(c.el.dataset.page)));
     },
     'send-wa': function (c) {
-      if (typeof sendWA === 'function' && (c.el.id === 'moSendBtn' || c.el.closest('#mo'))) {
-        finishMaybeAsync(sendWA());
-      } else {
-        const msg = c.el.dataset.msg || '';
-        win.open(buildWaUrl(msg), '_blank', 'noopener,noreferrer');
+      var inOrderModal = c.el.id === 'moSendBtn' || (c.el.closest && c.el.closest('#mo'));
+      if (typeof win.sendWA === 'function' && inOrderModal) {
+        finishMaybeAsync(win.sendWA());
+        return;
       }
+      var msg = (c.el.dataset && c.el.dataset.msg) || '';
+      var bWa = typeof win.buildWaUrl === 'function' ? win.buildWaUrl : null;
+      if (!bWa) return;
+      var url = bWa(msg);
+      if (typeof win.openWhatsAppUrl === 'function') win.openWhatsAppUrl(url);
+      else win.open(url, '_blank', 'noopener,noreferrer');
     },
     'open-modal': function () {
       if (typeof win.openModal !== 'function') return;
@@ -346,7 +351,8 @@
       const waMsg = waLink.dataset && waLink.dataset.waText != null ? String(waLink.dataset.waText) : '';
       const bWa = typeof win.buildWaUrl === 'function' ? win.buildWaUrl.bind(win) : null;
       const url = hrefOk ? resolved : (bWa ? bWa(waMsg) : '#');
-      win.open(url, '_blank', 'noopener,noreferrer');
+      if (typeof win.openWhatsAppUrl === 'function') win.openWhatsAppUrl(url);
+      else win.open(url, '_blank', 'noopener,noreferrer');
       return;
     }
   }
@@ -460,9 +466,19 @@
     win.addEventListener('scroll', handleScroll, { passive: true });
   }
 
+  function bindOrderModalFieldClear() {
+    doc.addEventListener('input', function (e) {
+      var t = e.target;
+      if (!t || t.id !== 'cName') return;
+      var err = doc.getElementById('cNameErr');
+      if (err && String(t.value || '').trim()) err.textContent = '';
+    });
+  }
+
   function bindDocumentDelegates() {
     doc.addEventListener('click', onDocumentClick);
     doc.addEventListener('change', onDocumentChange);
+    bindOrderModalFieldClear();
     /* البحث: مستمعات موحّدة في assets/js/shop-search.js (لا تكرار هنا) */
   }
 

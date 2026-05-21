@@ -205,9 +205,42 @@ function sanitizeWhatsAppPrefillText(s) {
 
 function buildWaUrl(text) {
   const waRaw = (typeof settings !== 'undefined' && settings && settings.whatsapp) ? settings.whatsapp : '9647711954040';
-  const num = String(waRaw).replace(/\D/g, '');
+  var num = String(waRaw).replace(/\D/g, '');
+  if (!num || num.length < 10) num = '9647711954040';
   const safe = text ? sanitizeWhatsAppPrefillText(String(text)) : '';
   return 'https://wa.me/' + num + (safe ? '?text=' + encodeURIComponent(safe) : '');
+}
+
+/**
+ * فتح رابط واتساب — موبايل: location (يفتح التطبيق)؛ سطح المكتب: نافذة جديدة ثم بدائل.
+ */
+function openWhatsAppUrl(href) {
+  if (!href || String(href).indexOf('https://wa.me/') !== 0) return false;
+  var ua = typeof navigator !== 'undefined' ? String(navigator.userAgent || '') : '';
+  var isMobile = /Android|iPhone|iPad|iPod|Mobile|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+  try {
+    if (isMobile) {
+      window.location.href = href;
+      return true;
+    }
+    var w = window.open(href, '_blank', 'noopener,noreferrer');
+    if (w) return true;
+    window.location.href = href;
+    return true;
+  } catch (e1) {
+    try {
+      var a = document.createElement('a');
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      return true;
+    } catch (e2) {
+      return false;
+    }
+  }
 }
 
 /**
@@ -1147,6 +1180,7 @@ window.debounce   = debounce;
 window.throttle   = throttle;
 window.getHours   = getHours;
 window.buildWaUrl = buildWaUrl;
+window.openWhatsAppUrl = openWhatsAppUrl;
 window.getShelfPromoDiscountPercent = getShelfPromoDiscountPercent;
 window.applyShelfPromoToPrice = applyShelfPromoToPrice;
 window.isQrShelfCategorySlugAllowed = isQrShelfCategorySlugAllowed;

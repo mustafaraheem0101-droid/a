@@ -384,6 +384,10 @@ function toggleCart() {
 function openModal() {
   const mo = document.getElementById('mo');
   if (!mo) return;
+  const nameErr = document.getElementById('cNameErr');
+  const phoneErr = document.getElementById('cPhoneErr');
+  if (nameErr) nameErr.textContent = '';
+  if (phoneErr) phoneErr.textContent = '';
   recalculateCartLineDiscounts();
   const lines = document.getElementById('moOrderLines');
   const totEl = document.getElementById('moOrderTotal');
@@ -418,8 +422,23 @@ function sendWA() {
   if (nameErr) nameErr.textContent = '';
   if (phoneErr) phoneErr.textContent = '';
 
-  if (!name) { if (nameErr) nameErr.textContent = 'الرجاء إدخال الاسم'; valid = false; }
+  if (!name) {
+    if (nameErr) nameErr.textContent = 'الرجاء إدخال الاسم';
+    valid = false;
+    const nameEl = document.getElementById('cName');
+    if (nameEl) {
+      nameEl.focus();
+      try { nameEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+    }
+    if (typeof showToast === 'function') showToast('أدخل الاسم الكامل ثم اضغط إرسال الطلب عبر واتساب', 'info');
+  }
   if (!valid) return;
+
+  if (!Array.isArray(cart) || !cart.length) {
+    if (typeof showToast === 'function') showToast('السلة فارغة — أضف منتجات أولاً', 'info');
+    closeModal();
+    return;
+  }
 
   recalculateCartLineDiscounts();
 
@@ -459,20 +478,29 @@ function sendWA() {
     return { id: i.id, name: i.name, price: i.price, qty: i.qty || 1 };
   });
   if (typeof logWhatsappCartIntent === 'function') logWhatsappCartIntent(cartSnap);
-  (function openWaSafe(href) {
-    var a = document.createElement('a');
-    a.href = href;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  })(buildWaUrl(msg));
+  var waHref = typeof buildWaUrl === 'function' ? buildWaUrl(msg) : '';
+  if (!waHref || String(waHref).indexOf('https://wa.me/') !== 0) {
+    if (typeof showToast === 'function') showToast('تعذر تجهيز رابط واتساب — تواصل مع الصيدلية مباشرة', 'error');
+    return;
+  }
   closeModal();
   cart.length = 0;
   saveCart();
   updateCartBadge();
   renderCartBody();
+  var opened = typeof openWhatsAppUrl === 'function'
+    ? openWhatsAppUrl(waHref)
+    : (function () {
+        try {
+          window.open(waHref, '_blank', 'noopener,noreferrer');
+          return true;
+        } catch (e) {
+          return false;
+        }
+      })();
+  if (!opened && typeof showToast === 'function') {
+    showToast('لم يُفتح واتساب — جرّب السماح بالنوافذ المنبثقة أو افتح الرابط يدوياً', 'error');
+  }
 }
 
 function toggleLike(id) {
