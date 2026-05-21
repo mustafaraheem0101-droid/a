@@ -132,6 +132,20 @@ function isOfferQrShelfPromoUiActive() {
   return typeof isOfferQrFlowActive === 'function' && isOfferQrFlowActive() && isQrDiscountLandingPage();
 }
 
+// ─── إظهار الأسعار (إعداد لوحة التحكم) ───────────────────────────
+function isStorePricesVisible() {
+  try {
+    if (typeof settings !== 'undefined' && settings && settings.showPrices === false) return false;
+  } catch (e) { /* ignore */ }
+  return true;
+}
+
+/** نص السعر للعرض أو للواتساب عند إخفاء الأسعار */
+function storePriceLabel(price) {
+  if (!isStorePricesVisible()) return 'السعر عند التأكيد';
+  return typeof fmt === 'function' ? fmt(price) : String(price ?? '');
+}
+
 // ─── تنسيق السعر ─────────────────────────────────────────────────
 function fmt(p) {
   if (!p && p !== 0) return 'السعر عند الطلب';
@@ -772,9 +786,7 @@ function resolveProductPublicUrl(p) {
 
 function buildProductWaOrderText(p) {
   const name = (p && p.name) ? String(p.name).trim() : 'المنتج';
-  const priceLine = typeof fmt === 'function' ? fmt(p.price) : String(p.price ?? '');
-  const url = resolveProductPublicUrl(p);
-  /* سطور بعناوين عربية + رابط في سطر منفصل يقلّل خلط الاتجاه (RTL/LTR) في معاينة واتساب */
+  const priceLine = storePriceLabel(p && p.price != null ? p.price : null);
   return [
     'مرحباً،',
     '',
@@ -783,9 +795,6 @@ function buildProductWaOrderText(p) {
     '📦 المنتج: ' + name,
     '💰 السعر: ' + priceLine,
     '',
-    '🔗 رابط الصفحة:',
-    url,
-    '',
     'هل المنتج متوفر؟ يرجى التأكيد وسأكمل الطلب بعد موافقتكم.',
     '',
     'شكراً لكم 🙏'
@@ -793,24 +802,14 @@ function buildProductWaOrderText(p) {
 }
 
 /**
- * نص واتساب لزر «اسأل صيدلي» — منتج + رابط الصفحة + طلب استشارة قبل الشراء.
+ * نص واتساب لزر «اسأل صيدلي» — اسم المنتج فقط (بدون رابط الصفحة).
  */
 function buildProductPharmacistConsultText(p) {
   const name = (p && p.name) ? String(p.name).trim() : 'المنتج';
-  let url = '';
-  try {
-    url = typeof resolveProductPublicUrl === 'function' ? resolveProductPublicUrl(p) : '';
-  } catch (e) {
-    url = '';
-  }
-  if (!url && typeof productPageUrl === 'function' && p) {
-    url = productPageUrl(p);
-  }
   return [
     '🩺 استفسار صيدلاني',
     '',
     'المنتج: ' + name,
-    'الرابط: ' + (url || ''),
     '',
     'أحتاج استشارة قبل الشراء'
   ].join('\n').trim();
@@ -884,11 +883,16 @@ function buildCartItemsDetailsForWa(items) {
 function formatWaCartItemBlock(it) {
   const name = (it && it.name) ? String(it.name) : 'منتج';
   const u = cartItemQtyUnitSubtotal(it);
+  var block = '* ' + name + '\n';
+  if (!isStorePricesVisible()) {
+    block += '  الكمية: ' + u.qty + '\n';
+    block += '  السعر: عند التأكيد';
+    return block;
+  }
   const listU = Number(it.listPrice != null ? it.listPrice : u.unitNum);
   const listUnitSafe = Number.isFinite(listU) && listU >= 0 ? listU : u.unitNum;
   const lineBefore = listUnitSafe * u.qty;
   const lineAfter = u.subtotal;
-  var block = '* ' + name + '\n';
   block += '  السعر: ' + (typeof fmt === 'function' ? fmt(lineAfter) : String(lineAfter)) + '\n';
   block += '  السعر قبل الخصم: ' + (typeof fmt === 'function' ? fmt(lineBefore) : String(lineBefore));
   return block;
@@ -904,6 +908,13 @@ function shouldShowWaCartQrDiscountLine(items) {
 function cartItemModalSummaryLiHtml(i) {
   const name = (i && i.name) ? String(i.name) : 'منتج';
   const u = cartItemQtyUnitSubtotal(i);
+  if (!isStorePricesVisible()) {
+    return '<li class="mo-sum-item">' +
+      '<div>📦 ' + escHtml(name) + '</div>' +
+      '<div>🔢 الكمية: ' + u.qty + '</div>' +
+      '<div>💰 السعر عند التأكيد</div>' +
+      '</li>';
+  }
   var strikeLine = '';
   if (i && i.isDiscounted) {
     var lu = Number(i.listPrice != null ? i.listPrice : u.unitNum);
@@ -945,9 +956,9 @@ function buildWhatsAppCartOrderMessageQrOffer(params) {
     lines.push(buildCartItemsDetailsForWa(cart));
     lines.push('');
   }
-  lines.push('💰 المجموع: ' + (typeof fmt === 'function' ? fmt(total) : String(total)));
+  lines.push('💰 المجموع: ' + storePriceLabel(total));
   lines.push('');
-  if (shouldShowWaCartQrDiscountLine(cart)) {
+  if (isStorePricesVisible() && shouldShowWaCartQrDiscountLine(cart)) {
     lines.push('🎁 تم استخدام خصم QR Code');
     lines.push('');
   }
@@ -995,7 +1006,7 @@ function buildWhatsAppCartOrderMessage(params) {
     lines.push(buildCartItemsDetailsForWa(cart));
     lines.push('');
   }
-  lines.push('💰 المجموع: ' + (typeof fmt === 'function' ? fmt(total) : String(total)));
+  lines.push('💰 المجموع: ' + storePriceLabel(total));
   lines.push('');
   lines.push('📍 الرجاء تأكيد توفر المنتجات وإتمام الطلب');
   lines.push('شكراً لكم 🙏');
@@ -1174,6 +1185,8 @@ function initIndexQrWelcomeCelebration() {
 
 // ─── expose ──────────────────────────────────────────────────────
 window.fmt        = fmt;
+window.isStorePricesVisible = isStorePricesVisible;
+window.storePriceLabel = storePriceLabel;
 window.escHtml    = escHtml;
 window.slugify    = slugify;
 window.debounce   = debounce;

@@ -41,6 +41,7 @@
       }
       if (typeof global.setChecked === 'function') {
         global.setChecked('set-site-enabled', s.siteEnabled !== false);
+        global.setChecked('set-show-prices', s.showPrices !== false);
       }
     }
 

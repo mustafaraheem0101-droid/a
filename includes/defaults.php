@@ -816,6 +816,8 @@ function getDefaultSettings(): array {
         'mapUrl'                      => 'https://maps.app.goo.gl/9YRxXPqV9qtkRKrG7',
         'instagram'                   => 'pharma_store.me',
         'facebook'                    => '',
+        /** false = إخفاء الأسعار في واجهة المتجر (الطلب عبر واتساب للاستفسار عن السعر) */
+        'showPrices'                  => true,
     ];
 }
 

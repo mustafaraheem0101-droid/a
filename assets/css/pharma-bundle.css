@@ -4053,6 +4053,31 @@ body.product-page--wa-sticky {
   gap: 12px 16px;
   margin: 6px 0 8px;
 }
+.product-page .prod-price-inquiry {
+  margin: 8px 0 10px;
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  font-weight: 800;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.pc-price--hidden,
+.pc-price--hidden + .pc-old,
+.pc-price--hidden + .pc-old + .pc-disc {
+  font-weight: 800;
+  color: var(--muted);
+}
+.cs-item-subtotal--inquiry {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 13px;
+}
+body.pharma-hide-prices .price-row,
+body.pharma-hide-prices .pc-price-row .pc-old,
+body.pharma-hide-prices .pc-price-row .pc-disc,
+body.pharma-hide-prices .pc-badge-sale,
+body.pharma-hide-prices .mo-sum-strike {
+  display: none !important;
+}
 .product-page .price-now {
   font-size: clamp(1.95rem, 5.8vw, 2.65rem);
   font-weight: 900;

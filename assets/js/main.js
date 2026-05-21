@@ -20,7 +20,8 @@ let settings = {
   mapUrl: MAP_URL,
   instagram: 'pharma_store.me',
   facebook: '',
-  homeSpotlightVideos: ['', '', '', '']
+  homeSpotlightVideos: ['', '', '', ''],
+  showPrices: true
 };
 
 let prods = [];
@@ -312,6 +313,7 @@ function renderCartBody() {
     ? '<div class="cs-slot-notice" role="status">🔥 خصم العرض: أول 3 منتجات في أقسام التجميل، العناية بالشعر، الفيتامينات، ومنتجات الأطفال — لا يشمل الأدوية</div>'
     : '';
 
+  var hidePrices = typeof isStorePricesVisible === 'function' && !isStorePricesVisible();
   replaceChildrenFromHtml(body, noticeHtml + cart.map(item => {
     const q = Math.max(1, parseInt(String(item.qty || 1), 10) || 1);
     const unit = Number(item.price || 0);
@@ -319,7 +321,11 @@ function renderCartBody() {
     const listU = Number(item.listPrice != null ? item.listPrice : unit);
     const lineAtList = listU * q;
     var priceBlock;
-    if (item.isDiscounted && Number.isFinite(listU) && listU > unit) {
+    if (hidePrices) {
+      priceBlock = q > 1
+        ? `<div class="cs-item-price-block"><div class="cs-item-subtotal cs-item-subtotal--inquiry">السعر عند التأكيد</div><div class="cs-item-unit-meta">الكمية: ${q}</div></div>`
+        : '<div class="cs-item-price-block"><div class="cs-item-subtotal cs-item-subtotal--inquiry">السعر عند التأكيد</div></div>';
+    } else if (item.isDiscounted && Number.isFinite(listU) && listU > unit) {
       priceBlock = q > 1
         ? `<div class="cs-item-price-block"><div class="cs-item-price-row"><span class="cs-item-price-old">${fmt(lineAtList)}</span><span class="cs-item-subtotal">${fmt(line)}</span></div><div class="cs-item-unit-meta">${fmt(unit)} × ${q}</div></div>`
         : `<div class="cs-item-price-block"><div class="cs-item-price-row"><span class="cs-item-price-old">${fmt(listU)}</span><span class="cs-item-subtotal">${fmt(line)}</span></div><div class="cs-item-unit-meta">بعد خصم العرض</div></div>`;
@@ -357,11 +363,12 @@ function renderCartBody() {
   if (ft) {
     ft.style.display = 'block';
     if (cntLine) cntLine.textContent = cnt;
-    if (subEl) subEl.textContent = fmt(total);
-    if (totEl) totEl.textContent = fmt(total);
+    var totalLabel = hidePrices ? 'يُحدَّد عند التأكيد' : fmt(total);
+    if (subEl) subEl.textContent = totalLabel;
+    if (totEl) totEl.textContent = totalLabel;
   }
   if (saveRow && saveAmt) {
-    if (savedSum > 0.0001) {
+    if (!hidePrices && savedSum > 0.0001) {
       saveRow.style.display = '';
       saveAmt.textContent = fmt(savedSum);
     } else {
@@ -399,7 +406,10 @@ function openModal() {
         }).join('');
     replaceChildrenFromHtml(lines, html);
   }
-  if (totEl) totEl.textContent = fmt(cartTotal());
+  if (totEl) {
+    var hideMoPrices = typeof isStorePricesVisible === 'function' && !isStorePricesVisible();
+    totEl.textContent = hideMoPrices ? 'يُحدَّد عند التأكيد' : fmt(cartTotal());
+  }
   mo.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -416,23 +426,10 @@ function sendWA() {
   const addr = (document.getElementById('cAddr')?.value || '').trim();
   const notes = (document.getElementById('cNotes')?.value || '').trim();
 
-  let valid = true;
   const nameErr = document.getElementById('cNameErr');
   const phoneErr = document.getElementById('cPhoneErr');
   if (nameErr) nameErr.textContent = '';
   if (phoneErr) phoneErr.textContent = '';
-
-  if (!name) {
-    if (nameErr) nameErr.textContent = 'الرجاء إدخال الاسم';
-    valid = false;
-    const nameEl = document.getElementById('cName');
-    if (nameEl) {
-      nameEl.focus();
-      try { nameEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
-    }
-    if (typeof showToast === 'function') showToast('أدخل الاسم الكامل ثم اضغط إرسال الطلب عبر واتساب', 'info');
-  }
-  if (!valid) return;
 
   if (!Array.isArray(cart) || !cart.length) {
     if (typeof showToast === 'function') showToast('السلة فارغة — أضف منتجات أولاً', 'info');
@@ -462,14 +459,16 @@ function sendWA() {
       })
     : '';
   if (!msg) {
-    msg = 'مرحبا 👋\nأرغب بطلب المنتجات التالية:\n\n👤 الاسم: ' + name + '\n';
+    msg = 'مرحبا 👋\nأرغب بطلب المنتجات التالية:\n\n';
+    if (name) msg += '👤 الاسم: ' + name + '\n';
     if (phoneOk) msg += '📞 الهاتف: ' + phoneOk + '\n';
     if (addr) msg += '📍 العنوان: ' + addr + '\n';
+    if (name || phoneOk || addr) msg += '\n';
     msg += '\n🛒 الطلب:\n\n';
     if (typeof buildCartItemsDetailsForWa === 'function') {
       msg += buildCartItemsDetailsForWa(cart) + '\n\n';
     }
-    msg += '💰 المجموع: ' + fmt(cartTotal()) + '\n\n';
+    msg += '💰 المجموع: ' + (typeof storePriceLabel === 'function' ? storePriceLabel(cartTotal()) : fmt(cartTotal())) + '\n\n';
     msg += '📍 الرجاء تأكيد توفر المنتجات وإتمام الطلب\nشكراً لكم 🙏';
     if (notes) msg += '\n\n📝 ملاحظات: ' + notes;
   }
@@ -1548,6 +1547,9 @@ function productPageMetaDescription(p) {
   const raw = p.desc || p.usage || p.warnings || '';
   const plain = String(raw).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
   if (plain) return plain.slice(0, 180);
+  if (typeof isStorePricesVisible === 'function' && !isStorePricesVisible()) {
+    return `${p.name} — صيدلية شهد محمد — استفسر عن السعر عبر واتساب`;
+  }
   const s = productPriceWithShelfPromo(p);
   return `${p.name} — ${formatPrice(s.active ? s.final : p.price)} — صيدلية شهد محمد`;
 }
@@ -1598,6 +1600,9 @@ function similarProductsSectionSubtitle(count) {
 
 /** سعر شبكة المنتجات المشابهة / الحزم — نفس خصم الرف (حسب قسم المنتج). */
 function shelfSimPriceHtml(p) {
+  if (typeof isStorePricesVisible === 'function' && !isStorePricesVisible()) {
+    return '<div class="sim-price sim-price--inquiry">السعر عند الطلب</div>';
+  }
   const prod = p && typeof p === 'object' && p !== null && 'price' in p ? p : null;
   const list = Number(prod ? prod.price : p) || 0;
   var uiOn = typeof isOfferQrShelfPromoUiActive === 'function' ? isOfferQrShelfPromoUiActive() : false;
@@ -1790,11 +1795,13 @@ function buildProductMainHtml(p, similar, bundles) {
             <h1 class="prod-name">${p.name}</h1>
             <div class="prod-rating-summary" id="prodRatingSummary" aria-live="polite"><span class="prod-rating-summary__muted">جاري تحميل التقييمات…</span></div>
           </div>
-          <div class="price-row">
+          ${(typeof isStorePricesVisible === 'function' && !isStorePricesVisible())
+            ? '<p class="prod-price-inquiry" role="status">السعر عند الطلب — تواصل عبر واتساب للتأكيد</p>'
+            : `<div class="price-row">
             ${shelf.active
               ? `<span class="price-now">${formatPrice(shelf.final)}</span><span class="price-old">${formatPrice(shelf.list)}</span><span class="discount-tag">خصم ${shelf.promoPct}%</span>`
               : `<span class="price-now">${formatPrice(p.price)}</span>${qrOffer && catElig && p.old ? `<span class="price-old">${formatPrice(p.old)}</span>` : ''}${disc ? `<span class="discount-tag">خصم ${disc}</span>` : ''}`}
-          </div>
+          </div>`}
         </div>
       </div>
       <div class="info-sec">

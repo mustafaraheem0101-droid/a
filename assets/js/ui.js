@@ -37,6 +37,10 @@ window.normalizeFacebookUrl = normalizeFacebookUrl;
 // ══════════════════════════════════════════════
 function applySettings() {
   const s = settings;
+  const pricesOn = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : s.showPrices !== false;
+  if (document.body) {
+    document.body.classList.toggle('pharma-hide-prices', !pricesOn);
+  }
   const waNum = String(s.whatsapp || '9647711954040').replace(/\D/g, '');
   const waUrl = `https://wa.me/${waNum}`;
   const phone = String(s.phone || '07711954040');
@@ -409,13 +413,18 @@ function buildProductCardHtml(p, opts) {
   const priceForActions = showShelfPromo ? promoFinalPrice : p.price;
   const priceAttr = p.price != null ? ` data-pprice="${escHtml(String(priceForActions))}"` : '';
   const nameAttr = dispName ? ` data-pname="${escHtml(String(dispName))}"` : '';
-  const priceRowInner = showShelfPromo
-    ? `<span class="pc-price">${fmt(promoFinalPrice)}</span><span class="pc-old">${fmt(listPrice)}</span><span class="pc-disc">-${promoPctShelf}%</span>`
-    : `<span class="pc-price">${fmt(p.price)}</span>${showStoreDeal ? `<span class="pc-old">${fmt(p.oldPrice)}</span><span class="pc-disc">-${discount}%</span>` : ''}`;
-  const badgeSaleHtml = showShelfPromo
-    ? `<span class="pc-badge-sale">خصم ${promoPctShelf}%</span>`
-    : (showStoreDeal ? `<span class="pc-badge-sale">خصم ${discount}%</span>` : '');
-  const showSaleCornerBadge = showShelfPromo || showStoreDeal;
+  const pricesVisible = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : true;
+  const priceRowInner = !pricesVisible
+    ? '<span class="pc-price pc-price--hidden">السعر عند الطلب</span>'
+    : (showShelfPromo
+      ? `<span class="pc-price">${fmt(promoFinalPrice)}</span><span class="pc-old">${fmt(listPrice)}</span><span class="pc-disc">-${promoPctShelf}%</span>`
+      : `<span class="pc-price">${fmt(p.price)}</span>${showStoreDeal ? `<span class="pc-old">${fmt(p.oldPrice)}</span><span class="pc-disc">-${discount}%</span>` : ''}`);
+  const badgeSaleHtml = !pricesVisible
+    ? ''
+    : (showShelfPromo
+      ? `<span class="pc-badge-sale">خصم ${promoPctShelf}%</span>`
+      : (showStoreDeal ? `<span class="pc-badge-sale">خصم ${discount}%</span>` : ''));
+  const showSaleCornerBadge = pricesVisible && (showShelfPromo || showStoreDeal);
   const ratingVal = pseudoRatingForProduct(p);
   const reviewN = pseudoReviewCountForProduct(p);
   return `<div class="pc pc--product reveal${mod}" data-id="${escHtml(p.id)}" role="article">

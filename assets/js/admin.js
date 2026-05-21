@@ -2340,6 +2340,7 @@ async function saveSettings() {
     closeHour: Number(getVal('s-close')) || 24,
     offDays: Array.from(document.querySelectorAll('.offday-cb:checked')).map(cb => Number(cb.value)),
     siteEnabled: getChecked('set-site-enabled'),
+    showPrices: getChecked('set-show-prices'),
   };
 
   const r = await adminSaveSettings(data);
