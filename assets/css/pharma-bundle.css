@@ -5155,7 +5155,7 @@ body.index-page .home-top-ordered .p-see-all:hover {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
   z-index: 1;
