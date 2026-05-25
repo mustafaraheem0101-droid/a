@@ -2721,8 +2721,8 @@ body.index-page #homeTopOrderedGrid .pc-price {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: center center;
   display: block;
   z-index: 1;
   pointer-events: none;
