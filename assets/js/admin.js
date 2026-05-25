@@ -985,7 +985,7 @@ window.tryAutoFillFromPackaging = tryAutoFillFromPackaging;
         suggest.innerHTML = matches.map(p =>
           `<div class="name-suggest-item" data-action="apply-name-suggest" data-name="${escHtml(p.name)}">
           ${(p.image && typeof p.image === 'string' && (p.image.startsWith('http://')||p.image.startsWith('https://')||p.image.startsWith('/'))) ? `<img src="${escHtml(p.image)}" class="img-cover" style="width:24px;height:24px;border-radius:4px" loading="lazy" decoding="async" alt="">` : '<span>📦</span>'}
-          ${escHtml(p.name)} — ${fmt(p.price)}
+          ${escHtml(p.name)}
         </div>`
         ).join('');
       }, 200));

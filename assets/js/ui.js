@@ -37,7 +37,7 @@ window.normalizeFacebookUrl = normalizeFacebookUrl;
 // ══════════════════════════════════════════════
 function applySettings() {
   const s = settings;
-  const pricesOn = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : s.showPrices !== false;
+  const pricesOn = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : false;
   if (document.body) {
     document.body.classList.toggle('pharma-hide-prices', !pricesOn);
   }
@@ -413,7 +413,7 @@ function buildProductCardHtml(p, opts) {
   const priceForActions = showShelfPromo ? promoFinalPrice : p.price;
   const priceAttr = p.price != null ? ` data-pprice="${escHtml(String(priceForActions))}"` : '';
   const nameAttr = dispName ? ` data-pname="${escHtml(String(dispName))}"` : '';
-  const pricesVisible = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : true;
+  const pricesVisible = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : false;
   const priceRowInner = !pricesVisible
     ? ''
     : (showShelfPromo

@@ -1187,8 +1187,40 @@ function initIndexQrWelcomeCelebration() {
   });
 }
 
+/** إزالة عناصر السعر من DOM (احتياطي مع CSS عند تحديث الشبكة ديناميكياً) */
+function stripStorePricesFromDom(root) {
+  if (typeof isStorePricesVisible === 'function' && isStorePricesVisible()) return;
+  var scope = root && root.querySelectorAll ? root : document;
+  var sel = '.pc-price-row,.pc-price,.pc-old,.pc-disc,.price-row,.price-now,.price-old,.discount-tag,.sim-price,.sim-price-row,.prod-price,.prod-price-inquiry';
+  scope.querySelectorAll(sel).forEach(function (el) { el.remove(); });
+}
+
+function initStorePriceHider() {
+  if (typeof isStorePricesVisible === 'function' && isStorePricesVisible()) return;
+  if (document.body) document.body.classList.add('pharma-hide-prices');
+  stripStorePricesFromDom(document);
+  if (!document.body || window.__pharmaPriceStripObs) return;
+  window.__pharmaPriceStripObs = new MutationObserver(function (muts) {
+    muts.forEach(function (m) {
+      m.addedNodes.forEach(function (n) {
+        if (n && n.nodeType === 1) stripStorePricesFromDom(n);
+      });
+    });
+  });
+  window.__pharmaPriceStripObs.observe(document.body, { childList: true, subtree: true });
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStorePriceHider);
+  } else {
+    initStorePriceHider();
+  }
+}
+
 // ─── expose ──────────────────────────────────────────────────────
 window.fmt        = fmt;
+window.stripStorePricesFromDom = stripStorePricesFromDom;
 window.isStorePricesVisible = isStorePricesVisible;
 window.storePriceLabel = storePriceLabel;
 window.escHtml    = escHtml;

@@ -4087,7 +4087,19 @@ body.pharma-hide-prices .cs-line:has(#csSubtotal),
 body.pharma-hide-prices .cs-grand,
 body.pharma-hide-prices .cs-save,
 body.pharma-hide-prices .mo-sum-total,
-body.pharma-hide-prices .skel-line--price {
+body.pharma-hide-prices .skel-line--price,
+body.pharma-footer .pc-price-row,
+body.pharma-footer .pc-price,
+body.pharma-footer .pc-old,
+body.pharma-footer .pc-disc,
+body.pharma-footer .price-row,
+body.pharma-footer .price-now,
+body.pharma-footer .price-old,
+body.pharma-footer .discount-tag,
+body.pharma-footer .sim-price,
+body.pharma-footer .sim-price-row,
+body.pharma-footer .prod-price,
+body.pharma-footer .prod-price-inquiry {
   display: none !important;
 }
 .product-page .price-now {

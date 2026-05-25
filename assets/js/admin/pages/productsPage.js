@@ -216,7 +216,7 @@
       if (!items.length) {
         setTableBodyHtml(
           list,
-          '<tr><td colspan="7" style="text-align:center;padding:32px;color:#64748b">لا توجد منتجات مطابقة</td></tr>'
+          '<tr><td colspan="5" style="text-align:center;padding:32px;color:#64748b">لا توجد منتجات مطابقة</td></tr>'
         );
         syncSelectAllCheckbox([]);
         updateBulkBar();
@@ -276,14 +276,6 @@
               esc(p.id) +
               '</div></div></div></td>' +
               '<td>' +
-              fmtFn(p.price) +
-              '</td><td>' +
-              (p.oldPrice
-                ? '<span style="text-decoration:line-through;color:#94a3b8;font-size:12px">' +
-                  fmtFn(p.oldPrice) +
-                  '</span>'
-                : '—') +
-              '</td><td>' +
               (stock !== null
                 ? '<span style="color:' +
                   (lowStock ? '#ef4444' : '#00875a') +

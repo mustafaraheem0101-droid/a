@@ -1489,7 +1489,7 @@ a { text-decoration: none; color: inherit; }
             </label>
             <input id="prod-search" class="quick-search prod-search-main" type="search" placeholder="بحث سريع بالاسم أو الوصف…" aria-label="بحث المنتجات">
             <button type="button" class="btn-primary-action" id="btn-go-add-product">➕ إضافة منتج</button>
-            <button type="button" class="del-btn" id="btn-clear-material-prices" title="مسح نص المواد/المكوّنات من كل المنتجات وتصفير السعر والسعر القديم">🧹 مسح أسعار المواد</button>
+            <button type="button" class="del-btn cp-hide-price-ui" id="btn-clear-material-prices" title="مسح نص المواد/المكوّنات من كل المنتجات وتصفير السعر والسعر القديم">🧹 مسح أسعار المواد</button>
             <button type="button" class="del-btn" id="btn-clear-all-products" title="حذف كل المنتجات دفعة واحدة">🗑️ حذف الكل</button>
           </div>
         </div>
@@ -1515,13 +1515,13 @@ a { text-decoration: none; color: inherit; }
                 <option value="active">نشط</option>
                 <option value="hidden">مخفي</option>
               </select>
-              <input id="filter-price-min" class="quick-search" type="number" placeholder="أقل سعر">
-              <input id="filter-price-max" class="quick-search" type="number" placeholder="أعلى سعر">
+              <input id="filter-price-min" class="quick-search cp-hide-price-ui" type="number" placeholder="أقل سعر">
+              <input id="filter-price-max" class="quick-search cp-hide-price-ui" type="number" placeholder="أعلى سعر">
               <select id="sort-products" aria-label="الترتيب">
                 <option value="newest">الأحدث</option>
                 <option value="name_asc">الاسم (أ-ي)</option>
-                <option value="price_asc">السعر (الأقل)</option>
-                <option value="price_desc">السعر (الأعلى)</option>
+                <option value="price_asc" class="cp-hide-price-ui" hidden>السعر (الأقل)</option>
+                <option value="price_desc" class="cp-hide-price-ui" hidden>السعر (الأعلى)</option>
               </select>
             </div>
           </details>
@@ -1533,7 +1533,7 @@ a { text-decoration: none; color: inherit; }
               <button type="button" class="edit-btn" id="btn-bulk-hide-products">👁️ إخفاء</button>
               <button type="button" class="edit-btn" id="btn-bulk-show-products">👁️ إظهار</button>
               <button type="button" class="edit-btn" id="btn-bulk-edit-product">✏️ تعديل</button>
-              <button type="button" class="edit-btn" id="btn-bulk-change-price">💰 تغيير السعر</button>
+              <button type="button" class="edit-btn cp-hide-price-ui" id="btn-bulk-change-price">💰 تغيير السعر</button>
               <button type="button" class="edit-btn" id="btn-bulk-change-cat">🏷️ تغيير القسم</button>
               <button type="button" class="move-btn" id="btn-clear-product-selection">✖️</button>
             </div>
@@ -1590,8 +1590,8 @@ a { text-decoration: none; color: inherit; }
                     <datalist id="product-name-suggest"></datalist>
                     <small class="fg-help">اكتب أول حروف الاسم لتظهر اقتراحات من منتجاتك السابقة.</small>
                   </div>
-                  <div class="fg"><label>💰 السعر — دينار عراقي (اختياري)</label><input type="text" id="f-price" inputmode="numeric" placeholder="اتركه فارغاً أو 0 إن لم يُحدَّد بعد"></div>
-                  <div class="fg"><label>🏷️ السعر القديم (للخصم)</label><input type="text" id="f-old" inputmode="numeric" placeholder="اتركه فارغاً لو ما في خصم"></div>
+                  <div class="fg cp-hide-price-ui"><label>💰 السعر — دينار عراقي (اختياري)</label><input type="text" id="f-price" inputmode="numeric" placeholder="اتركه فارغاً أو 0 إن لم يُحدَّد بعد"></div>
+                  <div class="fg cp-hide-price-ui"><label>🏷️ السعر القديم (للخصم)</label><input type="text" id="f-old" inputmode="numeric" placeholder="اتركه فارغاً لو ما في خصم"></div>
                   <div class="fg"><label>📦 المخزون</label><input type="text" id="f-stock" inputmode="numeric" placeholder="مثال: 20" autocomplete="off" data-lpignore="true" data-form-type="other"></div>
                   <div class="fg full">
                     <label>🗂️ الأقسام الرئيسية *</label>
@@ -1901,8 +1901,8 @@ a { text-decoration: none; color: inherit; }
               <div class="fg full">
                 <label class="set-toggle-row"><span>🌐 تفعيل الموقع</span><input type="checkbox" id="set-site-enabled"><span class="set-toggle-ui"></span></label>
                 <label class="set-toggle-row"><span>🔔 الإشعارات</span><input type="checkbox" id="set-notifications"><span class="set-toggle-ui"></span></label>
-                <label class="set-toggle-row"><span>💰 إظهار الأسعار في الموقع</span><input type="checkbox" id="set-show-prices" checked><span class="set-toggle-ui"></span></label>
-                <p class="fg-hint" style="margin:4px 0 0;font-size:12px;color:var(--muted);line-height:1.5">عند الإيقاف: تُخفى الأسعار من صفحة المنتج والبطاقات والسلة — يبقى الطلب عبر واتساب مع «السعر عند التأكيد».</p>
+                <label class="set-toggle-row cp-hide-price-ui"><span>💰 إظهار الأسعار في الموقع</span><input type="checkbox" id="set-show-prices"><span class="set-toggle-ui"></span></label>
+                <p class="fg-hint cp-hide-price-ui" style="margin:4px 0 0;font-size:12px;color:var(--muted);line-height:1.5">عند الإيقاف: تُخفى الأسعار من صفحة المنتج والبطاقات والسلة — يبقى الطلب عبر واتساب مع «السعر عند التأكيد».</p>
               </div>
             </div>
           </div>
@@ -1974,8 +1974,8 @@ a { text-decoration: none; color: inherit; }
     <div class="form-grid">
       <input type="hidden" id="em-id">
       <div class="fg full"><label>اسم المنتج *</label><input type="text" id="em-name"></div>
-      <div class="fg"><label>السعر (اختياري)</label><input type="number" id="em-price" placeholder="فارغ أو 0"></div>
-      <div class="fg"><label>السعر القديم</label><input type="number" id="em-old"></div>
+      <div class="fg cp-hide-price-ui"><label>السعر (اختياري)</label><input type="number" id="em-price" placeholder="فارغ أو 0"></div>
+      <div class="fg cp-hide-price-ui"><label>السعر القديم</label><input type="number" id="em-old"></div>
       <div class="fg"><label>المخزون</label><input type="number" id="em-stock" placeholder="مثال: 20"></div>
       <div class="fg full"><label>🗂️ الأقسام الرئيسية والفرعية *</label><div id="em-maincats-list" class="maincats-nested-root" style="display:flex;flex-direction:column;gap:10px;padding:10px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);min-height:52px;"></div><small class="fg-help" style="display:block;margin-top:8px;">فعّل قسمًا رئيسيًا لتظهر فرعياته فقط تحته.</small></div>
       <div class="fg full"><label>الوصف</label><textarea id="em-desc"></textarea></div>
@@ -2087,7 +2087,7 @@ a { text-decoration: none; color: inherit; }
 <script src="/assets/js/admin/services/reviewService.js?v=3.1.0"></script>
 <script src="/assets/js/admin/services/settingsService.js?v=3.1.0"></script>
 <script src="/assets/js/admin/utils/dom.js?v=3.1.0"></script>
-<script src="/assets/js/admin/pages/productsPage.js?v=3.2.1"></script>
+<script src="/assets/js/admin/pages/productsPage.js?v=3.2.2"></script>
 <script src="/assets/js/admin/pages/dashboardPage.js?v=3.2.1"></script>
 <script src="/assets/js/admin/pages/mainCategoriesPage.js?v=3.1.1"></script>
 <script src="/assets/js/admin/pages/subcategoriesPage.js?v=3.1.0"></script>
@@ -2101,7 +2101,7 @@ a { text-decoration: none; color: inherit; }
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 
 <!-- التطبيق: admin.js ثم app.js (تفويض الأحداث والمتجر العام) -->
-<script src="/assets/js/admin.js?v=3.3.3"></script>
+<script src="/assets/js/admin.js?v=3.3.4"></script>
 <script src="/assets/js/app.js?v=3.1.1"></script>
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">

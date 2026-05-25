@@ -275,12 +275,16 @@ body { background: var(--bg); }
   border: 1px solid var(--border);
 }
 
-/* السعر */
-.prod-price-cell {
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--em);
-  white-space: nowrap;
+/* السعر — مخفي في قائمة المنتجات (طلب صاحب المتجر) */
+.prod-price-cell,
+.cp-hide-price-ui,
+#filter-price-min,
+#filter-price-max,
+#btn-bulk-change-price,
+#btn-clear-material-prices,
+#set-show-prices,
+label.set-toggle-row:has(#set-show-prices) {
+  display: none !important;
 }
 
 /* ══════════════════════════════════════════════════

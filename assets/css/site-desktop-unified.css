@@ -203,3 +203,41 @@ header.header,
     display: inline-flex !important;
   }
 }
+
+/* ═══ إخفاء الأسعار في واجهة المتجر (طلب صاحب الصيدلية) ═══ */
+body.pharma-footer .pc-price-row,
+body.pharma-footer .pc-price,
+body.pharma-footer .pc-old,
+body.pharma-footer .pc-disc,
+body.pharma-footer .price-row,
+body.pharma-footer .price-now,
+body.pharma-footer .price-old,
+body.pharma-footer .discount-tag,
+body.pharma-footer .sim-price,
+body.pharma-footer .sim-price-row,
+body.pharma-footer .prod-price,
+body.pharma-footer .prod-price-inquiry,
+body.pharma-hide-prices .pc-price-row,
+body.pharma-hide-prices .pc-price,
+body.index-page #pgrid2 .pc-price,
+body.index-page #homeTopOrderedGrid .pc-price,
+body.qr-discount-page .pc-price-row,
+body.qr-discount-page .pc-price,
+body.product-detail-page .price-row {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
+}
+body.pharma-footer .cs-line:has(#csSubtotal),
+body.pharma-footer .cs-grand,
+body.pharma-footer .cs-save,
+body.pharma-footer .mo-sum-total,
+body.pharma-footer .cs-item-price-block {
+  display: none !important;
+}
