@@ -242,18 +242,22 @@ body.pharma-footer .cs-item-price-block {
   display: none !important;
 }
 
-/* سلايدر العروض — لابتوب: ملء كامل | موبايل: صورة كاملة بدون قص */
 @media (min-width: 769px) {
+  .promo-slide-link--1 {
+    background: #f5eee8 !important;
+  }
   .promo-slide-img {
     object-fit: cover !important;
     object-position: center center !important;
   }
   .promo-slide-link {
     display: block !important;
-    background: #e2e8f0 !important;
   }
 }
 @media (max-width: 768px) {
+  .promo-slide-link--1 {
+    background: #f5eee8 !important;
+  }
   .promo-slide-img {
     object-fit: contain !important;
     object-position: center center !important;
