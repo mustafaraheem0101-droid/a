@@ -415,7 +415,7 @@ function buildProductCardHtml(p, opts) {
   const nameAttr = dispName ? ` data-pname="${escHtml(String(dispName))}"` : '';
   const pricesVisible = typeof isStorePricesVisible === 'function' ? isStorePricesVisible() : true;
   const priceRowInner = !pricesVisible
-    ? '<span class="pc-price pc-price--hidden">السعر عند الطلب</span>'
+    ? ''
     : (showShelfPromo
       ? `<span class="pc-price">${fmt(promoFinalPrice)}</span><span class="pc-old">${fmt(listPrice)}</span><span class="pc-disc">-${promoPctShelf}%</span>`
       : `<span class="pc-price">${fmt(p.price)}</span>${showStoreDeal ? `<span class="pc-old">${fmt(p.oldPrice)}</span><span class="pc-disc">-${discount}%</span>` : ''}`);
@@ -447,9 +447,7 @@ function buildProductCardHtml(p, opts) {
     <a href="${prodHref}" class="pc-link pc-link--body">
       <div class="pc-info">
         <div class="pc-name">${escHtml(dispName)}</div>
-        <div class="pc-price-row">
-          ${priceRowInner}
-        </div>
+        ${pricesVisible ? `<div class="pc-price-row">${priceRowInner}</div>` : ''}
       </div>
     </a>
   </div>

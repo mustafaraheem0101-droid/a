@@ -105,9 +105,7 @@ function drugCard(d) {
   const imgSrc  = d.image_url
     ? d.image_url
     : 'assets/img/placeholder.svg';
-  const price   = d.price > 0
-    ? `<span class="prod-price">${d.price.toLocaleString('ar-IQ')} د.ع</span>`
-    : `<span class="prod-price free">السعر عند الطلب</span>`;
+  const price   = '';
   const desc    = d.description
     ? `<div class="prod-desc">${esc(d.description)}</div>`
     : '';

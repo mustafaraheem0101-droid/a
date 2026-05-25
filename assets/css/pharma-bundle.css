@@ -4072,10 +4072,22 @@ body.product-page--wa-sticky {
   font-size: 13px;
 }
 body.pharma-hide-prices .price-row,
+body.pharma-hide-prices .pc-price-row,
 body.pharma-hide-prices .pc-price-row .pc-old,
 body.pharma-hide-prices .pc-price-row .pc-disc,
 body.pharma-hide-prices .pc-badge-sale,
-body.pharma-hide-prices .mo-sum-strike {
+body.pharma-hide-prices .mo-sum-strike,
+body.pharma-hide-prices .prod-price-inquiry,
+body.pharma-hide-prices .prod-price,
+body.pharma-hide-prices .sim-price,
+body.pharma-hide-prices .sim-price-row,
+body.pharma-hide-prices .sim-price--inquiry,
+body.pharma-hide-prices .cs-item-price-block,
+body.pharma-hide-prices .cs-line:has(#csSubtotal),
+body.pharma-hide-prices .cs-grand,
+body.pharma-hide-prices .cs-save,
+body.pharma-hide-prices .mo-sum-total,
+body.pharma-hide-prices .skel-line--price {
   display: none !important;
 }
 .product-page .price-now {

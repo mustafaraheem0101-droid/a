@@ -134,10 +134,7 @@ function isOfferQrShelfPromoUiActive() {
 
 // ─── إظهار الأسعار (إعداد لوحة التحكم) ───────────────────────────
 function isStorePricesVisible() {
-  try {
-    if (typeof settings !== 'undefined' && settings && settings.showPrices === false) return false;
-  } catch (e) { /* ignore */ }
-  return true;
+  return false;
 }
 
 /** نص السعر للعرض أو للواتساب عند إخفاء الأسعار */
@@ -786,19 +783,24 @@ function resolveProductPublicUrl(p) {
 
 function buildProductWaOrderText(p) {
   const name = (p && p.name) ? String(p.name).trim() : 'المنتج';
-  const priceLine = storePriceLabel(p && p.price != null ? p.price : null);
-  return [
+  const lines = [
     'مرحباً،',
     '',
     'أود طلب المنتج التالي:',
     '',
-    '📦 المنتج: ' + name,
-    '💰 السعر: ' + priceLine,
+    '📦 المنتج: ' + name
+  ];
+  if (isStorePricesVisible()) {
+    const priceLine = storePriceLabel(p && p.price != null ? p.price : null);
+    lines.push('💰 السعر: ' + priceLine);
+  }
+  lines.push(
     '',
     'هل المنتج متوفر؟ يرجى التأكيد وسأكمل الطلب بعد موافقتكم.',
     '',
     'شكراً لكم 🙏'
-  ].join('\n');
+  );
+  return lines.join('\n');
 }
 
 /**
@@ -885,8 +887,7 @@ function formatWaCartItemBlock(it) {
   const u = cartItemQtyUnitSubtotal(it);
   var block = '* ' + name + '\n';
   if (!isStorePricesVisible()) {
-    block += '  الكمية: ' + u.qty + '\n';
-    block += '  السعر: عند التأكيد';
+    block += '  الكمية: ' + u.qty;
     return block;
   }
   const listU = Number(it.listPrice != null ? it.listPrice : u.unitNum);
@@ -912,7 +913,6 @@ function cartItemModalSummaryLiHtml(i) {
     return '<li class="mo-sum-item">' +
       '<div>📦 ' + escHtml(name) + '</div>' +
       '<div>🔢 الكمية: ' + u.qty + '</div>' +
-      '<div>💰 السعر عند التأكيد</div>' +
       '</li>';
   }
   var strikeLine = '';
@@ -956,8 +956,10 @@ function buildWhatsAppCartOrderMessageQrOffer(params) {
     lines.push(buildCartItemsDetailsForWa(cart));
     lines.push('');
   }
-  lines.push('💰 المجموع: ' + storePriceLabel(total));
-  lines.push('');
+  if (isStorePricesVisible()) {
+    lines.push('💰 المجموع: ' + storePriceLabel(total));
+    lines.push('');
+  }
   if (isStorePricesVisible() && shouldShowWaCartQrDiscountLine(cart)) {
     lines.push('🎁 تم استخدام خصم QR Code');
     lines.push('');
@@ -1006,8 +1008,10 @@ function buildWhatsAppCartOrderMessage(params) {
     lines.push(buildCartItemsDetailsForWa(cart));
     lines.push('');
   }
-  lines.push('💰 المجموع: ' + storePriceLabel(total));
-  lines.push('');
+  if (isStorePricesVisible()) {
+    lines.push('💰 المجموع: ' + storePriceLabel(total));
+    lines.push('');
+  }
   lines.push('📍 الرجاء تأكيد توفر المنتجات وإتمام الطلب');
   lines.push('شكراً لكم 🙏');
   if (notes) {

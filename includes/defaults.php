@@ -817,7 +817,7 @@ function getDefaultSettings(): array {
         'instagram'                   => 'pharma_store.me',
         'facebook'                    => '',
         /** false = إخفاء الأسعار في واجهة المتجر (الطلب عبر واتساب للاستفسار عن السعر) */
-        'showPrices'                  => true,
+        'showPrices'                  => false,
     ];
 }
 
