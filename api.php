@@ -158,6 +158,7 @@ require_once __DIR__ . '/includes/api/handlers/products.php';
 require_once __DIR__ . '/includes/api/handlers/categories.php';
 require_once __DIR__ . '/includes/api/handlers/orders.php';
 require_once __DIR__ . '/includes/api/handlers/reviews.php';
+require_once __DIR__ . '/includes/api/handlers/sliders.php';
 require_once __DIR__ . '/includes/api/handlers/misc.php';
 
 try {
@@ -282,6 +283,11 @@ try {
         'get_reviews','getReviews','submit_review','addReview',
         'review_vote','admin_get_reviews','admin_save_reviews',
     ];
+    $sliderActions = [
+        'admin_get_sliders','admin_add_slider','admin_update_slider',
+        'admin_delete_slider','admin_toggle_slider','admin_reorder_sliders',
+        'upload_slider_image',
+    ];
 
     if (in_array($action, $productActions, true)) {
         handle_products($action, $body, $rawBody, $clientIP, $method, $db);
@@ -291,6 +297,8 @@ try {
         handle_orders($action, $body, $clientIP, $method, $db);
     } elseif (in_array($action, $reviewActions, true)) {
         handle_reviews($action, $body, $rawBody, $clientIP, $method);
+    } elseif (in_array($action, $sliderActions, true)) {
+        handle_sliders($action, $body, $rawBody, $clientIP, $method, $db);
     } else {
         handle_misc($action, $body, $rawBody, $clientIP, $method, $db);
     }

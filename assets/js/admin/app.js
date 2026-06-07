@@ -50,6 +50,12 @@
     settingsService: settingsService
   });
 
+  var slidersPage = global.AdminPages.createSlidersPage
+    ? global.AdminPages.createSlidersPage({
+        sliderService: global.AdminServices.sliderService
+      })
+    : null;
+
   var router = global.AdminRouter.create({ store: store });
 
   var noop = function () {};
@@ -63,6 +69,7 @@
     'orders',
     'reviews',
     'homepage',
+    'sliders',
     'settings',
     'backup',
     'reports',
@@ -76,6 +83,7 @@
     subcategories: subcategoriesPage,
     orders: ordersPage,
     reviews: reviewsPage,
+    sliders: slidersPage,
     settings: settingsPage
   };
 
@@ -127,6 +135,7 @@
     subcategoriesPage: subcategoriesPage,
     ordersPage: ordersPage,
     reviewsPage: reviewsPage,
+    slidersPage: slidersPage,
     settingsPage: settingsPage,
     productService: productService,
     categoryService: categoryService,
