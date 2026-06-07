@@ -36,26 +36,76 @@
       } catch (e) {}
     }, 80);
   }
-  document.querySelectorAll('.promo-slide-img').forEach(function (img) {
-    var primary = img.getAttribute('src');
-    if (primary) primary = resolveSlideSrc(primary);
-    var fb = img.getAttribute('data-fallback');
-    if (fb) fb = resolveSlideSrc(fb);
-    img.addEventListener('load', schedulePromoRefresh, { once: true });
-    img.addEventListener(
-      'error',
-      function onPromoErr() {
-        img.removeEventListener('error', onPromoErr);
-        if (fb && img.currentSrc !== fb) {
-          img.src = fb;
-          img.removeAttribute('data-fallback');
-          img.addEventListener('load', schedulePromoRefresh, { once: true });
-        }
-      },
-      { once: true }
-    );
-    if (primary) img.src = primary;
-  });
+  function setupPromoImages() {
+    document.querySelectorAll('.promo-slide-img').forEach(function (img) {
+      var primary = img.getAttribute('src');
+      if (primary) primary = resolveSlideSrc(primary);
+      var fb = img.getAttribute('data-fallback');
+      if (fb) fb = resolveSlideSrc(fb);
+      img.addEventListener('load', schedulePromoRefresh, { once: true });
+      img.addEventListener(
+        'error',
+        function onPromoErr() {
+          img.removeEventListener('error', onPromoErr);
+          if (fb && img.currentSrc !== fb) {
+            img.src = fb;
+            img.removeAttribute('data-fallback');
+            img.addEventListener('load', schedulePromoRefresh, { once: true });
+          }
+        },
+        { once: true }
+      );
+      if (primary) img.src = primary;
+    });
+  }
+
+  /* بناء HTML لشريحة واحدة من بيانات قاعدة البيانات */
+  function escAttr(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+  function buildPromoSlideHtml(sl) {
+    var desktop = (sl.img_desktop || '').trim();
+    var mobile  = (sl.img_mobile  || '').trim();
+    var alt     = escAttr(sl.alt_text || sl.title || 'عرض ترويجي');
+    var link    = (sl.link_url || '').trim();
+
+    // الصورة الأساسية = الموبايل إن وُجد، وإلا الديسكتوب. مصدر الديسكتوب عبر <source>
+    var mainSrc = mobile || desktop;
+    var pictureInner = '';
+    if (desktop && mobile) {
+      pictureInner =
+        '<source media="(min-width: 769px)" srcset="' + escAttr(desktop) + '">' +
+        '<img src="' + escAttr(mainSrc) + '" alt="' + alt + '" class="promo-slide-img" width="1600" height="400" decoding="async" loading="lazy">';
+    } else {
+      pictureInner =
+        '<img src="' + escAttr(mainSrc) + '" alt="' + alt + '" class="promo-slide-img" width="1600" height="400" decoding="async" loading="lazy">';
+    }
+    var picture = '<picture>' + pictureInner + '</picture>';
+    var inner = link
+      ? '<a href="' + escAttr(link) + '" class="promo-slide-link" aria-label="' + alt + '">' + picture + '</a>'
+      : '<div class="promo-slide-link">' + picture + '</div>';
+    return '<div class="swiper-slide">' + inner + '</div>';
+  }
+
+  /* جلب السلايدرات من قاعدة البيانات وإعادة بناء الشرائح (إن وُجدت) */
+  function loadPromoSlidersFromDB() {
+    return fetch('/api-sliders.php', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        if (!Array.isArray(rows) || !rows.length) return false;
+        var root = document.querySelector('.promo-swiper');
+        if (!root) return false;
+        var wrapper = root.querySelector('.swiper-wrapper');
+        if (!wrapper) return false;
+        wrapper.innerHTML = rows.map(buildPromoSlideHtml).join('');
+        return true;
+      })
+      .catch(function () { return false; });
+  }
 
   function initHomePromoSwiper() {
     if (promoSwiperInstance) return true;
@@ -149,9 +199,15 @@
     return true;
   }
 
-  if (!initHomePromoSwiper()) {
-    window.addEventListener('load', function () {
-      if (!initHomePromoSwiper()) setTimeout(initHomePromoSwiper, 250);
-    });
+  function bootPromo() {
+    setupPromoImages();
+    if (!initHomePromoSwiper()) {
+      window.addEventListener('load', function () {
+        if (!initHomePromoSwiper()) setTimeout(initHomePromoSwiper, 250);
+      });
+    }
   }
+
+  // جرّب تحميل السلايدرات من قاعدة البيانات أولاً؛ إن لم توجد نُبقي الصور الثابتة الحالية
+  loadPromoSlidersFromDB().then(bootPromo);
 })();
