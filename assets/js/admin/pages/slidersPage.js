@@ -52,12 +52,10 @@
       }
 
       var html = _sliders.map(function (sl) {
-        var thumbD = sl.img_desktop
-          ? '<img src="' + escHtmlAttr(sl.img_desktop) + '" alt="desktop" class="sl-thumb" onerror="this.style.display=\'none\'">'
-          : '<div class="sl-thumb-empty"><span>🖥️</span><small>لا توجد صورة</small></div>';
-        var thumbM = sl.img_mobile
-          ? '<img src="' + escHtmlAttr(sl.img_mobile) + '" alt="mobile" class="sl-thumb sl-thumb-mobile" onerror="this.style.display=\'none\'">'
-          : '<div class="sl-thumb-empty sl-thumb-empty-sm"><span>📱</span><small>لا توجد صورة</small></div>';
+        var imgSrc = sl.img_desktop || sl.img_mobile || '';
+        var thumb = imgSrc
+          ? '<img src="' + escHtmlAttr(imgSrc) + '" alt="slide" class="sl-thumb" onerror="this.style.display=\'none\'">'
+          : '<div class="sl-thumb-empty"><span>🖼️</span><small>لا توجد صورة</small></div>';
 
         var activeClass = sl.active ? 'sl-badge-active' : 'sl-badge-inactive';
         var activeLabel = sl.active ? 'نشط' : 'معطل';
@@ -65,8 +63,7 @@
         return '<div class="sl-card" data-id="' + sl.id + '">' +
           '<div class="sl-drag-handle" title="اسحب لإعادة الترتيب">⠿</div>' +
           '<div class="sl-thumbs">' +
-            '<div class="sl-thumb-wrap">' + thumbD + '<div class="sl-thumb-label">ديسكتوب</div></div>' +
-            '<div class="sl-thumb-wrap">' + thumbM + '<div class="sl-thumb-label">موبايل</div></div>' +
+            '<div class="sl-thumb-wrap">' + thumb + '</div>' +
           '</div>' +
           '<div class="sl-info">' +
             '<div class="sl-title">سلايدر #' + sl.id + '</div>' +
@@ -126,14 +123,13 @@
 
       var sl = id != null ? _sliders.find(function (s) { return s.id === id; }) : null;
 
+      var img = sl ? (sl.img_desktop || sl.img_mobile || '') : '';
       qs('#sm-sort',        modal).value   = sl ? sl.sort_order : 0;
       qs('#sm-active',      modal).checked = sl ? sl.active : true;
-      qs('#sm-desktop-url', modal).value   = sl ? (sl.img_desktop || '') : '';
-      qs('#sm-mobile-url',  modal).value   = sl ? (sl.img_mobile  || '') : '';
+      qs('#sm-desktop-url', modal).value   = img;
 
-      // معاينة الصور الحالية
-      updatePreview('desktop', sl ? sl.img_desktop : '');
-      updatePreview('mobile',  sl ? sl.img_mobile  : '');
+      // معاينة الصورة الحالية
+      updatePreview('desktop', img);
 
       qs('#slider-modal-title', modal).textContent = id != null ? 'تعديل السلايدر' : 'إضافة سلايدر جديد';
       modal.style.display = 'flex';
@@ -164,18 +160,19 @@
       var modal = document.getElementById('slider-modal');
       if (!modal) return;
 
+      var img = qs('#sm-desktop-url', modal).value.trim();
       var data = {
         title:       '',
         link_url:    '',
         alt_text:    '',
         sort_order:  parseInt(qs('#sm-sort', modal).value) || 0,
         active:      qs('#sm-active', modal).checked ? 1 : 0,
-        img_desktop: qs('#sm-desktop-url', modal).value.trim(),
-        img_mobile:  qs('#sm-mobile-url',  modal).value.trim()
+        img_desktop: img,
+        img_mobile:  ''
       };
 
-      if (!data.img_desktop && !data.img_mobile) {
-        toast('يجب إدخال صورة الديسكتوب أو الموبايل على الأقل', false);
+      if (!data.img_desktop) {
+        toast('يجب رفع صورة السلايدر', false);
         return;
       }
 
