@@ -8,6 +8,15 @@ declare(strict_types=1);
 function handle_sliders(string $action, array $body, array $rawBody, string $clientIP, string $method, mixed $db): void
 {
     /* ══════════════════════════════════════════════════════
+       السلايدرات تُخزَّن في MySQL مباشرة (وليس ملف JSON)
+    ══════════════════════════════════════════════════════ */
+    $pdo = getPdo();
+    if (!$pdo) {
+        jsonError('قاعدة البيانات غير مُعدّة — السلايدرات تتطلب MySQL. تحقق من إعدادات .env', [], 500);
+    }
+    $db = $pdo;
+
+    /* ══════════════════════════════════════════════════════
        تأكد الجدول موجود
     ══════════════════════════════════════════════════════ */
     static $tableReady = false;
