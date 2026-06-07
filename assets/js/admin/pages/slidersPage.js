@@ -69,8 +69,7 @@
             '<div class="sl-thumb-wrap">' + thumbM + '<div class="sl-thumb-label">موبايل</div></div>' +
           '</div>' +
           '<div class="sl-info">' +
-            '<div class="sl-title">' + escHtml(sl.title || 'بدون عنوان') + '</div>' +
-            (sl.link_url ? '<div class="sl-link">' + escHtml(sl.link_url) + '</div>' : '') +
+            '<div class="sl-title">سلايدر #' + sl.id + '</div>' +
           '</div>' +
           '<div class="sl-actions">' +
             '<span class="sl-badge ' + activeClass + '">' + activeLabel + '</span>' +
@@ -127,9 +126,6 @@
 
       var sl = id != null ? _sliders.find(function (s) { return s.id === id; }) : null;
 
-      qs('#sm-title',       modal).value   = sl ? (sl.title    || '') : '';
-      qs('#sm-link',        modal).value   = sl ? (sl.link_url || '') : '';
-      qs('#sm-alt',         modal).value   = sl ? (sl.alt_text || '') : '';
       qs('#sm-sort',        modal).value   = sl ? sl.sort_order : 0;
       qs('#sm-active',      modal).checked = sl ? sl.active : true;
       qs('#sm-desktop-url', modal).value   = sl ? (sl.img_desktop || '') : '';
@@ -169,9 +165,9 @@
       if (!modal) return;
 
       var data = {
-        title:       qs('#sm-title',       modal).value.trim(),
-        link_url:    qs('#sm-link',        modal).value.trim(),
-        alt_text:    qs('#sm-alt',         modal).value.trim(),
+        title:       '',
+        link_url:    '',
+        alt_text:    '',
         sort_order:  parseInt(qs('#sm-sort', modal).value) || 0,
         active:      qs('#sm-active', modal).checked ? 1 : 0,
         img_desktop: qs('#sm-desktop-url', modal).value.trim(),
