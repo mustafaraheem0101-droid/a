@@ -5111,50 +5111,6 @@ body.index-page .home-top-ordered .p-see-all:hover {
   padding-inline: clamp(16px, 4vw, 24px);
   min-height: 0;
 }
-/* شبكة العروض — 3 أعلى + 3 تحت */
-.promo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(10px, 1.6vw, 18px);
-  width: 100%;
-}
-.promo-grid__item {
-  border-radius: 14px;
-  overflow: hidden;
-  background: #e2e8f0;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .promo-grid__item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
-  }
-}
-.promo-grid .promo-slide-link {
-  display: block;
-  width: 100%;
-  line-height: 0;
-}
-.promo-grid .promo-slide-img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: var(--promo-ratio);
-  object-fit: cover;
-  object-position: center center;
-  display: block;
-}
-@media (max-width: 900px) {
-  .promo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 520px) {
-  .promo-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
 .promo-swiper {
   position: relative;
   width: 100%;
