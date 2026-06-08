@@ -1,0 +1,122 @@
+/* ════════════════════════════════════════════════════════════════
+   ui-polish-2026.css — تحسينات جمالية متوسطة للصفحة الرئيسية
+   يُحمَّل آخر ملف CSS ليتفوّق على البقية. آمن وقابل للتراجع (احذف الرابط فقط).
+   نظام التصميم: أخضر #00875A، خط Tajawal، خلفية فاتحة.
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  --pp-shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 2px 8px rgba(15, 23, 42, .05);
+  --pp-shadow-md: 0 6px 18px rgba(15, 23, 42, .08), 0 2px 6px rgba(15, 23, 42, .05);
+  --pp-shadow-lg: 0 14px 34px rgba(0, 135, 90, .14), 0 6px 14px rgba(15, 23, 42, .08);
+  --pp-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+/* ─── بطاقات المنتجات ─────────────────────────────────────────── */
+.pc.pc--product {
+  border: 1px solid rgba(226, 232, 240, .9);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--pp-shadow-sm);
+  transition: transform .32s var(--pp-ease), box-shadow .32s var(--pp-ease), border-color .32s var(--pp-ease);
+  will-change: transform;
+  overflow: hidden;
+}
+.pc.pc--product:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--pp-shadow-lg);
+  border-color: rgba(0, 135, 90, .28);
+}
+.pc.pc--product .pc-img {
+  overflow: hidden;
+}
+.pc.pc--product .pc-img-el {
+  transition: transform .5s var(--pp-ease);
+}
+.pc.pc--product:hover .pc-img-el {
+  transform: scale(1.06);
+}
+
+/* زر الإضافة العائم — أوضح وأنعم */
+.pc-fab-cart {
+  box-shadow: 0 4px 14px rgba(0, 135, 90, .32);
+  transition: transform .22s var(--pp-ease), box-shadow .22s var(--pp-ease), background .22s ease;
+}
+.pc-fab-cart:hover:not(.pc-fab-cart--disabled) {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 18px rgba(0, 135, 90, .42);
+}
+
+/* زر الإعجاب */
+.pc-like {
+  transition: transform .2s var(--pp-ease), color .2s ease, background .2s ease;
+}
+.pc-like:hover { transform: scale(1.14); }
+.pc-like.liked .pc-like__path { fill: #e11d48; stroke: #e11d48; }
+
+/* شارة الخصم — نبضة خفيفة لجذب الانتباه */
+.pc-badge-sale {
+  box-shadow: 0 3px 10px rgba(225, 29, 72, .3);
+  letter-spacing: .2px;
+}
+
+/* ─── شريط المميزات (الثقة) ───────────────────────────────────── */
+.p-trust-item {
+  transition: transform .3s var(--pp-ease);
+}
+.p-trust-item:hover { transform: translateY(-3px); }
+.p-trust-ico {
+  transition: transform .35s var(--pp-ease), box-shadow .35s var(--pp-ease);
+}
+.p-trust-item:hover .p-trust-ico {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 135, 90, .22);
+}
+
+/* ─── حلقات التنقل بين الأقسام ────────────────────────────────── */
+.p-nav-ring {
+  transition: transform .26s var(--pp-ease);
+}
+.p-nav-ring:hover { transform: translateY(-4px); }
+.p-nav-ring__disc {
+  transition: box-shadow .3s var(--pp-ease), transform .3s var(--pp-ease);
+}
+.p-nav-ring:hover .p-nav-ring__disc {
+  box-shadow: 0 8px 20px rgba(0, 135, 90, .26);
+}
+
+/* ─── نقاط ترقيم السلايدرات (bullets) ─────────────────────────── */
+.home-hero-pagination .swiper-pagination-bullet,
+.promo-swiper-pagination .swiper-pagination-bullet,
+.brand-showcase-pagination .swiper-pagination-bullet {
+  transition: width .3s var(--pp-ease), background .3s ease, opacity .3s ease;
+}
+.home-hero-pagination .swiper-pagination-bullet-active,
+.promo-swiper-pagination .swiper-pagination-bullet-active,
+.brand-showcase-pagination .swiper-pagination-bullet-active {
+  width: 24px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00a86e, #00875A);
+}
+
+/* ─── أزرار السلايدر الرئيسي (CTA) ────────────────────────────── */
+.home-hero-btn {
+  transition: transform .22s var(--pp-ease), box-shadow .22s var(--pp-ease), filter .22s ease;
+}
+.home-hero-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 135, 90, .26);
+}
+
+/* ─── ظهور الأقسام (reveal) أنعم ──────────────────────────────── */
+.p-sec-fade { transition: opacity .6s var(--pp-ease), transform .6s var(--pp-ease); }
+
+/* احترام تفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  .pc.pc--product, .pc.pc--product .pc-img-el, .pc-fab-cart, .pc-like,
+  .p-trust-item, .p-trust-ico, .p-nav-ring, .p-nav-ring__disc,
+  .home-hero-btn, .p-sec-fade {
+    transition: none !important;
+  }
+  .pc.pc--product:hover { transform: none; }
+  .pc.pc--product:hover .pc-img-el { transform: none; }
+}
