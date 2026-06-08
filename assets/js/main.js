@@ -1639,23 +1639,7 @@ function shelfSimPriceHtml(p) {
  * فيديو بدل الصورة الرئيسية في المعرض — منتجات محددة فقط (مسار mp4 لكل منتج).
  * null = عرض الصور كالمعتاد.
  */
-function getProductPageGalleryVideo(p) {
-  if (!p || typeof p !== 'object') return null;
-  var id = String(p.id || '');
-  var slug = String(p.slug || '').toLowerCase();
-  var name = String(p.name || '').toLowerCase();
-  var nameAr = String(p.name || '');
-
-  if (id === 'seed_panadol_extra_24') return { src: 'assets/videos/panadol-extra.mp4' };
-  if (slug.indexOf('panadol-extra') !== -1) return { src: 'assets/videos/panadol-extra.mp4' };
-  if (name.indexOf('panadol') !== -1 && name.indexOf('extra') !== -1) return { src: 'assets/videos/panadol-extra.mp4' };
-
-  if (slug.indexOf('nunu') !== -1 && slug.indexOf('shampoo') !== -1) return { src: 'assets/videos/nunu-baby-shampoo.mp4' };
-  if ((name.indexOf('nunu') !== -1 || nameAr.indexOf('نونو') !== -1) &&
-      (name.indexOf('shampoo') !== -1 || nameAr.indexOf('شامبو') !== -1)) {
-    return { src: 'assets/videos/nunu-baby-shampoo.mp4' };
-  }
-
+function getProductPageGalleryVideo() {
   return null;
 }
 
@@ -3910,42 +3894,6 @@ function renderHomeExtras(data) {
     var t = s.tagline != null ? String(s.tagline).trim() : '';
     if (t && tag.textContent !== t) tag.textContent = t;
   }
-  const topSec = document.getElementById('home-top-ordered-sec');
-  const mediaEl = document.getElementById('homeSpotlightMedia');
-  var urls = ['', '', '', ''];
-  if (Array.isArray(s.homeSpotlightVideos)) {
-    for (var vi = 0; vi < 4; vi++) {
-      urls[vi] = s.homeSpotlightVideos[vi] != null ? String(s.homeSpotlightVideos[vi]).trim() : '';
-    }
-  } else if (s.homeSpotlightVideoUrl != null && String(s.homeSpotlightVideoUrl).trim() !== '') {
-    urls[0] = String(s.homeSpotlightVideoUrl).trim();
-  }
-  var anyVideo = urls.some(function (x) {
-    return x && String(x).trim() !== '';
-  });
-
-  if (topSec && mediaEl && anyVideo) {
-    topSec.hidden = false;
-    var gridHtml =
-      '<div class="home-spotlight-grid" role="list">' +
-      urls
-        .map(function (u, i) {
-          var t = String(u || '').trim();
-          if (!t) return '';
-          var inner = pharmaSpotlightVideoBlockHtml(t);
-          if (!inner) return '';
-          return '<div class="home-spotlight-tile" role="listitem" data-spotlight-idx="' + i + '">' + inner + '</div>';
-        })
-        .join('') +
-      '</div>';
-    replaceChildrenFromHtml(mediaEl, gridHtml);
-    initHomeSpotlightVideosLazy();
-  } else if (topSec) {
-    topSec.hidden = true;
-    if (mediaEl && typeof replaceChildrenFromHtml === 'function') replaceChildrenFromHtml(mediaEl, '');
-  }
-
-  if (topSec && !topSec.hidden && typeof initScrollReveal === 'function') initScrollReveal();
 }
 window.renderHomeExtras = renderHomeExtras;
 
