@@ -146,11 +146,6 @@
       slidesPerView: 1,
       spaceBetween: 0,
       autoHeight: true,
-      breakpoints: {
-        769: {
-          autoHeight: false
-        }
-      },
       autoplay: {
         delay: 2000,
         disableOnInteraction: false,

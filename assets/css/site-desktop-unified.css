@@ -242,24 +242,8 @@ body.pharma-footer .cs-item-price-block {
   display: none !important;
 }
 
-@media (min-width: 769px) {
-  .promo-slide-link--1 {
-    background: #f5eee8 !important;
-  }
-  .promo-slide-img {
-    object-fit: cover !important;
-    object-position: center center !important;
-  }
-  .promo-slide-link {
-    display: block !important;
-  }
-}
-@media (max-width: 768px) {
-  .promo-slide-link--1 {
-    background: #f5eee8 !important;
-  }
-  .promo-slide-img {
-    object-fit: contain !important;
-    object-position: center center !important;
-  }
+/* سلايدر العروض — صورة واحدة 1600×500 لكل الشاشات */
+.promo-slide-img {
+  object-fit: cover !important;
+  object-position: center center !important;
 }
