@@ -1147,6 +1147,49 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   </div>
 </nav>
 
+<!-- PROMO SLIDER — يحمّل slide-NN.png أولاً؛ إن لم يُرفع يظهر SVG لوني فقط (انظر assets/img/promo-slider/README.txt) -->
+<section class="promo-swiper-section p-sec-fade" id="promoStrip" aria-label="عروض مميزة">
+  <div class="promo-swiper-wrap">
+    <div class="swiper promo-swiper" dir="rtl">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="category.html?slug=kids" class="promo-slide-link promo-slide-link--1" aria-label="جونسون بيبي أويل — زيت أطفال، تصفح المنتجات">
+            <img src="assets/img/promo-slider/slide-johnsons.png?v=20260608" alt="جونسون بيبي أويل — زيت أطفال" class="promo-slide-img" width="1600" height="500" decoding="async" fetchpriority="high" loading="eager" data-fallback="assets/img/promo-slider/slide-01.svg" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="category.html?slug=kids" class="promo-slide-link promo-slide-link--2" aria-label="لاريوس — حساسية الأطفال">
+            <img src="assets/img/promo-slider/slide-02.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-02.svg" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="categories.html#prod-sec" class="promo-slide-link promo-slide-link--3" aria-label="فري موف — عناية المفاصل">
+            <img src="assets/img/promo-slider/slide-03.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-03.svg" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="category.html?slug=cosmetics" class="promo-slide-link promo-slide-link--4" aria-label="هيد آند شولدرز — العناية بالشعر">
+            <img src="assets/img/promo-slider/slide-04.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-04.svg" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="categories.html" class="promo-slide-link promo-slide-link--5" aria-label="شامبو الكافيين — العناية بالشعر">
+            <img src="assets/img/promo-slider/slide-05.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-05.svg" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="category.html?slug=kids" class="promo-slide-link promo-slide-link--6" aria-label="كودومو — منتجات الأطفال">
+            <img src="assets/img/promo-slider/slide-06.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-06.svg" />
+          </a>
+        </div>
+      </div>
+      <div class="promo-swiper-pagination"></div>
+      <button type="button" class="promo-swiper-nav promo-swiper-prev" aria-label="الشريحة السابقة"></button>
+      <button type="button" class="promo-swiper-nav promo-swiper-next" aria-label="الشريحة التالية"></button>
+    </div>
+  </div>
+</section>
+
 <!-- TRUST -->
 <section class="p-trust p-sec-fade" aria-label="مميزات الخدمة">
   <div class="p-trust-inner">
@@ -1395,6 +1438,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 <script src="assets/js/app.js?v=3.3.4"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-hero-swiper.js?v=1.0.8"></script>
+<script src="assets/js/home-promo-swiper.js?v=1.1.2"></script>
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">
 <link rel="stylesheet" href="/assets/css/ui-polish-2026.css?v=1.0.0">
