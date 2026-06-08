@@ -1147,8 +1147,8 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
   </div>
 </nav>
 
-<!-- PROMO SLIDER — يحمّل slide-NN.png أولاً؛ إن لم يُرفع يظهر SVG لوني فقط (انظر assets/img/promo-slider/README.txt) -->
-<section class="promo-swiper-section p-sec-fade" id="promoStrip" aria-label="عروض مميزة">
+<!-- PROMO SLIDERS — سلايدران فوق بعض، كل واحد 3 صور. تُعرض صور لوحة التحكم تلقائياً (موزّعة 3/3). -->
+<section class="promo-swiper-section p-sec-fade" id="promoStripA" aria-label="عروض مميزة 1">
   <div class="promo-swiper-wrap">
     <div class="swiper promo-swiper" dir="rtl">
       <div class="swiper-wrapper">
@@ -1167,6 +1167,18 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
             <img src="assets/img/promo-slider/slide-03.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-03.svg" />
           </a>
         </div>
+      </div>
+      <div class="promo-swiper-pagination"></div>
+      <button type="button" class="promo-swiper-nav promo-swiper-prev" aria-label="الشريحة السابقة"></button>
+      <button type="button" class="promo-swiper-nav promo-swiper-next" aria-label="الشريحة التالية"></button>
+    </div>
+  </div>
+</section>
+
+<section class="promo-swiper-section p-sec-fade" id="promoStripB" aria-label="عروض مميزة 2">
+  <div class="promo-swiper-wrap">
+    <div class="swiper promo-swiper" dir="rtl">
+      <div class="swiper-wrapper">
         <div class="swiper-slide">
           <a href="category.html?slug=cosmetics" class="promo-slide-link promo-slide-link--4" aria-label="هيد آند شولدرز — العناية بالشعر">
             <img src="assets/img/promo-slider/slide-04.png" alt="عرض ترويجي" class="promo-slide-img" width="1600" height="500" decoding="async" loading="lazy" data-fallback="assets/img/promo-slider/slide-04.svg" />
@@ -1438,7 +1450,7 @@ body.index-page .home-hero-premium + .p-nav{margin-top:0;position:relative;z-ind
 <script src="assets/js/app.js?v=3.3.4"></script>
 <script src="assets/js/swiper-bundle.min.js?v=11.1.14"></script>
 <script src="assets/js/home-hero-swiper.js?v=1.0.8"></script>
-<script src="assets/js/home-promo-swiper.js?v=1.1.2"></script>
+<script src="assets/js/home-promo-swiper.js?v=1.2.0"></script>
 <!-- lazy-loading added -->
 <link rel="stylesheet" href="/assets/css/lazy-images.css">
 <link rel="stylesheet" href="/assets/css/ui-polish-2026.css?v=1.0.0">

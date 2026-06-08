@@ -107,6 +107,9 @@
   box-shadow: 0 10px 24px rgba(0, 135, 90, .26);
 }
 
+/* ─── فاصل بين السلايدرين المتتاليين ──────────────────────────── */
+#promoStripB { margin-top: 16px; }
+
 /* ─── ظهور الأقسام (reveal) أنعم ──────────────────────────────── */
 .p-sec-fade { transition: opacity .6s var(--pp-ease), transform .6s var(--pp-ease); }
 

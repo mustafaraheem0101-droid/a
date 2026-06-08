@@ -1,5 +1,6 @@
 /**
- * تهيئة سلايدر العروض (Swiper) — ملف خارجي لتوافق CSP (بدون سكربت مضمّن في HTML).
+ * تهيئة سلايدرات العروض (Swiper) — ملف خارجي لتوافق CSP (بدون سكربت مضمّن في HTML).
+ * يدعم سلايدرين فوق بعض: صور لوحة التحكم تُوزَّع بالتساوي (النصف الأول → السلايدر الأول، الباقي → الثاني).
  */
 (function () {
   'use strict';
@@ -22,18 +23,21 @@
     }
     return absUrl(t);
   }
-  var promoSwiperInstance = null;
+  var promoSwiperInstances = [];
   var promoRefreshTimer = null;
   function schedulePromoRefresh() {
-    if (!promoSwiperInstance) return;
+    if (!promoSwiperInstances.length) return;
     clearTimeout(promoRefreshTimer);
     promoRefreshTimer = setTimeout(function () {
-      promoSwiperInstance.update();
-      try {
-        if (promoSwiperInstance.autoplay && typeof promoSwiperInstance.autoplay.start === 'function') {
-          promoSwiperInstance.autoplay.start();
-        }
-      } catch (e) {}
+      promoSwiperInstances.forEach(function (inst) {
+        if (!inst) return;
+        inst.update();
+        try {
+          if (inst.autoplay && typeof inst.autoplay.start === 'function') {
+            inst.autoplay.start();
+          }
+        } catch (e) {}
+      });
     }, 80);
   }
   function setupPromoImages() {
@@ -86,20 +90,30 @@
       .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (rows) {
         if (!Array.isArray(rows) || !rows.length) return false;
-        var root = document.querySelector('.promo-swiper');
-        if (!root) return false;
-        var wrapper = root.querySelector('.swiper-wrapper');
-        if (!wrapper) return false;
-        wrapper.innerHTML = rows.map(buildPromoSlideHtml).join('');
+        var roots = document.querySelectorAll('.promo-swiper');
+        if (!roots.length) return false;
+        // وزّع الصور بالتساوي: النصف الأول للسلايدر الأول، الباقي للثاني
+        var half = Math.ceil(rows.length / 2);
+        var groups = roots.length > 1 ? [rows.slice(0, half), rows.slice(half)] : [rows];
+        roots.forEach(function (root, i) {
+          var wrapper = root.querySelector('.swiper-wrapper');
+          if (!wrapper) return;
+          var group = groups[i] || [];
+          var section = root.closest('.promo-swiper-section');
+          if (!group.length) {
+            // لا صور لهذا السلايدر — أخفِ قسمه
+            if (section) section.style.display = 'none';
+            return;
+          }
+          if (section) section.style.display = '';
+          wrapper.innerHTML = group.map(buildPromoSlideHtml).join('');
+        });
         return true;
       })
       .catch(function () { return false; });
   }
 
-  function initHomePromoSwiper() {
-    if (promoSwiperInstance) return true;
-    var root = document.querySelector('.promo-swiper');
-    if (!root || typeof Swiper === 'undefined') return false;
+  function initOnePromoSwiper(root) {
     var pagEl = root.querySelector('.promo-swiper-pagination');
     var nextEl = root.querySelector('.promo-swiper-next');
     var prevEl = root.querySelector('.promo-swiper-prev');
@@ -116,7 +130,7 @@
       el.style.setProperty('width', 'max-content', 'important');
     }
 
-    promoSwiperInstance = new Swiper(root, {
+    var inst = new Swiper(root, {
       loop: false,
       rewind: true,
       speed: slideSpeed,
@@ -139,24 +153,24 @@
         waitForTransition: true
       },
       pagination: {
-        el: pagEl || '.promo-swiper-pagination',
+        el: pagEl,
         clickable: true,
         dynamicBullets: false
       },
       navigation: {
-        nextEl: nextEl || '.promo-swiper-next',
-        prevEl: prevEl || '.promo-swiper-prev'
+        nextEl: nextEl,
+        prevEl: prevEl
       },
       keyboard: { enabled: true, onlyInViewport: true },
       on: {
         init: function () {
-          var inst = this;
+          var self = this;
           pinPromoPaginationCenter();
           requestAnimationFrame(function () {
             pinPromoPaginationCenter();
-            inst.update();
+            self.update();
             try {
-              if (inst.autoplay && typeof inst.autoplay.start === 'function') inst.autoplay.start();
+              if (self.autoplay && typeof self.autoplay.start === 'function') self.autoplay.start();
             } catch (e) {}
             requestAnimationFrame(pinPromoPaginationCenter);
           });
@@ -166,16 +180,29 @@
         paginationUpdate: pinPromoPaginationCenter
       }
     });
+    return inst;
+  }
+
+  function initHomePromoSwiper() {
+    if (promoSwiperInstances.length) return true;
+    if (typeof Swiper === 'undefined') return false;
+    var roots = document.querySelectorAll('.promo-swiper');
+    if (!roots.length) return false;
+    roots.forEach(function (root) {
+      var wrapper = root.querySelector('.swiper-wrapper');
+      if (!wrapper || !wrapper.children.length) return;
+      promoSwiperInstances.push(initOnePromoSwiper(root));
+    });
+    if (!promoSwiperInstances.length) return false;
 
     window.addEventListener('load', function () {
-      if (!promoSwiperInstance) return;
-      promoSwiperInstance.update();
-      pinPromoPaginationCenter();
-      try {
-        if (promoSwiperInstance.autoplay && typeof promoSwiperInstance.autoplay.start === 'function') {
-          promoSwiperInstance.autoplay.start();
-        }
-      } catch (e) {}
+      promoSwiperInstances.forEach(function (inst) {
+        if (!inst) return;
+        inst.update();
+        try {
+          if (inst.autoplay && typeof inst.autoplay.start === 'function') inst.autoplay.start();
+        } catch (e) {}
+      });
     });
     return true;
   }
