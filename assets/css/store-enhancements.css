@@ -2857,19 +2857,9 @@ body.index-page #homeTopOrderedGrid .pc-price {
     object-fit: contain;
     object-position: center center;
   }
+  /* على الموبايل: إخفاء الأسهم حتى لا تغطي الصورة — التمرير باللمس يكفي */
   .promo-swiper-nav {
-    width: 48px;
-    height: 48px;
-    margin-top: -24px;
-  }
-  .promo-swiper-nav::after {
-    font-size: 19px;
-  }
-  .promo-swiper-prev {
-    right: 6px;
-  }
-  .promo-swiper-next {
-    left: 6px;
+    display: none !important;
   }
   .promo-swiper.swiper-horizontal > .promo-swiper-pagination.swiper-pagination-bullets,
   .promo-swiper > .promo-swiper-pagination {
