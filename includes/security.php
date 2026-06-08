@@ -69,6 +69,26 @@ function logActivity(string $type, string $msg, string $ip = ''): void {
     file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
     @chmod($logFile, 0600);
     if (@filesize($logFile) > 10 * 1024 * 1024) rename($logFile, $logFile . '.old');
+    // تنظيف دوري للسجلات القديمة (باحتمالية 1% لتفادي العبء على كل طلب)
+    if (random_int(1, 100) === 1) {
+        pharma_prune_old_logs();
+    }
+}
+
+/** حذف ملفات السجلات الأقدم من فترة الاحتفاظ (افتراضياً 180 يوماً). */
+function pharma_prune_old_logs(int $maxAgeDays = 180): void {
+    $cutoff = time() - ($maxAgeDays * 86400);
+    foreach (['activity_*.log', 'activity_*.log.old', 'failed_*.log', 'failed_*.log.old'] as $pattern) {
+        $files = glob(LOGS_DIR . $pattern);
+        if (!is_array($files)) {
+            continue;
+        }
+        foreach ($files as $f) {
+            if (@filemtime($f) < $cutoff) {
+                @unlink($f);
+            }
+        }
+    }
 }
 
 function logFailed(string $reason, string $ip = ''): void {
@@ -221,8 +241,9 @@ function checkAuth(string $ip, bool $jsonApiResponse = true): void {
 
 /**
  * التحقق الصارم من نوع الملف المرفوع عبر MIME الحقيقي + الامتداد
+ * @param int|null $maxBytes الحد الأقصى بالبايت؛ null = بدون حد (مثل صور السلايدر)
  */
-function validateUploadedImage(array $file): array {
+function validateUploadedImage(array $file, ?int $maxBytes = 5242880): array {
     $allowed = [
         'image/jpeg' => 'jpg',
         'image/png'  => 'png',
@@ -232,8 +253,9 @@ function validateUploadedImage(array $file): array {
     if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
         return ['ok' => false, 'msg' => 'فشل رفع الصورة (كود: ' . ($file['error'] ?? -1) . ')'];
     }
-    if (($file['size'] ?? 0) > 5 * 1024 * 1024) {
-        return ['ok' => false, 'msg' => 'حجم الصورة أكبر من 5MB'];
+    if ($maxBytes !== null && $maxBytes > 0 && ($file['size'] ?? 0) > $maxBytes) {
+        $mb = (int) round($maxBytes / (1024 * 1024));
+        return ['ok' => false, 'msg' => 'حجم الصورة أكبر من ' . $mb . 'MB'];
     }
 
     // ─── التحقق من MIME الحقيقي (finfo) ─────────────────────────

@@ -19,26 +19,10 @@ function handle_sliders(string $action, array $body, array $rawBody, string $cli
     /* ══════════════════════════════════════════════════════
        تأكد الجدول موجود
     ══════════════════════════════════════════════════════ */
-    static $tableReady = false;
-    if (!$tableReady) {
-        try {
-            $db->exec("CREATE TABLE IF NOT EXISTS pharma_sliders (
-                id          INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                title       VARCHAR(255) NOT NULL DEFAULT '',
-                link_url    VARCHAR(500) NOT NULL DEFAULT '',
-                img_desktop VARCHAR(500) NOT NULL DEFAULT '',
-                img_mobile  VARCHAR(500) NOT NULL DEFAULT '',
-                alt_text    VARCHAR(255) NOT NULL DEFAULT '',
-                sort_order  INT NOT NULL DEFAULT 0,
-                active      TINYINT(1) NOT NULL DEFAULT 1,
-                created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                KEY idx_sliders_sort   (sort_order),
-                KEY idx_sliders_active (active)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-            $tableReady = true;
-        } catch (Exception $e) {
-            jsonError('تعذر إنشاء جدول السلايدرات: ' . $e->getMessage(), [], 500);
-        }
+    try {
+        pharma_ensure_sliders_table($db);
+    } catch (Exception $e) {
+        jsonError('تعذر إنشاء جدول السلايدرات: ' . $e->getMessage(), [], 500);
     }
 
     switch ($action) {
@@ -188,7 +172,7 @@ function handle_sliders(string $action, array $body, array $rawBody, string $cli
             if ($method !== 'POST') { jsonError('POST فقط', [], 405); }
             if (empty($_FILES['image']) || !is_array($_FILES['image'])) { jsonError('لم يتم إرسال صورة'); }
 
-            $check = validateUploadedImage($_FILES['image']);
+            $check = validateUploadedImage($_FILES['image'], null);
             if (!$check['ok']) { jsonError($check['msg']); }
 
             if (!is_dir(IMAGES_DIR)) { mkdir(IMAGES_DIR, 0755, true); }

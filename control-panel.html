@@ -1960,7 +1960,7 @@ a { text-decoration: none; color: inherit; }
           <button class="btn-primary" id="sliders-add-btn">➕ إضافة سلايدر</button>
         </div>
         <p style="color:var(--muted);font-size:13px;margin:0 0 16px;">
-          كل سلايدر يدعم صورتين: واحدة للديسكتوب (عريضة) وواحدة للموبايل (مربعة أو ضيقة). اسحب الكروت لتغيير الترتيب.
+          صورة واحدة لكل سلايدر (موبايل + لابتوب). المقاس المثالي 1600×500. أي حجم ملف مقبول — إن فشل الرفع راجع حدود PHP على الاستضافة.
         </p>
         <div id="sliders-list" class="sl-list"></div>
       </div>
@@ -1976,7 +1976,7 @@ a { text-decoration: none; color: inherit; }
 
             <!-- صورة السلايدر -->
             <div class="sl-field-group">
-              <label class="sl-label">🖼️ صورة السلايدر <small>(الحجم المثالي 1600×400 — تظهر تلقائياً مناسبة للموبايل والديسكتوب)</small></label>
+              <label class="sl-label">🖼️ صورة السلايدر <small>(مثالي 1600×500 — JPG/PNG/WEBP — بدون حد 5MB)</small></label>
               <div class="sl-img-row">
                 <input type="text" id="sm-desktop-url" class="sl-input" placeholder="رابط الصورة أو ارفع ملف...">
                 <button type="button" id="sm-desktop-upload-btn" class="sl-upload-btn">رفع صورة</button>
@@ -2262,7 +2262,7 @@ a { text-decoration: none; color: inherit; }
 <script src="/assets/js/admin/pages/reviewsPage.js?v=3.1.0"></script>
 <script src="/assets/js/admin/pages/settingsPage.js?v=3.1.1"></script>
 <script src="/assets/js/admin/services/sliderService.js?v=1.0.0"></script>
-<script src="/assets/js/admin/pages/slidersPage.js?v=1.2.0"></script>
+<script src="/assets/js/admin/pages/slidersPage.js?v=1.2.1"></script>
 <script src="/assets/js/admin/router.js?v=3.1.1"></script>
 <script src="/assets/js/admin/app.js?v=3.1.1"></script>
 
